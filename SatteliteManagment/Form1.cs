@@ -18,9 +18,12 @@ namespace SatteliteManagment
     {
 
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
-        private int packetSizeValue = 10;
-        private int currentPackageIndex = 0;
+        private byte packetSizeValue = 10;
+        private short currentPackageIndex = 0;
         private List<byte[]> data;
+        private byte destId;
+        private GridViewLogManager logManager;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,8 +33,12 @@ namespace SatteliteManagment
                 BeginInvoke(new Action(() =>
                 {
                     //sentTextBox.AppendText("С сервера: " + text + Environment.NewLine);
+                    logTextBox.Text += "Сервер: " + text;
+                    logTextBox.Text += "\n";
                 }));
             };
+            logManager = new GridViewLogManager(this.logdataGridView);
+        
         }
 
         void changeInterfaceState(bool stateServer)
@@ -135,7 +142,7 @@ namespace SatteliteManagment
 
         private void buttonClearLogs_Click(object sender, EventArgs e)
         {
-
+            logTextBox.Text = string.Empty;
         }
         
         private void connectToServer_Click(object sender, EventArgs e)
@@ -155,14 +162,13 @@ namespace SatteliteManagment
             byte[] dataArray=File.ReadAllBytes(path);
 
             data = new List<byte[]>();
-            int dataArrayLength = dataArray.Length;
 
-            int.TryParse(packetSize.Text, out packetSizeValue);
+            byte.TryParse(packetSize.Text, out packetSizeValue);
 
-            int countDataPacket = (int)(dataArrayLength / packetSizeValue);
+            int countDataPacket = (int)(dataArray.Length / packetSizeValue);
             for (int index = 0; index <= countDataPacket; index++)
             {
-                int subArrayLength = (index!= countDataPacket) ? packetSizeValue : dataArrayLength % packetSizeValue;
+                int subArrayLength = (index!= countDataPacket) ? packetSizeValue : dataArray.Length % packetSizeValue;
                 byte[] subArray = new byte[subArrayLength];
 
                 Array.Copy(dataArray, subArray, subArrayLength);
@@ -178,8 +184,6 @@ namespace SatteliteManagment
             sendAllPackageButton.Enabled = true;
             currentPackageIndex = 0;
 
-
-        
         }
 
         private void logSendingInfo(int i)
@@ -190,6 +194,53 @@ namespace SatteliteManagment
 
         }
 
+
+
+        private void sendOnePackageButton_Click(object sender, EventArgs e)
+        {
+            if (data.Count > 0 && idTextBox.Text!=string.Empty)     //maybe fix second check
+            {
+                byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
+                _client.SendTextAsync(finalPack);
+                logSendingInfo(currentPackageIndex);
+                logManager.AddRow(finalPack, destId, currentPackageIndex, "Пакет отправлен");
+                currentPackageIndex++;
+
+            }
+            else return;
+        }
+
+        private void sendAllPackageButton_Click(object sender, EventArgs e)
+        {
+            if (data.Count > 0 && idTextBox.Text != string.Empty)
+            {
+
+
+                for (int i = currentPackageIndex; i < data.Count; i++)
+                {
+                    byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
+                    _client.SendTextAsync(finalPack);
+                    logSendingInfo(i);
+                    currentPackageIndex = (short)i;
+                }
+            }
+            else return;
+        }
+
+        private byte[] BuildProtocolPackage( byte[] value)
+        {
+            SatelliteTCPPacket stp = new SatelliteTCPPacket('#', destId, currentPackageIndex, packetSizeValue, value);
+            return stp.ToByteArray();
+        }
+
+        private void testbutton_Click(object sender, EventArgs e)
+        {
+            //GridViewLogManager gridViewLogManager = new GridViewLogManager();
+            //gridViewLogManager.DataGridView = this.logdataGridView;
+            //gridViewLogManager.HeaderInfo();
+            //byte[] datab = new byte[] { 0x01, 0x02, 0x03 };
+            //gridViewLogManager.AddRow(datab, "boba");
+        }
         private void packetSize_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(packetSize.Text, out int number))
@@ -213,32 +264,27 @@ namespace SatteliteManagment
             }
         }
 
-        private void sendOnePackageButton_Click(object sender, EventArgs e)
+        private void idTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (data.Count > 0)
+            if (byte.TryParse(idTextBox.Text, out byte number))
             {
-                _client.SendTextAsync(data[currentPackageIndex]);
-                logSendingInfo(currentPackageIndex);
-                currentPackageIndex++;
-            }
-            else return;
-        }
-
-        private void sendAllPackageButton_Click(object sender, EventArgs e)
-        {
-            if (data.Count > 0)
-            {
-
-
-                for (int i = currentPackageIndex; i < data.Count; i++)
+                if (number < 0)
                 {
+                    number = 0;
+                    idTextBox.Text = number.ToString();
+                    destId = number;
 
-                    _client.SendTextAsync(data[i]);
-                    logSendingInfo(i);
-                    currentPackageIndex = i;
+                }
+                else if (number > 255)
+                {
+                    number = 255;
+                    idTextBox.Text = number.ToString();
                 }
             }
-            else return;
+            else
+            {
+                idTextBox.Text = "10";
+            }
         }
     }
 }

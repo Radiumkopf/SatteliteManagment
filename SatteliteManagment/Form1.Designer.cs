@@ -48,16 +48,21 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.testbutton = new System.Windows.Forms.Button();
+            this.logdataGridView = new System.Windows.Forms.DataGridView();
+            this.sendAllPackageButton = new System.Windows.Forms.Button();
+            this.sendOnePackageButton = new System.Windows.Forms.Button();
+            this.logTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.packetSize = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.logTextBox = new System.Windows.Forms.TextBox();
-            this.sendOnePackageButton = new System.Windows.Forms.Button();
-            this.sendAllPackageButton = new System.Windows.Forms.Button();
+            this.idTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -243,6 +248,10 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.label3);
+            this.panelRadioControl.Controls.Add(this.idTextBox);
+            this.panelRadioControl.Controls.Add(this.testbutton);
+            this.panelRadioControl.Controls.Add(this.logdataGridView);
             this.panelRadioControl.Controls.Add(this.sendAllPackageButton);
             this.panelRadioControl.Controls.Add(this.sendOnePackageButton);
             this.panelRadioControl.Controls.Add(this.logTextBox);
@@ -257,6 +266,58 @@ namespace SatteliteManagment
             this.panelRadioControl.Name = "panelRadioControl";
             this.panelRadioControl.Size = new System.Drawing.Size(1169, 418);
             this.panelRadioControl.TabIndex = 0;
+            // 
+            // testbutton
+            // 
+            this.testbutton.Location = new System.Drawing.Point(347, 371);
+            this.testbutton.Name = "testbutton";
+            this.testbutton.Size = new System.Drawing.Size(75, 23);
+            this.testbutton.TabIndex = 16;
+            this.testbutton.Text = "button2";
+            this.testbutton.UseVisualStyleBackColor = true;
+            this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
+            // 
+            // logdataGridView
+            // 
+            this.logdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.logdataGridView.Location = new System.Drawing.Point(327, 178);
+            this.logdataGridView.Name = "logdataGridView";
+            this.logdataGridView.ReadOnly = true;
+            this.logdataGridView.RowHeadersWidth = 51;
+            this.logdataGridView.RowTemplate.Height = 24;
+            this.logdataGridView.Size = new System.Drawing.Size(736, 150);
+            this.logdataGridView.TabIndex = 15;
+            // 
+            // sendAllPackageButton
+            // 
+            this.sendAllPackageButton.Enabled = false;
+            this.sendAllPackageButton.Location = new System.Drawing.Point(157, 361);
+            this.sendAllPackageButton.Name = "sendAllPackageButton";
+            this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
+            this.sendAllPackageButton.TabIndex = 14;
+            this.sendAllPackageButton.Text = "Отправить все оставшиеся пакеты";
+            this.sendAllPackageButton.UseVisualStyleBackColor = true;
+            this.sendAllPackageButton.Click += new System.EventHandler(this.sendAllPackageButton_Click);
+            // 
+            // sendOnePackageButton
+            // 
+            this.sendOnePackageButton.Enabled = false;
+            this.sendOnePackageButton.Location = new System.Drawing.Point(157, 307);
+            this.sendOnePackageButton.Name = "sendOnePackageButton";
+            this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
+            this.sendOnePackageButton.TabIndex = 13;
+            this.sendOnePackageButton.Text = "Отправить следующий пакет";
+            this.sendOnePackageButton.UseVisualStyleBackColor = true;
+            this.sendOnePackageButton.Click += new System.EventHandler(this.sendOnePackageButton_Click);
+            // 
+            // logTextBox
+            // 
+            this.logTextBox.Location = new System.Drawing.Point(327, 60);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.Size = new System.Drawing.Size(736, 79);
+            this.logTextBox.TabIndex = 12;
             // 
             // label2
             // 
@@ -292,36 +353,22 @@ namespace SatteliteManagment
             // 
             this.openFileDialog1.Filter = "Text files (*.txt)|*.txt";
             // 
-            // logTextBox
+            // idTextBox
             // 
-            this.logTextBox.Location = new System.Drawing.Point(327, 60);
-            this.logTextBox.Multiline = true;
-            this.logTextBox.Name = "logTextBox";
-            this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(736, 290);
-            this.logTextBox.TabIndex = 12;
+            this.idTextBox.Location = new System.Drawing.Point(12, 361);
+            this.idTextBox.Name = "idTextBox";
+            this.idTextBox.Size = new System.Drawing.Size(100, 22);
+            this.idTextBox.TabIndex = 17;
+            this.idTextBox.TextChanged += new System.EventHandler(this.idTextBox_TextChanged);
             // 
-            // sendOnePackageButton
+            // label3
             // 
-            this.sendOnePackageButton.Enabled = false;
-            this.sendOnePackageButton.Location = new System.Drawing.Point(157, 307);
-            this.sendOnePackageButton.Name = "sendOnePackageButton";
-            this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
-            this.sendOnePackageButton.TabIndex = 13;
-            this.sendOnePackageButton.Text = "Отправить следующий пакет";
-            this.sendOnePackageButton.UseVisualStyleBackColor = true;
-            this.sendOnePackageButton.Click += new System.EventHandler(this.sendOnePackageButton_Click);
-            // 
-            // sendAllPackageButton
-            // 
-            this.sendAllPackageButton.Enabled = false;
-            this.sendAllPackageButton.Location = new System.Drawing.Point(157, 361);
-            this.sendAllPackageButton.Name = "sendAllPackageButton";
-            this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
-            this.sendAllPackageButton.TabIndex = 14;
-            this.sendAllPackageButton.Text = "Отправить все оставшиеся пакеты";
-            this.sendAllPackageButton.UseVisualStyleBackColor = true;
-            this.sendAllPackageButton.Click += new System.EventHandler(this.sendAllPackageButton_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 336);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(102, 16);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "ID назначения";
             // 
             // Form1
             // 
@@ -338,6 +385,7 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRadioControl.ResumeLayout(false);
             this.panelRadioControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -368,6 +416,10 @@ namespace SatteliteManagment
         private TextBox logTextBox;
         private Button sendAllPackageButton;
         private Button sendOnePackageButton;
+        private DataGridView logdataGridView;
+        private Button testbutton;
+        private Label label3;
+        private TextBox idTextBox;
     }
 }
 
