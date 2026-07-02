@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,11 +15,13 @@ namespace SatteliteManagment
         public GridViewLogManager(DataGridView dataGridView)
         {
             this.dataGridView = dataGridView;
+            this.rows = new Dictionary<(byte id, short number), DataGridViewRow> ();
+
             HeaderInfo();
         }
 
         public DataGridView DataGridView { get => dataGridView; set => dataGridView = value; }
-
+        public Dictionary<(byte id, short number), DataGridViewRow> rows ;
         public void HeaderInfo()
         {
             dataGridView.ColumnCount = 5;
@@ -32,13 +35,25 @@ namespace SatteliteManagment
 
         public void AddRow(byte[] bytes, byte id,  short number, String text)
         {
-            dataGridView.Rows.Add(
-                DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"),
-                id.ToString(),
-                number.ToString(),
-                BitConverter.ToString(bytes),
-                text
-            );
+            //dataGridView.Rows.Add(
+            //    DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"),
+            //    id.ToString(),
+            //    number.ToString(),
+            //    BitConverter.ToString(bytes),
+            //    text
+            //);
+            //вариант без создания объекта строки
+
+            int index = dataGridView.Rows.Add();
+
+            DataGridViewRow row = dataGridView.Rows[index];
+            row.Cells[0].Value = DateTime.Now.ToString();
+            row.Cells[1].Value = id.ToString();
+            row.Cells[2].Value = number.ToString();
+            row.Cells[3].Value = BitConverter.ToString(bytes);
+            row.Cells[4].Value = text;
+
+            rows[(id, number)] = row; //add to dict
         }
 
         public void ClearGrid()

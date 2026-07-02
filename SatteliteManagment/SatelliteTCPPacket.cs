@@ -7,22 +7,34 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment
 {
+    public enum PacketType : byte
+    {
+        Data = 0,
+        Ack = 1
+    }
+
     internal class SatelliteTCPPacket
     {
 
-        // public PacketType Type { get; set; }
+        
         public char symbol { get; set; }
+        public PacketType Type { get; set; }
         public byte id { get; set; }
         public short number { get; set; }
         public byte size { get; set; }
         public byte[] data { get; set; }
 
-        public SatelliteTCPPacket(char c,  byte i, short n, byte s, byte[] d) {
-            this.symbol = c;
-            this.id = i;
-            this.number = n;
-            this.size = s;
-            this.data = d;
+        public SatelliteTCPPacket()
+        {
+
+        }
+        public SatelliteTCPPacket(char _symbol,  byte _id, short _number, byte _size, byte[] _data) {
+            this.Type = PacketType.Data;
+            this.symbol = _symbol;
+            this.id = _id;
+            this.number = _number;
+            this.size = _size;
+            this.data = _data;
 
         }
 
@@ -30,7 +42,9 @@ namespace SatteliteManagment
         {
             List<byte> fullPackage = new List<byte>();
 
+            
             fullPackage.Add((byte)symbol);
+            fullPackage.Add((byte)Type);
             fullPackage.Add(id);
             fullPackage.AddRange(BitConverter.GetBytes(number));
             fullPackage.Add(size);

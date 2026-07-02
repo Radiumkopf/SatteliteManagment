@@ -28,17 +28,26 @@ namespace SatteliteManagment
         {
             InitializeComponent();
 
-            _client.TextReceived += text =>
-            {
-                BeginInvoke(new Action(() =>
-                {
-                    //sentTextBox.AppendText("С сервера: " + text + Environment.NewLine);
-                    logTextBox.Text += "Сервер: " + text;
-                    logTextBox.Text += "\n";
-                }));
-            };
+            _client.AckReceived += OnAckReceived;
+
             logManager = new GridViewLogManager(this.logdataGridView);
         
+        }
+
+        private void OnAckReceived(SatelliteTCPPacket packet)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                byte id = packet.id;
+                short number = packet.number;
+
+                if (logManager.rows.TryGetValue((id, number), out DataGridViewRow row))
+                {
+                    //row.Cells["Status"].Value = "✓ Получен";
+                    logTextBox.Text += "\ngot new ack " + id + number;
+                    row.DefaultCellStyle.BackColor = Color.Green;
+                }
+            }));
         }
 
         void changeInterfaceState(bool stateServer)
