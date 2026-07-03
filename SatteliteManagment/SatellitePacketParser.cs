@@ -38,6 +38,8 @@ namespace SatteliteManagment
                 if (bytes.Length != index + size)
                     throw new InvalidDataException("Размер пакета не соответствует заголовку.");
 
+                packet.size = size;
+
                 packet.data = new byte[size];
 
                 Array.Copy(bytes, index, packet.data, 0, size);

@@ -209,6 +209,7 @@ namespace SatteliteManagment
         {
             if (data.Count > 0 && idTextBox.Text!=string.Empty)     //maybe fix second check
             {
+                byte.TryParse(idTextBox.Text, out destId);
                 byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
                 _client.SendTextAsync(finalPack);
                 logSendingInfo(currentPackageIndex);
@@ -223,6 +224,7 @@ namespace SatteliteManagment
         {
             if (data.Count > 0 && idTextBox.Text != string.Empty)
             {
+                byte.TryParse(idTextBox.Text, out destId);
 
 
                 for (int i = currentPackageIndex; i < data.Count; i++)
@@ -230,6 +232,8 @@ namespace SatteliteManagment
                     byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
                     _client.SendTextAsync(finalPack);
                     logSendingInfo(i);
+                    logManager.AddRow(finalPack, destId, currentPackageIndex, "Пакет отправлен");
+
                     currentPackageIndex = (short)i;
                 }
             }
