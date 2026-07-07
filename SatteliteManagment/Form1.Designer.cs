@@ -62,35 +62,39 @@ namespace SatteliteManagment
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageConn = new System.Windows.Forms.TabPage();
             this.tabPageSatellite = new System.Windows.Forms.TabPage();
-            this.groupBoxAskSettings = new System.Windows.Forms.GroupBox();
-            this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
-            this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
-            this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
-            this.checkBoxAskZeroPacket = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteLog = new System.Windows.Forms.CheckBox();
-            this.groupBoxTriggerSettings = new System.Windows.Forms.GroupBox();
-            this.checkBoxTriggerEnable = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.checkBoxDisableTriggersAfterAct = new System.Windows.Forms.CheckBox();
-            this.buttonWriteNewValue = new System.Windows.Forms.Button();
-            this.buttonRestartTriggers = new System.Windows.Forms.Button();
-            this.groupBoxTriggerState = new System.Windows.Forms.GroupBox();
-            this.dataGridViewTriggerState = new System.Windows.Forms.DataGridView();
-            this.labelTriggerState = new System.Windows.Forms.Label();
             this.groupBoxTriggerPanel = new System.Windows.Forms.GroupBox();
-            this.buttonCreateCommand = new System.Windows.Forms.Button();
-            this.buttonWriteCommand = new System.Windows.Forms.Button();
-            this.textBoxCommand = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.radioButtonSeparatorNothing1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonSeparatorDollar1 = new System.Windows.Forms.RadioButton();
             this.groupBoxDeleteTrigger = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.buttonDeleteTrigger = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBoxSatAddress = new System.Windows.Forms.TextBox();
+            this.textBoxCommand = new System.Windows.Forms.TextBox();
+            this.buttonWriteCommand = new System.Windows.Forms.Button();
+            this.buttonCreateCommand = new System.Windows.Forms.Button();
+            this.groupBoxTriggerState = new System.Windows.Forms.GroupBox();
+            this.labelTriggerState = new System.Windows.Forms.Label();
+            this.dataGridViewTriggerState = new System.Windows.Forms.DataGridView();
+            this.groupBoxTriggerSettings = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.buttonRestartTriggers = new System.Windows.Forms.Button();
+            this.buttonWriteNewValue = new System.Windows.Forms.Button();
+            this.textBoxDelaySend = new System.Windows.Forms.TextBox();
+            this.textBoxCountSend = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.checkBoxDisableTriggersAfterAct = new System.Windows.Forms.CheckBox();
+            this.checkBoxTriggerEnable = new System.Windows.Forms.CheckBox();
+            this.groupBoxAskSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxWriteLog = new System.Windows.Forms.CheckBox();
+            this.checkBoxAskZeroPacket = new System.Windows.Forms.CheckBox();
+            this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
+            this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
+            this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -98,12 +102,12 @@ namespace SatteliteManagment
             this.tabControlMain.SuspendLayout();
             this.tabPageConn.SuspendLayout();
             this.tabPageSatellite.SuspendLayout();
-            this.groupBoxAskSettings.SuspendLayout();
-            this.groupBoxTriggerSettings.SuspendLayout();
-            this.groupBoxTriggerState.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTriggerState)).BeginInit();
             this.groupBoxTriggerPanel.SuspendLayout();
             this.groupBoxDeleteTrigger.SuspendLayout();
+            this.groupBoxTriggerState.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTriggerState)).BeginInit();
+            this.groupBoxTriggerSettings.SuspendLayout();
+            this.groupBoxAskSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -449,211 +453,14 @@ namespace SatteliteManagment
             this.tabPageSatellite.Text = "Satellite Info";
             this.tabPageSatellite.UseVisualStyleBackColor = true;
             // 
-            // groupBoxAskSettings
-            // 
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskPhotoSize);
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskNextPhotoPacket);
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxRSSI);
-            this.groupBoxAskSettings.Location = new System.Drawing.Point(6, 20);
-            this.groupBoxAskSettings.Name = "groupBoxAskSettings";
-            this.groupBoxAskSettings.Size = new System.Drawing.Size(326, 187);
-            this.groupBoxAskSettings.TabIndex = 0;
-            this.groupBoxAskSettings.TabStop = false;
-            this.groupBoxAskSettings.Text = "Панель настроек";
-            // 
-            // checkBoxRSSI
-            // 
-            this.checkBoxRSSI.AutoSize = true;
-            this.checkBoxRSSI.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxRSSI.Location = new System.Drawing.Point(7, 22);
-            this.checkBoxRSSI.Name = "checkBoxRSSI";
-            this.checkBoxRSSI.Size = new System.Drawing.Size(203, 22);
-            this.checkBoxRSSI.TabIndex = 0;
-            this.checkBoxRSSI.Text = "Получать значения RSSI";
-            this.checkBoxRSSI.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAskNextPhotoPacket
-            // 
-            this.checkBoxAskNextPhotoPacket.AutoSize = true;
-            this.checkBoxAskNextPhotoPacket.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxAskNextPhotoPacket.Location = new System.Drawing.Point(6, 48);
-            this.checkBoxAskNextPhotoPacket.Name = "checkBoxAskNextPhotoPacket";
-            this.checkBoxAskNextPhotoPacket.Size = new System.Drawing.Size(294, 22);
-            this.checkBoxAskNextPhotoPacket.TabIndex = 0;
-            this.checkBoxAskNextPhotoPacket.Text = "Запрашивать следющие пакеты фото";
-            this.checkBoxAskNextPhotoPacket.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAskPhotoSize
-            // 
-            this.checkBoxAskPhotoSize.AutoSize = true;
-            this.checkBoxAskPhotoSize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxAskPhotoSize.Location = new System.Drawing.Point(6, 74);
-            this.checkBoxAskPhotoSize.Name = "checkBoxAskPhotoSize";
-            this.checkBoxAskPhotoSize.Size = new System.Drawing.Size(307, 22);
-            this.checkBoxAskPhotoSize.TabIndex = 0;
-            this.checkBoxAskPhotoSize.Text = "Запрашивать длину фото при создании";
-            this.checkBoxAskPhotoSize.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAskZeroPacket
-            // 
-            this.checkBoxAskZeroPacket.AutoSize = true;
-            this.checkBoxAskZeroPacket.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxAskZeroPacket.Location = new System.Drawing.Point(6, 100);
-            this.checkBoxAskZeroPacket.Name = "checkBoxAskZeroPacket";
-            this.checkBoxAskZeroPacket.Size = new System.Drawing.Size(324, 22);
-            this.checkBoxAskZeroPacket.TabIndex = 0;
-            this.checkBoxAskZeroPacket.Text = "Запрашивать нулевой пакет при создании";
-            this.checkBoxAskZeroPacket.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxWriteLog
-            // 
-            this.checkBoxWriteLog.AutoSize = true;
-            this.checkBoxWriteLog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxWriteLog.Location = new System.Drawing.Point(6, 126);
-            this.checkBoxWriteLog.Name = "checkBoxWriteLog";
-            this.checkBoxWriteLog.Size = new System.Drawing.Size(238, 22);
-            this.checkBoxWriteLog.TabIndex = 0;
-            this.checkBoxWriteLog.Text = "Писать лог общения с платой";
-            this.checkBoxWriteLog.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxTriggerSettings
-            // 
-            this.groupBoxTriggerSettings.Controls.Add(this.label12);
-            this.groupBoxTriggerSettings.Controls.Add(this.buttonRestartTriggers);
-            this.groupBoxTriggerSettings.Controls.Add(this.buttonWriteNewValue);
-            this.groupBoxTriggerSettings.Controls.Add(this.textBox2);
-            this.groupBoxTriggerSettings.Controls.Add(this.textBox1);
-            this.groupBoxTriggerSettings.Controls.Add(this.label9);
-            this.groupBoxTriggerSettings.Controls.Add(this.label8);
-            this.groupBoxTriggerSettings.Controls.Add(this.label7);
-            this.groupBoxTriggerSettings.Controls.Add(this.checkBoxDisableTriggersAfterAct);
-            this.groupBoxTriggerSettings.Controls.Add(this.checkBoxTriggerEnable);
-            this.groupBoxTriggerSettings.Location = new System.Drawing.Point(338, 20);
-            this.groupBoxTriggerSettings.Name = "groupBoxTriggerSettings";
-            this.groupBoxTriggerSettings.Size = new System.Drawing.Size(214, 265);
-            this.groupBoxTriggerSettings.TabIndex = 1;
-            this.groupBoxTriggerSettings.TabStop = false;
-            this.groupBoxTriggerSettings.Text = "Настройка триггеров";
-            // 
-            // checkBoxTriggerEnable
-            // 
-            this.checkBoxTriggerEnable.AutoSize = true;
-            this.checkBoxTriggerEnable.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxTriggerEnable.Location = new System.Drawing.Point(5, 23);
-            this.checkBoxTriggerEnable.Name = "checkBoxTriggerEnable";
-            this.checkBoxTriggerEnable.Size = new System.Drawing.Size(169, 22);
-            this.checkBoxTriggerEnable.TabIndex = 0;
-            this.checkBoxTriggerEnable.Text = "Триггеры включены";
-            this.checkBoxTriggerEnable.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 49);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(112, 18);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "На один пакет ";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(5, 97);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(45, 24);
-            this.textBox1.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(5, 125);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(45, 24);
-            this.textBox2.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(57, 98);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(143, 18);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "раз(а) с задержкой";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(57, 128);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(32, 18);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "сек";
-            // 
-            // checkBoxDisableTriggersAfterAct
-            // 
-            this.checkBoxDisableTriggersAfterAct.AutoSize = true;
-            this.checkBoxDisableTriggersAfterAct.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxDisableTriggersAfterAct.Location = new System.Drawing.Point(5, 206);
-            this.checkBoxDisableTriggersAfterAct.Name = "checkBoxDisableTriggersAfterAct";
-            this.checkBoxDisableTriggersAfterAct.Size = new System.Drawing.Size(323, 22);
-            this.checkBoxDisableTriggersAfterAct.TabIndex = 0;
-            this.checkBoxDisableTriggersAfterAct.Text = "Отключить триггеры после срабатывания";
-            this.checkBoxDisableTriggersAfterAct.UseVisualStyleBackColor = true;
-            // 
-            // buttonWriteNewValue
-            // 
-            this.buttonWriteNewValue.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonWriteNewValue.Location = new System.Drawing.Point(0, 149);
-            this.buttonWriteNewValue.Name = "buttonWriteNewValue";
-            this.buttonWriteNewValue.Size = new System.Drawing.Size(194, 51);
-            this.buttonWriteNewValue.TabIndex = 3;
-            this.buttonWriteNewValue.Text = "Записать новые значения";
-            this.buttonWriteNewValue.UseVisualStyleBackColor = true;
-            // 
-            // buttonRestartTriggers
-            // 
-            this.buttonRestartTriggers.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonRestartTriggers.Location = new System.Drawing.Point(0, 226);
-            this.buttonRestartTriggers.Name = "buttonRestartTriggers";
-            this.buttonRestartTriggers.Size = new System.Drawing.Size(194, 33);
-            this.buttonRestartTriggers.TabIndex = 3;
-            this.buttonRestartTriggers.Text = "Перезапустить триггеры";
-            this.buttonRestartTriggers.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxTriggerState
-            // 
-            this.groupBoxTriggerState.Controls.Add(this.labelTriggerState);
-            this.groupBoxTriggerState.Controls.Add(this.dataGridViewTriggerState);
-            this.groupBoxTriggerState.Location = new System.Drawing.Point(558, 20);
-            this.groupBoxTriggerState.Name = "groupBoxTriggerState";
-            this.groupBoxTriggerState.Size = new System.Drawing.Size(641, 210);
-            this.groupBoxTriggerState.TabIndex = 2;
-            this.groupBoxTriggerState.TabStop = false;
-            this.groupBoxTriggerState.Text = "Состояние триггеров";
-            // 
-            // dataGridViewTriggerState
-            // 
-            this.dataGridViewTriggerState.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewTriggerState.Location = new System.Drawing.Point(7, 42);
-            this.dataGridViewTriggerState.Name = "dataGridViewTriggerState";
-            this.dataGridViewTriggerState.RowHeadersWidth = 51;
-            this.dataGridViewTriggerState.RowTemplate.Height = 24;
-            this.dataGridViewTriggerState.Size = new System.Drawing.Size(628, 162);
-            this.dataGridViewTriggerState.TabIndex = 0;
-            // 
-            // labelTriggerState
-            // 
-            this.labelTriggerState.AutoSize = true;
-            this.labelTriggerState.Location = new System.Drawing.Point(7, 20);
-            this.labelTriggerState.Name = "labelTriggerState";
-            this.labelTriggerState.Size = new System.Drawing.Size(267, 18);
-            this.labelTriggerState.TabIndex = 1;
-            this.labelTriggerState.Text = "Состояние: ожидание приема пакета";
-            // 
             // groupBoxTriggerPanel
             // 
+            this.groupBoxTriggerPanel.Controls.Add(this.radioButtonSeparatorNothing1);
+            this.groupBoxTriggerPanel.Controls.Add(this.radioButtonSeparatorDollar1);
             this.groupBoxTriggerPanel.Controls.Add(this.groupBoxDeleteTrigger);
+            this.groupBoxTriggerPanel.Controls.Add(this.label13);
             this.groupBoxTriggerPanel.Controls.Add(this.label10);
+            this.groupBoxTriggerPanel.Controls.Add(this.textBoxSatAddress);
             this.groupBoxTriggerPanel.Controls.Add(this.textBoxCommand);
             this.groupBoxTriggerPanel.Controls.Add(this.buttonWriteCommand);
             this.groupBoxTriggerPanel.Controls.Add(this.buttonCreateCommand);
@@ -664,47 +471,27 @@ namespace SatteliteManagment
             this.groupBoxTriggerPanel.TabStop = false;
             this.groupBoxTriggerPanel.Text = "Панель триггеров";
             // 
-            // buttonCreateCommand
+            // radioButtonSeparatorNothing1
             // 
-            this.buttonCreateCommand.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonCreateCommand.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.buttonCreateCommand.FlatAppearance.BorderSize = 3;
-            this.buttonCreateCommand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCreateCommand.Location = new System.Drawing.Point(459, 21);
-            this.buttonCreateCommand.Name = "buttonCreateCommand";
-            this.buttonCreateCommand.Size = new System.Drawing.Size(241, 41);
-            this.buttonCreateCommand.TabIndex = 0;
-            this.buttonCreateCommand.Text = "Создать команду";
-            this.buttonCreateCommand.UseVisualStyleBackColor = true;
+            this.radioButtonSeparatorNothing1.AutoSize = true;
+            this.radioButtonSeparatorNothing1.Location = new System.Drawing.Point(286, 143);
+            this.radioButtonSeparatorNothing1.Name = "radioButtonSeparatorNothing1";
+            this.radioButtonSeparatorNothing1.Size = new System.Drawing.Size(149, 22);
+            this.radioButtonSeparatorNothing1.TabIndex = 5;
+            this.radioButtonSeparatorNothing1.Text = "Без разделителя";
+            this.radioButtonSeparatorNothing1.UseVisualStyleBackColor = true;
             // 
-            // buttonWriteCommand
+            // radioButtonSeparatorDollar1
             // 
-            this.buttonWriteCommand.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonWriteCommand.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.buttonWriteCommand.FlatAppearance.BorderSize = 3;
-            this.buttonWriteCommand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonWriteCommand.Location = new System.Drawing.Point(459, 155);
-            this.buttonWriteCommand.Name = "buttonWriteCommand";
-            this.buttonWriteCommand.Size = new System.Drawing.Size(241, 41);
-            this.buttonWriteCommand.TabIndex = 0;
-            this.buttonWriteCommand.Text = "Записать команду";
-            this.buttonWriteCommand.UseVisualStyleBackColor = true;
-            // 
-            // textBoxCommand
-            // 
-            this.textBoxCommand.Location = new System.Drawing.Point(459, 112);
-            this.textBoxCommand.Name = "textBoxCommand";
-            this.textBoxCommand.Size = new System.Drawing.Size(241, 24);
-            this.textBoxCommand.TabIndex = 1;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(456, 82);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(157, 18);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Команда для записи:";
+            this.radioButtonSeparatorDollar1.AutoSize = true;
+            this.radioButtonSeparatorDollar1.Checked = true;
+            this.radioButtonSeparatorDollar1.Location = new System.Drawing.Point(286, 114);
+            this.radioButtonSeparatorDollar1.Name = "radioButtonSeparatorDollar1";
+            this.radioButtonSeparatorDollar1.Size = new System.Drawing.Size(133, 22);
+            this.radioButtonSeparatorDollar1.TabIndex = 4;
+            this.radioButtonSeparatorDollar1.TabStop = true;
+            this.radioButtonSeparatorDollar1.Text = "Разделитель $";
+            this.radioButtonSeparatorDollar1.UseVisualStyleBackColor = true;
             // 
             // groupBoxDeleteTrigger
             // 
@@ -717,23 +504,6 @@ namespace SatteliteManagment
             this.groupBoxDeleteTrigger.TabIndex = 3;
             this.groupBoxDeleteTrigger.TabStop = false;
             this.groupBoxDeleteTrigger.Text = "Удалить триггер";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 61);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(85, 18);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "ID триггера";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(6, 91);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 24);
-            this.textBox3.TabIndex = 1;
             // 
             // buttonDeleteTrigger
             // 
@@ -749,6 +519,131 @@ namespace SatteliteManagment
             this.buttonDeleteTrigger.Text = "Удалить";
             this.buttonDeleteTrigger.UseVisualStyleBackColor = false;
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(6, 91);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 24);
+            this.textBox3.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 61);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(85, 18);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "ID триггера";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(283, 55);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(120, 18);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Адрес спутника:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(456, 82);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(157, 18);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Команда для записи:";
+            // 
+            // textBoxSatAddress
+            // 
+            this.textBoxSatAddress.Location = new System.Drawing.Point(286, 76);
+            this.textBoxSatAddress.Name = "textBoxSatAddress";
+            this.textBoxSatAddress.Size = new System.Drawing.Size(149, 24);
+            this.textBoxSatAddress.TabIndex = 1;
+            // 
+            // textBoxCommand
+            // 
+            this.textBoxCommand.Location = new System.Drawing.Point(459, 112);
+            this.textBoxCommand.Name = "textBoxCommand";
+            this.textBoxCommand.Size = new System.Drawing.Size(241, 24);
+            this.textBoxCommand.TabIndex = 1;
+            // 
+            // buttonWriteCommand
+            // 
+            this.buttonWriteCommand.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonWriteCommand.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.buttonWriteCommand.FlatAppearance.BorderSize = 3;
+            this.buttonWriteCommand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWriteCommand.Location = new System.Drawing.Point(459, 155);
+            this.buttonWriteCommand.Name = "buttonWriteCommand";
+            this.buttonWriteCommand.Size = new System.Drawing.Size(241, 41);
+            this.buttonWriteCommand.TabIndex = 0;
+            this.buttonWriteCommand.Text = "Записать команду";
+            this.buttonWriteCommand.UseVisualStyleBackColor = true;
+            this.buttonWriteCommand.Click += new System.EventHandler(this.buttonWriteCommand_Click);
+            // 
+            // buttonCreateCommand
+            // 
+            this.buttonCreateCommand.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonCreateCommand.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.buttonCreateCommand.FlatAppearance.BorderSize = 3;
+            this.buttonCreateCommand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCreateCommand.Location = new System.Drawing.Point(459, 21);
+            this.buttonCreateCommand.Name = "buttonCreateCommand";
+            this.buttonCreateCommand.Size = new System.Drawing.Size(241, 41);
+            this.buttonCreateCommand.TabIndex = 0;
+            this.buttonCreateCommand.Text = "Создать команду";
+            this.buttonCreateCommand.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTriggerState
+            // 
+            this.groupBoxTriggerState.Controls.Add(this.labelTriggerState);
+            this.groupBoxTriggerState.Controls.Add(this.dataGridViewTriggerState);
+            this.groupBoxTriggerState.Location = new System.Drawing.Point(558, 20);
+            this.groupBoxTriggerState.Name = "groupBoxTriggerState";
+            this.groupBoxTriggerState.Size = new System.Drawing.Size(641, 210);
+            this.groupBoxTriggerState.TabIndex = 2;
+            this.groupBoxTriggerState.TabStop = false;
+            this.groupBoxTriggerState.Text = "Состояние триггеров";
+            // 
+            // labelTriggerState
+            // 
+            this.labelTriggerState.AutoSize = true;
+            this.labelTriggerState.Location = new System.Drawing.Point(7, 20);
+            this.labelTriggerState.Name = "labelTriggerState";
+            this.labelTriggerState.Size = new System.Drawing.Size(267, 18);
+            this.labelTriggerState.TabIndex = 1;
+            this.labelTriggerState.Text = "Состояние: ожидание приема пакета";
+            // 
+            // dataGridViewTriggerState
+            // 
+            this.dataGridViewTriggerState.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewTriggerState.Location = new System.Drawing.Point(7, 42);
+            this.dataGridViewTriggerState.Name = "dataGridViewTriggerState";
+            this.dataGridViewTriggerState.RowHeadersWidth = 51;
+            this.dataGridViewTriggerState.RowTemplate.Height = 24;
+            this.dataGridViewTriggerState.Size = new System.Drawing.Size(628, 162);
+            this.dataGridViewTriggerState.TabIndex = 0;
+            // 
+            // groupBoxTriggerSettings
+            // 
+            this.groupBoxTriggerSettings.Controls.Add(this.label12);
+            this.groupBoxTriggerSettings.Controls.Add(this.buttonRestartTriggers);
+            this.groupBoxTriggerSettings.Controls.Add(this.buttonWriteNewValue);
+            this.groupBoxTriggerSettings.Controls.Add(this.textBoxDelaySend);
+            this.groupBoxTriggerSettings.Controls.Add(this.textBoxCountSend);
+            this.groupBoxTriggerSettings.Controls.Add(this.label9);
+            this.groupBoxTriggerSettings.Controls.Add(this.label8);
+            this.groupBoxTriggerSettings.Controls.Add(this.label7);
+            this.groupBoxTriggerSettings.Controls.Add(this.checkBoxDisableTriggersAfterAct);
+            this.groupBoxTriggerSettings.Controls.Add(this.checkBoxTriggerEnable);
+            this.groupBoxTriggerSettings.Location = new System.Drawing.Point(338, 20);
+            this.groupBoxTriggerSettings.Name = "groupBoxTriggerSettings";
+            this.groupBoxTriggerSettings.Size = new System.Drawing.Size(214, 265);
+            this.groupBoxTriggerSettings.TabIndex = 1;
+            this.groupBoxTriggerSettings.TabStop = false;
+            this.groupBoxTriggerSettings.Text = "Настройка триггеров";
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -757,6 +652,158 @@ namespace SatteliteManagment
             this.label12.Size = new System.Drawing.Size(132, 18);
             this.label12.TabIndex = 4;
             this.label12.Text = "триггеры ответят:";
+            // 
+            // buttonRestartTriggers
+            // 
+            this.buttonRestartTriggers.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonRestartTriggers.Location = new System.Drawing.Point(0, 226);
+            this.buttonRestartTriggers.Name = "buttonRestartTriggers";
+            this.buttonRestartTriggers.Size = new System.Drawing.Size(194, 33);
+            this.buttonRestartTriggers.TabIndex = 3;
+            this.buttonRestartTriggers.Text = "Перезапустить триггеры";
+            this.buttonRestartTriggers.UseVisualStyleBackColor = true;
+            // 
+            // buttonWriteNewValue
+            // 
+            this.buttonWriteNewValue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonWriteNewValue.Location = new System.Drawing.Point(0, 149);
+            this.buttonWriteNewValue.Name = "buttonWriteNewValue";
+            this.buttonWriteNewValue.Size = new System.Drawing.Size(194, 51);
+            this.buttonWriteNewValue.TabIndex = 3;
+            this.buttonWriteNewValue.Text = "Записать новые значения";
+            this.buttonWriteNewValue.UseVisualStyleBackColor = true;
+            // 
+            // textBoxDelaySend
+            // 
+            this.textBoxDelaySend.Location = new System.Drawing.Point(5, 125);
+            this.textBoxDelaySend.Name = "textBoxDelaySend";
+            this.textBoxDelaySend.Size = new System.Drawing.Size(45, 24);
+            this.textBoxDelaySend.TabIndex = 2;
+            // 
+            // textBoxCountSend
+            // 
+            this.textBoxCountSend.Location = new System.Drawing.Point(5, 97);
+            this.textBoxCountSend.Name = "textBoxCountSend";
+            this.textBoxCountSend.Size = new System.Drawing.Size(45, 24);
+            this.textBoxCountSend.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(57, 128);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(32, 18);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "сек";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(57, 98);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(143, 18);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "раз(а) с задержкой";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(112, 18);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "На один пакет ";
+            // 
+            // checkBoxDisableTriggersAfterAct
+            // 
+            this.checkBoxDisableTriggersAfterAct.AutoSize = true;
+            this.checkBoxDisableTriggersAfterAct.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxDisableTriggersAfterAct.Location = new System.Drawing.Point(5, 206);
+            this.checkBoxDisableTriggersAfterAct.Name = "checkBoxDisableTriggersAfterAct";
+            this.checkBoxDisableTriggersAfterAct.Size = new System.Drawing.Size(323, 22);
+            this.checkBoxDisableTriggersAfterAct.TabIndex = 0;
+            this.checkBoxDisableTriggersAfterAct.Text = "Отключить триггеры после срабатывания";
+            this.checkBoxDisableTriggersAfterAct.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTriggerEnable
+            // 
+            this.checkBoxTriggerEnable.AutoSize = true;
+            this.checkBoxTriggerEnable.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxTriggerEnable.Location = new System.Drawing.Point(5, 23);
+            this.checkBoxTriggerEnable.Name = "checkBoxTriggerEnable";
+            this.checkBoxTriggerEnable.Size = new System.Drawing.Size(169, 22);
+            this.checkBoxTriggerEnable.TabIndex = 0;
+            this.checkBoxTriggerEnable.Text = "Триггеры включены";
+            this.checkBoxTriggerEnable.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxAskSettings
+            // 
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskPhotoSize);
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxAskNextPhotoPacket);
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxRSSI);
+            this.groupBoxAskSettings.Location = new System.Drawing.Point(6, 20);
+            this.groupBoxAskSettings.Name = "groupBoxAskSettings";
+            this.groupBoxAskSettings.Size = new System.Drawing.Size(326, 187);
+            this.groupBoxAskSettings.TabIndex = 0;
+            this.groupBoxAskSettings.TabStop = false;
+            this.groupBoxAskSettings.Text = "Панель настроек";
+            // 
+            // checkBoxWriteLog
+            // 
+            this.checkBoxWriteLog.AutoSize = true;
+            this.checkBoxWriteLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxWriteLog.Location = new System.Drawing.Point(6, 126);
+            this.checkBoxWriteLog.Name = "checkBoxWriteLog";
+            this.checkBoxWriteLog.Size = new System.Drawing.Size(238, 22);
+            this.checkBoxWriteLog.TabIndex = 0;
+            this.checkBoxWriteLog.Text = "Писать лог общения с платой";
+            this.checkBoxWriteLog.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAskZeroPacket
+            // 
+            this.checkBoxAskZeroPacket.AutoSize = true;
+            this.checkBoxAskZeroPacket.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxAskZeroPacket.Location = new System.Drawing.Point(6, 100);
+            this.checkBoxAskZeroPacket.Name = "checkBoxAskZeroPacket";
+            this.checkBoxAskZeroPacket.Size = new System.Drawing.Size(324, 22);
+            this.checkBoxAskZeroPacket.TabIndex = 0;
+            this.checkBoxAskZeroPacket.Text = "Запрашивать нулевой пакет при создании";
+            this.checkBoxAskZeroPacket.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAskPhotoSize
+            // 
+            this.checkBoxAskPhotoSize.AutoSize = true;
+            this.checkBoxAskPhotoSize.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxAskPhotoSize.Location = new System.Drawing.Point(6, 74);
+            this.checkBoxAskPhotoSize.Name = "checkBoxAskPhotoSize";
+            this.checkBoxAskPhotoSize.Size = new System.Drawing.Size(307, 22);
+            this.checkBoxAskPhotoSize.TabIndex = 0;
+            this.checkBoxAskPhotoSize.Text = "Запрашивать длину фото при создании";
+            this.checkBoxAskPhotoSize.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAskNextPhotoPacket
+            // 
+            this.checkBoxAskNextPhotoPacket.AutoSize = true;
+            this.checkBoxAskNextPhotoPacket.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxAskNextPhotoPacket.Location = new System.Drawing.Point(6, 48);
+            this.checkBoxAskNextPhotoPacket.Name = "checkBoxAskNextPhotoPacket";
+            this.checkBoxAskNextPhotoPacket.Size = new System.Drawing.Size(294, 22);
+            this.checkBoxAskNextPhotoPacket.TabIndex = 0;
+            this.checkBoxAskNextPhotoPacket.Text = "Запрашивать следющие пакеты фото";
+            this.checkBoxAskNextPhotoPacket.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRSSI
+            // 
+            this.checkBoxRSSI.AutoSize = true;
+            this.checkBoxRSSI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxRSSI.Location = new System.Drawing.Point(7, 22);
+            this.checkBoxRSSI.Name = "checkBoxRSSI";
+            this.checkBoxRSSI.Size = new System.Drawing.Size(203, 22);
+            this.checkBoxRSSI.TabIndex = 0;
+            this.checkBoxRSSI.Text = "Получать значения RSSI";
+            this.checkBoxRSSI.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -777,17 +824,17 @@ namespace SatteliteManagment
             this.tabControlMain.ResumeLayout(false);
             this.tabPageConn.ResumeLayout(false);
             this.tabPageSatellite.ResumeLayout(false);
-            this.groupBoxAskSettings.ResumeLayout(false);
-            this.groupBoxAskSettings.PerformLayout();
-            this.groupBoxTriggerSettings.ResumeLayout(false);
-            this.groupBoxTriggerSettings.PerformLayout();
-            this.groupBoxTriggerState.ResumeLayout(false);
-            this.groupBoxTriggerState.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTriggerState)).EndInit();
             this.groupBoxTriggerPanel.ResumeLayout(false);
             this.groupBoxTriggerPanel.PerformLayout();
             this.groupBoxDeleteTrigger.ResumeLayout(false);
             this.groupBoxDeleteTrigger.PerformLayout();
+            this.groupBoxTriggerState.ResumeLayout(false);
+            this.groupBoxTriggerState.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTriggerState)).EndInit();
+            this.groupBoxTriggerSettings.ResumeLayout(false);
+            this.groupBoxTriggerSettings.PerformLayout();
+            this.groupBoxAskSettings.ResumeLayout(false);
+            this.groupBoxAskSettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -837,8 +884,8 @@ namespace SatteliteManagment
         private DataGridView dataGridViewTriggerState;
         private Button buttonRestartTriggers;
         private Button buttonWriteNewValue;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox textBoxDelaySend;
+        private TextBox textBoxCountSend;
         private Label label9;
         private Label label8;
         private Label label7;
@@ -854,6 +901,10 @@ namespace SatteliteManagment
         private Label label10;
         private TextBox textBoxCommand;
         private Label label12;
+        private RadioButton radioButtonSeparatorNothing1;
+        private RadioButton radioButtonSeparatorDollar1;
+        private TextBox textBoxSatAddress;
+        private Label label13;
     }
 }
 

@@ -15,9 +15,9 @@ namespace SatteliteManagment
         private NetworkStream _stream;
         private CancellationTokenSource _cts;
 
-        public event Action<SatelliteTCPPacket> PacketReceived;
+        public event Action<FileTransferPacket> PacketReceived;
 
-        public event Action<SatelliteTCPPacket> AckReceived;
+        public event Action<FileTransferPacket> AckReceived;
 
         public async Task ConnectAsync(string ip, int port)
         {
@@ -41,7 +41,7 @@ namespace SatteliteManagment
                 while (!token.IsCancellationRequested)
                 {
                     byte[] data = await PacketProtocol.ReadPacketAsync(_stream, token);
-                    SatelliteTCPPacket packet;
+                    FileTransferPacket packet;
                     try
                     {
                         packet = SatellitePacketParser.Parse(data);

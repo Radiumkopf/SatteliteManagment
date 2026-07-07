@@ -9,28 +9,30 @@ namespace SatteliteManagment
 {
     public enum PacketType : byte
     {
-        Data = 0,
-        Ack = 1
+        TimeSet = 0x0A,
+        FileSending = 0x0B,
+        K = 0x0C,
+        Ack = 0x0D
     }
 
-    internal class SatelliteTCPPacket
+    internal class FileTransferPacket
     {
 
         
-        public char symbol { get; set; }
+
         public PacketType Type { get; set; }
         public byte id { get; set; }
         public short number { get; set; }
         public byte size { get; set; }
         public byte[] data { get; set; }
 
-        public SatelliteTCPPacket()
+        public FileTransferPacket()
         {
 
         }
-        public SatelliteTCPPacket(char _symbol,  byte _id, short _number, byte _size, byte[] _data) {
-            this.Type = PacketType.Data;
-            this.symbol = _symbol;
+        public FileTransferPacket(  byte _id, short _number, byte _size, byte[] _data) {
+            this.Type = PacketType.FileSending;
+
             this.id = _id;
             this.number = _number;
             this.size = _size;
@@ -43,7 +45,6 @@ namespace SatteliteManagment
             List<byte> fullPackage = new List<byte>();
 
             
-            fullPackage.Add((byte)symbol);
             fullPackage.Add((byte)Type);
             fullPackage.Add(id);
             fullPackage.AddRange(BitConverter.GetBytes(number));

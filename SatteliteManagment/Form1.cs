@@ -23,6 +23,8 @@ namespace SatteliteManagment
         private List<byte[]> data;
         private byte destId;
         private GridViewLogManager logManager;
+        private CommandSender commandSender;
+        private List<Trigger> TriggersList;
 
         public Form1()
         {
@@ -31,10 +33,12 @@ namespace SatteliteManagment
             _client.AckReceived += OnAckReceived;
 
             logManager = new GridViewLogManager(this.logdataGridView);
+            commandSender = new CommandSender(_client);
+            TriggersList = new List<Trigger>();
         
         }
 
-        private void OnAckReceived(SatelliteTCPPacket packet)
+        private void OnAckReceived(FileTransferPacket packet)
         {
             BeginInvoke(new Action(() =>
             {
@@ -81,7 +85,7 @@ namespace SatteliteManagment
                 }
                 catch (Exception e)
                 {
-                        MessageBox.Show("Подключение к серверу не было выполнено. Проверьте, что сервер включен");
+                    MessageBox.Show("Подключение к серверу не было выполнено. Проверьте, что сервер включен");
                     buttonOpenCloseServer.Enabled = true;
                     changeInterfaceState(false);
                 }
@@ -242,7 +246,7 @@ namespace SatteliteManagment
 
         private byte[] BuildProtocolPackage( byte[] value)
         {
-            SatelliteTCPPacket stp = new SatelliteTCPPacket('#', destId, currentPackageIndex, packetSizeValue, value);
+            FileTransferPacket stp = new FileTransferPacket( destId, currentPackageIndex, packetSizeValue, value);
             return stp.ToByteArray();
         }
 
@@ -304,5 +308,29 @@ namespace SatteliteManagment
         {
 
         }
+
+        private void buttonWriteCommand_Click(object sender, EventArgs e)
+        {
+            if (textBoxCommand.Text.Length > 0 && textBoxSatAddress.Text.Length > 0)
+            {
+                
+                string commandToSendRaw = textBoxCommand.Text;
+
+                string commandToSend;
+                if (radioButtonSeparatorDollar.Checked)
+                {
+                    commandToSend = commandToSendRaw.Replace("$", String.Empty);
+                }
+                else
+                {
+                    commandToSend = commandToSendRaw;
+                }
+
+                commandSender.SendComandAsync(commandToSend);
+            }
+            else Console.WriteLine("No command/addres in textbox!!!");
+        }
+
+
     }
 }
