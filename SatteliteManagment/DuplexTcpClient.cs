@@ -54,7 +54,7 @@ namespace SatteliteManagment
 
                     switch (packet.Type)
                     {
-                        case PacketType.Data:
+                        case PacketType.FileSending:
                             PacketReceived?.Invoke(packet);
                             break;
 

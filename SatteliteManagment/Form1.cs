@@ -25,6 +25,7 @@ namespace SatteliteManagment
         private GridViewLogManager logManager;
         private CommandSender commandSender;
         private List<Trigger> TriggersList;
+        private TriggerGridViewManager triggerGridManager;
 
         public Form1()
         {
@@ -35,6 +36,7 @@ namespace SatteliteManagment
             logManager = new GridViewLogManager(this.logdataGridView);
             commandSender = new CommandSender(_client);
             TriggersList = new List<Trigger>();
+            triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState);
         
         }
 
@@ -325,10 +327,45 @@ namespace SatteliteManagment
                 {
                     commandToSend = commandToSendRaw;
                 }
-
-                commandSender.SendComandAsync(commandToSend);
+                Trigger trigger = new Trigger(HexStringToBytes(textBoxSatAddress.Text), HexStringToBytes(commandToSend));
+                triggerGridManager.AddRow(trigger);
+                //commandSender.SendComandAsync(commandToSend);
             }
             else Console.WriteLine("No command/addres in textbox!!!");
+        }
+
+        public static byte[] HexStringToBytes(string hex)
+        {
+            if (string.IsNullOrWhiteSpace(hex))
+                return Array.Empty<byte>();
+
+            // Убираем пробелы, тире и двоеточия
+            hex = hex.Replace(" ", "")
+                     .Replace("-", "")
+                     .Replace(":", "");
+
+            if (hex.Length % 2 != 0)
+                throw new FormatException("Количество HEX-символов должно быть четным.");
+
+            byte[] bytes = new byte[hex.Length / 2];
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            }
+
+            return bytes;
+        }
+
+        private Trigger findTriggerByAddress(byte[] address)
+        {
+            foreach(Trigger trigger in TriggersList) {
+                if( address == trigger.address)
+                {
+                    return trigger;
+                }
+            }
+            return null;
         }
 
 

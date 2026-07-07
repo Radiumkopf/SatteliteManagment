@@ -474,7 +474,7 @@ namespace SatteliteManagment
             // radioButtonSeparatorNothing1
             // 
             this.radioButtonSeparatorNothing1.AutoSize = true;
-            this.radioButtonSeparatorNothing1.Location = new System.Drawing.Point(286, 143);
+            this.radioButtonSeparatorNothing1.Location = new System.Drawing.Point(291, 179);
             this.radioButtonSeparatorNothing1.Name = "radioButtonSeparatorNothing1";
             this.radioButtonSeparatorNothing1.Size = new System.Drawing.Size(149, 22);
             this.radioButtonSeparatorNothing1.TabIndex = 5;
@@ -485,7 +485,7 @@ namespace SatteliteManagment
             // 
             this.radioButtonSeparatorDollar1.AutoSize = true;
             this.radioButtonSeparatorDollar1.Checked = true;
-            this.radioButtonSeparatorDollar1.Location = new System.Drawing.Point(286, 114);
+            this.radioButtonSeparatorDollar1.Location = new System.Drawing.Point(291, 150);
             this.radioButtonSeparatorDollar1.Name = "radioButtonSeparatorDollar1";
             this.radioButtonSeparatorDollar1.Size = new System.Drawing.Size(133, 22);
             this.radioButtonSeparatorDollar1.TabIndex = 4;
@@ -539,7 +539,7 @@ namespace SatteliteManagment
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(283, 55);
+            this.label13.Location = new System.Drawing.Point(288, 82);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(120, 18);
             this.label13.TabIndex = 2;
@@ -556,7 +556,7 @@ namespace SatteliteManagment
             // 
             // textBoxSatAddress
             // 
-            this.textBoxSatAddress.Location = new System.Drawing.Point(286, 76);
+            this.textBoxSatAddress.Location = new System.Drawing.Point(291, 112);
             this.textBoxSatAddress.Name = "textBoxSatAddress";
             this.textBoxSatAddress.Size = new System.Drawing.Size(149, 24);
             this.textBoxSatAddress.TabIndex = 1;
