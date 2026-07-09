@@ -63,14 +63,18 @@ namespace SatteliteManagment
             BeginInvoke(new Action(() =>
             {
                 Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
-                if(trigger != null)
+                if (trigger != null)
                 {
-                    commandSender.SendComandAsync(trigger.command);
-                    triggerGridManager.SetRowStatus( "Сработал", trigger.address);
-                    triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
+                    if (trigger.status == TriggerStatus.Active)
+                    {
+                        commandSender.SendComandAsync(trigger.command);
+                        triggerGridManager.SetRowStatus("Сработал", trigger.address);
+                        triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
 
-                    Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
+                        Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
+                    }
                 }
+                else Console.WriteLine("Нужный триггер/адрес не найден!");
 
             }));
         }
@@ -388,6 +392,15 @@ namespace SatteliteManagment
             return null;
         }
 
+        private void buttonDeleteTrigger_Click(object sender, EventArgs e)
+        {
+            if(textBoxDeleteTrigger.Text != "")
+            {
+                byte[] address = HexStringToBytes(textBoxDeleteTrigger.Text);
+                triggerGridManager.RemoveRow(address);
+                triggerManager.DeleteTrigger(address);
 
+            }
+        }
     }
 }

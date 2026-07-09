@@ -67,7 +67,7 @@ namespace SatteliteManagment
             this.radioButtonSeparatorDollar1 = new System.Windows.Forms.RadioButton();
             this.groupBoxDeleteTrigger = new System.Windows.Forms.GroupBox();
             this.buttonDeleteTrigger = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBoxDeleteTrigger = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -496,7 +496,7 @@ namespace SatteliteManagment
             // groupBoxDeleteTrigger
             // 
             this.groupBoxDeleteTrigger.Controls.Add(this.buttonDeleteTrigger);
-            this.groupBoxDeleteTrigger.Controls.Add(this.textBox3);
+            this.groupBoxDeleteTrigger.Controls.Add(this.textBoxDeleteTrigger);
             this.groupBoxDeleteTrigger.Controls.Add(this.label11);
             this.groupBoxDeleteTrigger.Location = new System.Drawing.Point(716, 21);
             this.groupBoxDeleteTrigger.Name = "groupBoxDeleteTrigger";
@@ -518,13 +518,14 @@ namespace SatteliteManagment
             this.buttonDeleteTrigger.TabIndex = 2;
             this.buttonDeleteTrigger.Text = "Удалить";
             this.buttonDeleteTrigger.UseVisualStyleBackColor = false;
+            this.buttonDeleteTrigger.Click += new System.EventHandler(this.buttonDeleteTrigger_Click);
             // 
-            // textBox3
+            // textBoxDeleteTrigger
             // 
-            this.textBox3.Location = new System.Drawing.Point(6, 91);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 24);
-            this.textBox3.TabIndex = 1;
+            this.textBoxDeleteTrigger.Location = new System.Drawing.Point(6, 91);
+            this.textBoxDeleteTrigger.Name = "textBoxDeleteTrigger";
+            this.textBoxDeleteTrigger.Size = new System.Drawing.Size(100, 24);
+            this.textBoxDeleteTrigger.TabIndex = 1;
             // 
             // label11
             // 
@@ -896,7 +897,7 @@ namespace SatteliteManagment
         private Button buttonCreateCommand;
         private GroupBox groupBoxDeleteTrigger;
         private Button buttonDeleteTrigger;
-        private TextBox textBox3;
+        private TextBox textBoxDeleteTrigger;
         private Label label11;
         private Label label10;
         private TextBox textBoxCommand;
