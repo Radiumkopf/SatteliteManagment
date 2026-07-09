@@ -21,9 +21,9 @@ namespace SatteliteManagment
             currentCommand = "default";
         }
 
-        public async void SendComandAsync(string command, CancellationToken cancellationToken = default) 
+        public async void SendComandAsync(byte[] byteCommand, CancellationToken cancellationToken = default) 
         {
-            byte[] byteCommand = Encoding.ASCII.GetBytes(command);
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 client.SendTextAsync(byteCommand, cancellationToken);

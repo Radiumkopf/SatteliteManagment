@@ -64,6 +64,7 @@
     <Compile Include="FileTransferPacket.cs" />
     <Compile Include="Trigger.cs" />
     <Compile Include="TriggerGridViewManager.cs" />
+    <Compile Include="TriggerManager.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

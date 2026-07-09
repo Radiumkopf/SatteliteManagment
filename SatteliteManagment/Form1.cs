@@ -23,20 +23,23 @@ namespace SatteliteManagment
         private List<byte[]> data;
         private byte destId;
         private GridViewLogManager logManager;
-        private CommandSender commandSender;
+        private CommandSender commandSender;        //bruh
         private List<Trigger> TriggersList;
         private TriggerGridViewManager triggerGridManager;
+        private TriggerManager triggerManager;
 
         public Form1()
         {
             InitializeComponent();
 
             _client.AckReceived += OnAckReceived;
+            _client.PacketReceived += OnAddressReceived;
 
             logManager = new GridViewLogManager(this.logdataGridView);
             commandSender = new CommandSender(_client);
             TriggersList = new List<Trigger>();
-            triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState);
+            triggerManager = new TriggerManager();
+            triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState, triggerManager);
         
         }
 
@@ -53,6 +56,22 @@ namespace SatteliteManagment
                     logTextBox.Text += "\ngot new ack " + id + number;
                     row.DefaultCellStyle.BackColor = Color.Green;
                 }
+            }));
+        }
+        private void OnAddressReceived(PacketInfo packet)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
+                if(trigger != null)
+                {
+                    commandSender.SendComandAsync(trigger.command);
+                    triggerGridManager.SetRowStatus( "Сработал", trigger.address);
+                    triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
+
+                    Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
+                }
+
             }));
         }
 
@@ -328,6 +347,7 @@ namespace SatteliteManagment
                     commandToSend = commandToSendRaw;
                 }
                 Trigger trigger = new Trigger(HexStringToBytes(textBoxSatAddress.Text), HexStringToBytes(commandToSend));
+                triggerManager.AddTrigger(trigger);
                 triggerGridManager.AddRow(trigger);
                 //commandSender.SendComandAsync(commandToSend);
             }

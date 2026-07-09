@@ -10,6 +10,22 @@ namespace SatteliteManagment
 {
     internal static class SatellitePacketParser
     {
+        public static PacketType GetPacketType(byte[] bytes)
+        {
+            if(bytes == null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+            try
+            {
+                return (PacketType)bytes[0];
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Ошибка разбора пакета.", ex);
+            }
+        }
+
         public static FileTransferPacket Parse(byte[] bytes)
         {
             if (bytes == null)

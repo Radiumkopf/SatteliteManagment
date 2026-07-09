@@ -15,7 +15,7 @@ namespace SatteliteManagment
         private NetworkStream _stream;
         private CancellationTokenSource _cts;
 
-        public event Action<FileTransferPacket> PacketReceived;
+        public event Action<PacketInfo> PacketReceived;
 
         public event Action<FileTransferPacket> AckReceived;
 
@@ -41,10 +41,17 @@ namespace SatteliteManagment
                 while (!token.IsCancellationRequested)
                 {
                     byte[] data = await PacketProtocol.ReadPacketAsync(_stream, token);
+
+                    byte[] packetInfoHeaderBytes = new byte[24];
+                    byte[] fileTransferPackekBytes = new byte[data.Length - 24];
+                    PacketInfo packetInfo;
                     FileTransferPacket packet;
                     try
                     {
-                        packet = SatellitePacketParser.Parse(data);
+                        packetInfo = PacketInfoParser.Parse(packetInfoHeaderBytes);
+                        packet = SatellitePacketParser.Parse(fileTransferPackekBytes);
+
+                        PacketReceived?.Invoke(packetInfo);
                     }
                     catch (Exception ex)
                     {
@@ -55,7 +62,7 @@ namespace SatteliteManagment
                     switch (packet.Type)
                     {
                         case PacketType.FileSending:
-                            PacketReceived?.Invoke(packet);
+                            //PacketReceived?.Invoke(packetInfo);
                             break;
 
                         case PacketType.Ack:

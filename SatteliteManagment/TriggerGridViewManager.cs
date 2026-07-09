@@ -13,13 +13,14 @@ namespace SatteliteManagment
     {
 
         private DataGridView dataGridView;
+        private TriggerManager triggerManager;
 
-
-        public TriggerGridViewManager(DataGridView dataGridView)
+        public TriggerGridViewManager(DataGridView dataGridView, TriggerManager triggerManager)
         {
             this.dataGridView = dataGridView;
+            
+            this.triggerManager = triggerManager;
             HeaderInfo();
-
         }
 
         public void HeaderInfo()
@@ -61,15 +62,32 @@ namespace SatteliteManagment
                 row.DefaultCellStyle.BackColor = System.Drawing.Color.Orange;
                 row.Cells["Статус"].Value =  "Отключен";
 
+                byte[] address = (byte[])row.Cells["address"].Value;
+                triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.DisableByUser);
+
             }
             else if (row.Cells["Статус"].Value == "Отключен")
             {
                 row.DefaultCellStyle.BackColor = System.Drawing.Color.Green;
                 row.Cells["Статус"].Value = "Активен";
 
+                byte[] address = (byte[])row.Cells["address"].Value;
+                triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.Active);
             }
 
 
+        }
+        public void SetRowStatus(string newStatus, byte[] address)
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows) {
+                if (row.Cells["address"].Value.Equals(address))
+                {
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
+                    row.Cells["Статус"].Value = newStatus;
+
+                    return;
+                }
+            }
         }
 
         public void AddRow(byte[] address,  bool status, byte[] command)
