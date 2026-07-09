@@ -63,8 +63,8 @@ namespace SatteliteManagment
 
             if(row.Cells["status"].Value == "Активен")
             {
-                row.DefaultCellStyle.BackColor = System.Drawing.Color.Orange;
-                row.Cells["status"].Value =  "Отключен";
+                SetStatusAndColor(TriggerStatus.DisableByUser, row);
+
 
                 byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
                 triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.DisableByUser);
@@ -72,8 +72,7 @@ namespace SatteliteManagment
             }
             else if (row.Cells["status"].Value == "Отключен")
             {
-                row.DefaultCellStyle.BackColor = System.Drawing.Color.Green;
-                row.Cells["status"].Value = "Активен";
+                SetStatusAndColor(TriggerStatus.Active, row);
 
                 byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
                 triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.Active);
@@ -81,20 +80,39 @@ namespace SatteliteManagment
 
 
         }
-        public void SetRowStatus(string newStatus, byte[] address)
+
+        private void SetStatusAndColor(TriggerStatus status, DataGridViewRow row)
+        {
+            switch (status)
+            {
+                case TriggerStatus.Active:
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.Green;
+                    row.Cells["status"].Value = "Активен";
+                    break;
+                case TriggerStatus.DisableByUser:
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.Orange;
+                    row.Cells["status"].Value = "Отключен";
+                    break;
+                case TriggerStatus.Sent:
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
+                    row.Cells["status"].Value = "Сработал";
+                    break;
+            }
+        }
+
+        public void SetRowStatus( byte[] address)
         {
             string addr = BitConverter.ToString(address);
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 if (Equals(row.Cells["address"].Value, addr))
                 {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
-                    row.Cells["status"].Value = newStatus;
+                    SetStatusAndColor(TriggerStatus.Sent, row);
 
                     return;
                 }
             }
         }
-
+        
         public void AddRow(byte[] address,  bool status, byte[] command)
         {
             string statusString;
@@ -129,6 +147,18 @@ namespace SatteliteManagment
                 {
                     dataGridView.Rows.Remove(row);
                     return;
+                }
+            }
+        }
+
+        public void RestartTriggers()
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (row.Cells["status"].Value == "Сработал")
+                {
+                    SetStatusAndColor(TriggerStatus.Active, row);
+
                 }
             }
         }

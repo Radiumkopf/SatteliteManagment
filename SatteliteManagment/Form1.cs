@@ -68,7 +68,7 @@ namespace SatteliteManagment
                     if (trigger.status == TriggerStatus.Active)
                     {
                         commandSender.SendComandAsync(trigger.command);
-                        triggerGridManager.SetRowStatus("Сработал", trigger.address);
+                        triggerGridManager.SetRowStatus( trigger.address);
                         triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
 
                         Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
@@ -401,6 +401,24 @@ namespace SatteliteManagment
                 triggerManager.DeleteTrigger(address);
 
             }
+        }
+
+        private void buttonWriteNewCountAndDelay_Click(object sender, EventArgs e)
+        {
+            if(textBoxCountSend.Text != "" && textBoxDelaySend.Text != "")
+            {
+                int.TryParse(textBoxCountSend.Text, out int countSend);
+                commandSender.countSending = countSend;
+
+                int.TryParse(textBoxCountSend.Text, out int delay);
+                commandSender.delay = delay;
+            }
+        }
+
+        private void buttonRestartTriggers_Click(object sender, EventArgs e)
+        {
+            triggerGridManager.RestartTriggers();
+            triggerManager.RestartTriggers();
         }
     }
 }

@@ -51,6 +51,17 @@ namespace SatteliteManagment
             }
         }
 
+        public void RestartTriggers()
+        {
+            foreach(var trigger in triggers)
+            {
+                if(trigger.status == TriggerStatus.Sent)
+                {
+                    trigger.status = TriggerStatus.Active;
+                }
+            }
+        }
+
 
     }
 }

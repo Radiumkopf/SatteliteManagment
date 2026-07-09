@@ -13,8 +13,11 @@ namespace SatteliteManagment
     internal class CommandSender
     {
         DuplexTcpClient client;
-        String currentCommand { get; set;  }
+        string currentCommand { get; set;  }
 
+        public int delay { get; set; }
+
+        public int countSending { get; set; }
         public CommandSender(DuplexTcpClient client)
         {
             this.client = client;

@@ -81,7 +81,7 @@ namespace SatteliteManagment
             this.groupBoxTriggerSettings = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
             this.buttonRestartTriggers = new System.Windows.Forms.Button();
-            this.buttonWriteNewValue = new System.Windows.Forms.Button();
+            this.buttonWriteNewCountAndDelay = new System.Windows.Forms.Button();
             this.textBoxDelaySend = new System.Windows.Forms.TextBox();
             this.textBoxCountSend = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -450,7 +450,7 @@ namespace SatteliteManagment
             this.tabPageSatellite.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSatellite.Size = new System.Drawing.Size(1205, 504);
             this.tabPageSatellite.TabIndex = 1;
-            this.tabPageSatellite.Text = "Satellite Info";
+            this.tabPageSatellite.Text = "Triggers Info";
             this.tabPageSatellite.UseVisualStyleBackColor = true;
             // 
             // groupBoxTriggerPanel
@@ -630,7 +630,7 @@ namespace SatteliteManagment
             // 
             this.groupBoxTriggerSettings.Controls.Add(this.label12);
             this.groupBoxTriggerSettings.Controls.Add(this.buttonRestartTriggers);
-            this.groupBoxTriggerSettings.Controls.Add(this.buttonWriteNewValue);
+            this.groupBoxTriggerSettings.Controls.Add(this.buttonWriteNewCountAndDelay);
             this.groupBoxTriggerSettings.Controls.Add(this.textBoxDelaySend);
             this.groupBoxTriggerSettings.Controls.Add(this.textBoxCountSend);
             this.groupBoxTriggerSettings.Controls.Add(this.label9);
@@ -663,16 +663,18 @@ namespace SatteliteManagment
             this.buttonRestartTriggers.TabIndex = 3;
             this.buttonRestartTriggers.Text = "Перезапустить триггеры";
             this.buttonRestartTriggers.UseVisualStyleBackColor = true;
+            this.buttonRestartTriggers.Click += new System.EventHandler(this.buttonRestartTriggers_Click);
             // 
-            // buttonWriteNewValue
+            // buttonWriteNewCountAndDelay
             // 
-            this.buttonWriteNewValue.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonWriteNewValue.Location = new System.Drawing.Point(0, 149);
-            this.buttonWriteNewValue.Name = "buttonWriteNewValue";
-            this.buttonWriteNewValue.Size = new System.Drawing.Size(194, 51);
-            this.buttonWriteNewValue.TabIndex = 3;
-            this.buttonWriteNewValue.Text = "Записать новые значения";
-            this.buttonWriteNewValue.UseVisualStyleBackColor = true;
+            this.buttonWriteNewCountAndDelay.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonWriteNewCountAndDelay.Location = new System.Drawing.Point(0, 149);
+            this.buttonWriteNewCountAndDelay.Name = "buttonWriteNewCountAndDelay";
+            this.buttonWriteNewCountAndDelay.Size = new System.Drawing.Size(194, 51);
+            this.buttonWriteNewCountAndDelay.TabIndex = 3;
+            this.buttonWriteNewCountAndDelay.Text = "Записать новые значения";
+            this.buttonWriteNewCountAndDelay.UseVisualStyleBackColor = true;
+            this.buttonWriteNewCountAndDelay.Click += new System.EventHandler(this.buttonWriteNewCountAndDelay_Click);
             // 
             // textBoxDelaySend
             // 
@@ -884,7 +886,7 @@ namespace SatteliteManagment
         private GroupBox groupBoxTriggerState;
         private DataGridView dataGridViewTriggerState;
         private Button buttonRestartTriggers;
-        private Button buttonWriteNewValue;
+        private Button buttonWriteNewCountAndDelay;
         private TextBox textBoxDelaySend;
         private TextBox textBoxCountSend;
         private Label label9;
