@@ -62,6 +62,7 @@ namespace SatteliteManagment
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageConn = new System.Windows.Forms.TabPage();
             this.tabPageSatellite = new System.Windows.Forms.TabPage();
+            this.buttonbuttonteststatus = new System.Windows.Forms.Button();
             this.groupBoxTriggerPanel = new System.Windows.Forms.GroupBox();
             this.radioButtonSeparatorNothing1 = new System.Windows.Forms.RadioButton();
             this.radioButtonSeparatorDollar1 = new System.Windows.Forms.RadioButton();
@@ -95,6 +96,7 @@ namespace SatteliteManagment
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
+            this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -407,7 +409,7 @@ namespace SatteliteManagment
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(307, 28);
             this.button1.TabIndex = 9;
-            this.button1.Text = "Чтение команд из файла";
+            this.button1.Text = "Чтение данных из файла";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -440,6 +442,7 @@ namespace SatteliteManagment
             // 
             // tabPageSatellite
             // 
+            this.tabPageSatellite.Controls.Add(this.buttonbuttonteststatus);
             this.tabPageSatellite.Controls.Add(this.groupBoxTriggerPanel);
             this.tabPageSatellite.Controls.Add(this.groupBoxTriggerState);
             this.tabPageSatellite.Controls.Add(this.groupBoxTriggerSettings);
@@ -452,6 +455,17 @@ namespace SatteliteManagment
             this.tabPageSatellite.TabIndex = 1;
             this.tabPageSatellite.Text = "Triggers Info";
             this.tabPageSatellite.UseVisualStyleBackColor = true;
+            // 
+            // buttonbuttonteststatus
+            // 
+            this.buttonbuttonteststatus.BackColor = System.Drawing.Color.Silver;
+            this.buttonbuttonteststatus.Location = new System.Drawing.Point(568, 255);
+            this.buttonbuttonteststatus.Name = "buttonbuttonteststatus";
+            this.buttonbuttonteststatus.Size = new System.Drawing.Size(143, 23);
+            this.buttonbuttonteststatus.TabIndex = 4;
+            this.buttonbuttonteststatus.Text = "buttonteststatus";
+            this.buttonbuttonteststatus.UseVisualStyleBackColor = false;
+            this.buttonbuttonteststatus.Click += new System.EventHandler(this.buttonbuttonteststatus_Click);
             // 
             // groupBoxTriggerPanel
             // 
@@ -720,6 +734,8 @@ namespace SatteliteManagment
             // checkBoxDisableTriggersAfterAct
             // 
             this.checkBoxDisableTriggersAfterAct.AutoSize = true;
+            this.checkBoxDisableTriggersAfterAct.Checked = true;
+            this.checkBoxDisableTriggersAfterAct.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDisableTriggersAfterAct.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxDisableTriggersAfterAct.Location = new System.Drawing.Point(5, 206);
             this.checkBoxDisableTriggersAfterAct.Name = "checkBoxDisableTriggersAfterAct";
@@ -741,6 +757,7 @@ namespace SatteliteManagment
             // 
             // groupBoxAskSettings
             // 
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskPhotoSize);
@@ -807,6 +824,17 @@ namespace SatteliteManagment
             this.checkBoxRSSI.TabIndex = 0;
             this.checkBoxRSSI.Text = "Получать значения RSSI";
             this.checkBoxRSSI.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSendNextIfGetAck
+            // 
+            this.checkBoxSendNextIfGetAck.AutoSize = true;
+            this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(6, 149);
+            this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
+            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(484, 22);
+            this.checkBoxSendNextIfGetAck.TabIndex = 0;
+            this.checkBoxSendNextIfGetAck.Text = "Отправлять пакет автоматически при получении подтверждения";
+            this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -908,6 +936,8 @@ namespace SatteliteManagment
         private RadioButton radioButtonSeparatorDollar1;
         private TextBox textBoxSatAddress;
         private Label label13;
+        private Button buttonbuttonteststatus;
+        private CheckBox checkBoxSendNextIfGetAck;
     }
 }
 

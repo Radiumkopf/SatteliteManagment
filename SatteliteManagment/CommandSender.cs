@@ -15,26 +15,48 @@ namespace SatteliteManagment
         DuplexTcpClient client;
         string currentCommand { get; set;  }
 
-        public int delay { get; set; }
+        public TimeSpan delay { get; set; }
 
-        public int countSending { get; set; }
+        public int repeatCount { get; set; }
         public CommandSender(DuplexTcpClient client)
         {
             this.client = client;
             currentCommand = "default";
+            repeatCount = -1;
+            delay = TimeSpan.Zero;
         }
 
-        public async void SendComandAsync(byte[] byteCommand, CancellationToken cancellationToken = default) 
+
+        
+        public async void SendCommandAsyncEndless(byte[] byteCommand, CancellationToken cancellationToken = default) 
         {
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                client.SendTextAsync(byteCommand, cancellationToken);
+                await client.SendTextAsync(byteCommand, cancellationToken);
                 // Ожидаем перед следующей итерацией
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
         }
 
+
+
+        public async Task SendCommandAsync(byte[] command, CancellationToken cancellationToken = default)
+        {
+            if(repeatCount == -1)
+            {
+                repeatCount = 1;
+            }
+            for (int i = 0; i < repeatCount; i++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                await client.SendTextAsync(command, cancellationToken);
+
+                if (i < repeatCount - 1)
+                    await Task.Delay(delay, cancellationToken);
+            }
+        }
 
 
 

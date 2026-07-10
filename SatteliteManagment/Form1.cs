@@ -67,9 +67,12 @@ namespace SatteliteManagment
                 {
                     if (trigger.status == TriggerStatus.Active)
                     {
-                        commandSender.SendComandAsync(trigger.command);
-                        triggerGridManager.SetRowStatus( trigger.address);
-                        triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
+                        commandSender.SendCommandAsync(trigger.command);
+                        if (checkBoxDisableTriggersAfterAct.Checked)
+                        {
+                            triggerGridManager.SetRowStatusSent(trigger.address);
+                            triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
+                        }
 
                         Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
                     }
@@ -342,7 +345,7 @@ namespace SatteliteManagment
                 string commandToSendRaw = textBoxCommand.Text;
 
                 string commandToSend;
-                if (radioButtonSeparatorDollar.Checked)
+                if (radioButtonSeparatorDollar1.Checked)
                 {
                     commandToSend = commandToSendRaw.Replace("$", String.Empty);
                 }
@@ -408,9 +411,9 @@ namespace SatteliteManagment
             if(textBoxCountSend.Text != "" && textBoxDelaySend.Text != "")
             {
                 int.TryParse(textBoxCountSend.Text, out int countSend);
-                commandSender.countSending = countSend;
+                commandSender.repeatCount = countSend;
 
-                int.TryParse(textBoxCountSend.Text, out int delay);
+                TimeSpan.TryParse(textBoxDelaySend.Text, out var delay);
                 commandSender.delay = delay;
             }
         }
@@ -419,6 +422,13 @@ namespace SatteliteManagment
         {
             triggerGridManager.RestartTriggers();
             triggerManager.RestartTriggers();
+        }
+
+        private void buttonbuttonteststatus_Click(object sender, EventArgs e)
+        {
+            byte[] addr = HexStringToBytes(textBoxSatAddress.Text);
+            triggerGridManager.SetRowStatusSent(addr);
+            triggerManager.ChangeTriggerStatusByAddress(addr, TriggerStatus.Sent);
         }
     }
 }

@@ -94,13 +94,13 @@ namespace SatteliteManagment
                     row.Cells["status"].Value = "Отключен";
                     break;
                 case TriggerStatus.Sent:
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.AliceBlue;
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.DeepSkyBlue;
                     row.Cells["status"].Value = "Сработал";
                     break;
             }
         }
 
-        public void SetRowStatus( byte[] address)
+        public void SetRowStatusSent( byte[] address)
         {
             string addr = BitConverter.ToString(address);
             foreach (DataGridViewRow row in dataGridView.Rows) {
@@ -129,13 +129,19 @@ namespace SatteliteManagment
 
         public void AddRow(Trigger trigger)
         {
-            string statusString = trigger.StatusToString();
+            TriggerStatus triggerStatus = trigger.status;
 
+            int index = dataGridView.Rows.Add();
 
-            dataGridView.Rows.Add(
-                BitConverter.ToString(trigger.address),
-                statusString,
-                BitConverter.ToString(trigger.command));
+            DataGridViewRow row = dataGridView.Rows[index];
+            row.Cells[0].Value = BitConverter.ToString(trigger.address);
+            row.Cells[2].Value = BitConverter.ToString(trigger.command);
+            SetStatusAndColor(triggerStatus, row);
+
+            //dataGridView.Rows.Add(
+            //    BitConverter.ToString(trigger.address),
+            //    statusString,
+            //    BitConverter.ToString(trigger.command));
         }
 
         public void RemoveRow(byte[] address)
