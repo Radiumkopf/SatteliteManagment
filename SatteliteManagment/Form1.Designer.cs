@@ -48,6 +48,7 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.buttonSendFileRequest = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.idTextBox = new System.Windows.Forms.TextBox();
             this.testbutton = new System.Windows.Forms.Button();
@@ -91,12 +92,13 @@ namespace SatteliteManagment
             this.checkBoxDisableTriggersAfterAct = new System.Windows.Forms.CheckBox();
             this.checkBoxTriggerEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxAskSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxSendRequestIfGetPacket = new System.Windows.Forms.CheckBox();
+            this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.checkBoxWriteLog = new System.Windows.Forms.CheckBox();
             this.checkBoxAskZeroPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
-            this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -295,6 +297,7 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.buttonSendFileRequest);
             this.panelRadioControl.Controls.Add(this.label3);
             this.panelRadioControl.Controls.Add(this.idTextBox);
             this.panelRadioControl.Controls.Add(this.testbutton);
@@ -313,6 +316,16 @@ namespace SatteliteManagment
             this.panelRadioControl.Name = "panelRadioControl";
             this.panelRadioControl.Size = new System.Drawing.Size(1263, 414);
             this.panelRadioControl.TabIndex = 0;
+            // 
+            // buttonSendFileRequest
+            // 
+            this.buttonSendFileRequest.Location = new System.Drawing.Point(327, 307);
+            this.buttonSendFileRequest.Name = "buttonSendFileRequest";
+            this.buttonSendFileRequest.Size = new System.Drawing.Size(155, 49);
+            this.buttonSendFileRequest.TabIndex = 19;
+            this.buttonSendFileRequest.Text = "Отправить запрос на получение файла";
+            this.buttonSendFileRequest.UseVisualStyleBackColor = true;
+            this.buttonSendFileRequest.Click += new System.EventHandler(this.buttonSendFileRequest_Click);
             // 
             // label3
             // 
@@ -333,7 +346,7 @@ namespace SatteliteManagment
             // 
             // testbutton
             // 
-            this.testbutton.Location = new System.Drawing.Point(347, 371);
+            this.testbutton.Location = new System.Drawing.Point(1070, 374);
             this.testbutton.Name = "testbutton";
             this.testbutton.Size = new System.Drawing.Size(75, 23);
             this.testbutton.TabIndex = 16;
@@ -344,7 +357,7 @@ namespace SatteliteManagment
             // logdataGridView
             // 
             this.logdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.logdataGridView.Location = new System.Drawing.Point(327, 178);
+            this.logdataGridView.Location = new System.Drawing.Point(327, 154);
             this.logdataGridView.Name = "logdataGridView";
             this.logdataGridView.ReadOnly = true;
             this.logdataGridView.RowHeadersWidth = 51;
@@ -652,9 +665,9 @@ namespace SatteliteManagment
             this.groupBoxTriggerSettings.Controls.Add(this.label7);
             this.groupBoxTriggerSettings.Controls.Add(this.checkBoxDisableTriggersAfterAct);
             this.groupBoxTriggerSettings.Controls.Add(this.checkBoxTriggerEnable);
-            this.groupBoxTriggerSettings.Location = new System.Drawing.Point(338, 20);
+            this.groupBoxTriggerSettings.Location = new System.Drawing.Point(8, 236);
             this.groupBoxTriggerSettings.Name = "groupBoxTriggerSettings";
-            this.groupBoxTriggerSettings.Size = new System.Drawing.Size(214, 265);
+            this.groupBoxTriggerSettings.Size = new System.Drawing.Size(323, 265);
             this.groupBoxTriggerSettings.TabIndex = 1;
             this.groupBoxTriggerSettings.TabStop = false;
             this.groupBoxTriggerSettings.Text = "Настройка триггеров";
@@ -694,20 +707,22 @@ namespace SatteliteManagment
             // 
             this.textBoxDelaySend.Location = new System.Drawing.Point(5, 125);
             this.textBoxDelaySend.Name = "textBoxDelaySend";
-            this.textBoxDelaySend.Size = new System.Drawing.Size(45, 24);
+            this.textBoxDelaySend.Size = new System.Drawing.Size(76, 24);
             this.textBoxDelaySend.TabIndex = 2;
+            this.textBoxDelaySend.Text = "00:00:00";
             // 
             // textBoxCountSend
             // 
             this.textBoxCountSend.Location = new System.Drawing.Point(5, 97);
             this.textBoxCountSend.Name = "textBoxCountSend";
-            this.textBoxCountSend.Size = new System.Drawing.Size(45, 24);
+            this.textBoxCountSend.Size = new System.Drawing.Size(76, 24);
             this.textBoxCountSend.TabIndex = 2;
+            this.textBoxCountSend.Text = "1";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(57, 128);
+            this.label9.Location = new System.Drawing.Point(107, 131);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(32, 18);
             this.label9.TabIndex = 1;
@@ -716,7 +731,7 @@ namespace SatteliteManagment
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(57, 98);
+            this.label8.Location = new System.Drawing.Point(87, 101);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(143, 18);
             this.label8.TabIndex = 1;
@@ -757,6 +772,7 @@ namespace SatteliteManagment
             // 
             // groupBoxAskSettings
             // 
+            this.groupBoxAskSettings.Controls.Add(this.checkBoxSendRequestIfGetPacket);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
@@ -765,10 +781,34 @@ namespace SatteliteManagment
             this.groupBoxAskSettings.Controls.Add(this.checkBoxRSSI);
             this.groupBoxAskSettings.Location = new System.Drawing.Point(6, 20);
             this.groupBoxAskSettings.Name = "groupBoxAskSettings";
-            this.groupBoxAskSettings.Size = new System.Drawing.Size(326, 187);
+            this.groupBoxAskSettings.Size = new System.Drawing.Size(489, 210);
             this.groupBoxAskSettings.TabIndex = 0;
             this.groupBoxAskSettings.TabStop = false;
             this.groupBoxAskSettings.Text = "Панель настроек";
+            // 
+            // checkBoxSendRequestIfGetPacket
+            // 
+            this.checkBoxSendRequestIfGetPacket.AutoSize = true;
+            this.checkBoxSendRequestIfGetPacket.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxSendRequestIfGetPacket.Location = new System.Drawing.Point(7, 177);
+            this.checkBoxSendRequestIfGetPacket.Name = "checkBoxSendRequestIfGetPacket";
+            this.checkBoxSendRequestIfGetPacket.Size = new System.Drawing.Size(432, 22);
+            this.checkBoxSendRequestIfGetPacket.TabIndex = 0;
+            this.checkBoxSendRequestIfGetPacket.Text = "Отправлять запрос автоматически при получении пакета";
+            this.checkBoxSendRequestIfGetPacket.UseVisualStyleBackColor = true;
+            this.checkBoxSendRequestIfGetPacket.CheckedChanged += new System.EventHandler(this.checkBoxSendRequestIfGetPacket_CheckedChanged);
+            // 
+            // checkBoxSendNextIfGetAck
+            // 
+            this.checkBoxSendNextIfGetAck.AutoSize = true;
+            this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(6, 149);
+            this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
+            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(484, 22);
+            this.checkBoxSendNextIfGetAck.TabIndex = 0;
+            this.checkBoxSendNextIfGetAck.Text = "Отправлять пакет автоматически при получении подтверждения";
+            this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
+            this.checkBoxSendNextIfGetAck.CheckedChanged += new System.EventHandler(this.checkBoxSendNextIfGetAck_CheckedChanged);
             // 
             // checkBoxWriteLog
             // 
@@ -824,17 +864,6 @@ namespace SatteliteManagment
             this.checkBoxRSSI.TabIndex = 0;
             this.checkBoxRSSI.Text = "Получать значения RSSI";
             this.checkBoxRSSI.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSendNextIfGetAck
-            // 
-            this.checkBoxSendNextIfGetAck.AutoSize = true;
-            this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(6, 149);
-            this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
-            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(484, 22);
-            this.checkBoxSendNextIfGetAck.TabIndex = 0;
-            this.checkBoxSendNextIfGetAck.Text = "Отправлять пакет автоматически при получении подтверждения";
-            this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -938,6 +967,8 @@ namespace SatteliteManagment
         private Label label13;
         private Button buttonbuttonteststatus;
         private CheckBox checkBoxSendNextIfGetAck;
+        private CheckBox checkBoxSendRequestIfGetPacket;
+        private Button buttonSendFileRequest;
     }
 }
 

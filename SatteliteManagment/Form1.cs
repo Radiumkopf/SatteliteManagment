@@ -20,44 +20,49 @@ namespace SatteliteManagment
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
         private byte packetSizeValue = 10;
         private short currentPackageIndex = 0;
-        private List<byte[]> data;
+        private short currentReceiveIndex = 0;
+        private List<byte[]> fileSendingData;
         private byte destId;
         private GridViewLogManager logManager;
-        private CommandSender commandSender;        //bruh
-        private List<Trigger> TriggersList;
+        private CommandSender commandSender;        
         private TriggerGridViewManager triggerGridManager;
         private TriggerManager triggerManager;
+        private FileSender fileSender;
 
         public Form1()
         {
             InitializeComponent();
 
-            _client.AckReceived += OnAckReceived;
             _client.PacketReceived += OnAddressReceived;
 
             logManager = new GridViewLogManager(this.logdataGridView);
             commandSender = new CommandSender(_client);
-            TriggersList = new List<Trigger>();
             triggerManager = new TriggerManager();
             triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState, triggerManager);
+            fileSender = new FileSender(_client, logManager);
         
         }
 
-        private void OnAckReceived(FileTransferPacket packet)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                byte id = packet.id;
-                short number = packet.number;
+        //private void OnAckReceived(FileTransferPacket packet)
+        //{
+        //    BeginInvoke(new Action(() =>
+        //    {
+        //        byte id = packet.id;
+        //        short number = packet.number;
 
-                if (logManager.rows.TryGetValue((id, number), out DataGridViewRow row))
-                {
-                    //row.Cells["Status"].Value = "✓ Получен";
-                    logTextBox.Text += "\ngot new ack " + id + number;
-                    row.DefaultCellStyle.BackColor = Color.Green;
-                }
-            }));
-        }
+        //        if (logManager.rows.TryGetValue((id, number), out DataGridViewRow row))
+        //        {
+        //            //fix and move to sender or gridmanager
+        //            logTextBox.Text += "\ngot new ack " + id + number;
+        //            row.DefaultCellStyle.BackColor = Color.Green;
+        //        }
+
+        //        if (checkBoxSendNextIfGetAck.Checked)
+        //        {
+        //            //sendPackage(); //данные уже загружены + айди уже записан + хз какой то кринж
+        //        }
+        //    }));
+        //}
         private void OnAddressReceived(PacketInfo packet)
         {
             BeginInvoke(new Action(() =>
@@ -202,7 +207,7 @@ namespace SatteliteManagment
             string path = openFileDialog1.FileName;
             byte[] dataArray=File.ReadAllBytes(path);
 
-            data = new List<byte[]>();
+            fileSendingData = new List<byte[]>();
 
             byte.TryParse(packetSize.Text, out packetSizeValue);
 
@@ -213,7 +218,7 @@ namespace SatteliteManagment
                 byte[] subArray = new byte[subArrayLength];
 
                 Array.Copy(dataArray, subArray, subArrayLength);
-                data.Add(subArray);
+                fileSendingData.Add(subArray);
             }
 
             if (buttonOpenCloseServer.Text == "Включить сервер" || labelComPortConnectionInfo.Text == "Выключено")
@@ -237,45 +242,40 @@ namespace SatteliteManagment
 
 
 
-        private void sendOnePackageButton_Click(object sender, EventArgs e)
-        {
-            if (data.Count > 0 && idTextBox.Text!=string.Empty)     //maybe fix second check
-            {
-                byte.TryParse(idTextBox.Text, out destId);
-                byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
-                _client.SendTextAsync(finalPack);
-                logSendingInfo(currentPackageIndex);
-                logManager.AddRow(finalPack, destId, currentPackageIndex, "Пакет отправлен");
-                currentPackageIndex++;
 
-            }
-            else return;
+        private async void sendOnePackageButton_Click(object sender, EventArgs e)
+        {
+            if (!byte.TryParse(idTextBox.Text, out byte id))
+                return;
+
+            fileSender.DestinationId = id;
+
+            await fileSender.SendNextPacketAsync();
         }
 
-        private void sendAllPackageButton_Click(object sender, EventArgs e)
+        private async void sendAllPackageButton_Click(object sender, EventArgs e)
         {
-            if (data.Count > 0 && idTextBox.Text != string.Empty)
-            {
-                byte.TryParse(idTextBox.Text, out destId);
+            if (!byte.TryParse(idTextBox.Text, out byte id))
+                return;
 
+            fileSender.DestinationId = id;
 
-                for (int i = currentPackageIndex; i < data.Count; i++)
-                {
-                    byte[] finalPack = BuildProtocolPackage(data[currentPackageIndex]);
-                    _client.SendTextAsync(finalPack);
-                    logSendingInfo(i);
-                    logManager.AddRow(finalPack, destId, currentPackageIndex, "Пакет отправлен");
+            await fileSender.SendAllAsync();
+        } 
+        private async void buttonSendFileRequest_Click(object sender, EventArgs e)
+        {
+            if (!byte.TryParse(idTextBox.Text, out byte id))
+                return;
 
-                    currentPackageIndex = (short)i;
-                }
-            }
-            else return;
+            fileSender.DestinationId = id;
+
+            await fileSender.SendFileRequestAsync();
         }
 
-        private byte[] BuildProtocolPackage( byte[] value)
+        private byte[] BuildProtocolPackage( PacketType type, byte[] value)
         {
-            FileTransferPacket stp = new FileTransferPacket( destId, currentPackageIndex, packetSizeValue, value);
-            return stp.ToByteArray();
+            FileTransferPacket ftp = new FileTransferPacket(type, destId, currentPackageIndex, packetSizeValue, value);
+            return ftp.ToByteArray();
         }
 
         private void testbutton_Click(object sender, EventArgs e)
@@ -324,11 +324,14 @@ namespace SatteliteManagment
                 {
                     number = 255;
                     idTextBox.Text = number.ToString();
+                    destId = number;
+
                 }
             }
             else
             {
                 idTextBox.Text = "10";
+                destId = 10;
             }
         }
 
@@ -384,16 +387,7 @@ namespace SatteliteManagment
             return bytes;
         }
 
-        private Trigger findTriggerByAddress(byte[] address)
-        {
-            foreach(Trigger trigger in TriggersList) {
-                if( address == trigger.address)
-                {
-                    return trigger;
-                }
-            }
-            return null;
-        }
+
 
         private void buttonDeleteTrigger_Click(object sender, EventArgs e)
         {
@@ -429,6 +423,17 @@ namespace SatteliteManagment
             byte[] addr = HexStringToBytes(textBoxSatAddress.Text);
             triggerGridManager.SetRowStatusSent(addr);
             triggerManager.ChangeTriggerStatusByAddress(addr, TriggerStatus.Sent);
+        }
+
+        private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)
+        {
+            fileSender.IsSendNextIfAck = checkBoxSendNextIfGetAck.Checked;
+        }
+
+        private void checkBoxSendRequestIfGetPacket_CheckedChanged(object sender, EventArgs e)
+        {
+            fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
+
         }
     }
 }

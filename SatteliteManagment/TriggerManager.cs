@@ -49,6 +49,7 @@ namespace SatteliteManagment
                     return;
                 }
             }
+            Console.WriteLine("Указанный триггер не найден");
         }
 
         public void RestartTriggers()

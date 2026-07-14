@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -54,6 +55,17 @@ namespace SatteliteManagment
             row.Cells[4].Value = text;
 
             rows[(id, number)] = row; //add to dict
+        }
+        public void MarkPacketAsReceived(byte id, short number)
+        {
+            dataGridView.BeginInvoke(new Action(() =>
+            {
+                if (rows.TryGetValue((id, number), out DataGridViewRow row))
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightGreen;
+                    //row.Cells["Status"].Value = "ACK";
+                }
+            }));
         }
 
         public void ClearGrid()

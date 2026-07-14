@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CommandSender.cs" />
     <Compile Include="DuplexTcpClient.cs" />
+    <Compile Include="FileSender.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

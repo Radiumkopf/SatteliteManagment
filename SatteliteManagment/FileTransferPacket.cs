@@ -11,8 +11,13 @@ namespace SatteliteManagment
     {
         TimeSet = 0x0A,
         FileSending = 0x0B,
-        K = 0x0C,
-        Ack = 0x0D
+        FileRequesting = 0x0C,
+        B = 0x0D,
+
+        TimeSetAck = 0x1A,
+        FileSendingAck = 0x1B,
+        FileRequestingAck = 0x1C
+
     }
 
     internal class FileTransferPacket
@@ -30,8 +35,8 @@ namespace SatteliteManagment
         {
 
         }
-        public FileTransferPacket(  byte _id, short _number, byte _size, byte[] _data) {
-            this.Type = PacketType.FileSending;
+        public FileTransferPacket(PacketType type,  byte _id, short _number, byte _size, byte[] _data) {
+            this.Type = type;
 
             this.id = _id;
             this.number = _number;

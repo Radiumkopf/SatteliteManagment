@@ -155,13 +155,15 @@ namespace SatteliteManagment
                     return;
                 }
             }
+            Console.WriteLine("Указанный триггер не найден " + addr);
+
         }
 
         public void RestartTriggers()
         {
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                if (row.Cells["status"].Value == "Сработал")
+                if (row.Cells["status"].Value.ToString() == "Сработал")
                 {
                     SetStatusAndColor(TriggerStatus.Active, row);
 
