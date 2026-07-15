@@ -435,5 +435,21 @@ namespace SatteliteManagment
             fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
 
         }
+
+        private void buttonSelectPathFile_Click(object sender, EventArgs e)
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Выберите папку для сохранения";
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
+
+                    fileSender.SetPathToSave(path);
+                    buttonSendFileRequest.Enabled = true;
+                }
+            }
+        }
     }
 }

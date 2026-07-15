@@ -16,6 +16,8 @@ namespace SatteliteManagment
 
         public List<byte[]> FileData { get; set; } 
 
+        private FileReceiver fileReceiver { get; set; }
+
         public short CurrentPacketIndex { get; private set; }
 
         public short CurrentReceiveIndex { get; private set; }
@@ -31,8 +33,10 @@ namespace SatteliteManagment
         {
             this.client = client;
             this.logManager = logManager;
+            this.fileReceiver = new FileReceiver();
             client.AckReceived += OnAckReceived;
             client.FileReceived += OnFileReceived;
+            client.LastFileReceived += OnLastFileReceived;
         }
 
         public FileSender()
@@ -49,7 +53,6 @@ namespace SatteliteManagment
             if (IsSendNextIfAck)
             {
                  SendNextPacketAsync();
-                    //sendPackage(); //данные уже загружены + айди уже записан + хз какой то кринж
             }
 
         }
@@ -58,10 +61,23 @@ namespace SatteliteManagment
         {
             //обработка полученных данных!!!!!
 
-
+            if (fileReceiver.IsReceiving)
+            {
+                fileReceiver.AddPacket(packet);
+            }
             if (IsSendRequestIfGetPacket)
             {
                 SendFileRequestAsync();
+            }
+        }
+
+        private void OnLastFileReceived(FileTransferPacket packet)
+        {
+            if (fileReceiver.IsReceiving)
+            {
+                fileReceiver.AddPacket(packet);
+                fileReceiver.Finish();
+                //еще какой то увед что файл готов
             }
         }
 
@@ -95,6 +111,11 @@ namespace SatteliteManagment
             await SendPackageAsync(packet);
 
             CurrentReceiveIndex++;
+
+            if (!fileReceiver.IsReceiving)
+            {
+                throw new Exception("Firtsly set the path");
+            }
         }
 
         private async Task SendPackageAsync(byte[] packet)
@@ -119,6 +140,15 @@ namespace SatteliteManagment
                     value);
 
             return packet.ToByteArray();
+        }
+
+        public void SetPathToSave(string path)
+        {
+            if (!fileReceiver.IsReceiving)
+            {
+                fileReceiver.Start(path);
+            }
+            else throw new Exception("Already writing in this path");
         }
     }
 }

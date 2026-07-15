@@ -99,6 +99,7 @@ namespace SatteliteManagment
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
+            this.buttonSelectPathFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -297,6 +298,7 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.buttonSelectPathFile);
             this.panelRadioControl.Controls.Add(this.buttonSendFileRequest);
             this.panelRadioControl.Controls.Add(this.label3);
             this.panelRadioControl.Controls.Add(this.idTextBox);
@@ -314,14 +316,16 @@ namespace SatteliteManagment
             this.panelRadioControl.Location = new System.Drawing.Point(7, 5);
             this.panelRadioControl.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panelRadioControl.Name = "panelRadioControl";
-            this.panelRadioControl.Size = new System.Drawing.Size(1263, 414);
+            this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
             this.panelRadioControl.TabIndex = 0;
             // 
             // buttonSendFileRequest
             // 
-            this.buttonSendFileRequest.Location = new System.Drawing.Point(327, 307);
+            this.buttonSendFileRequest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSendFileRequest.Enabled = false;
+            this.buttonSendFileRequest.Location = new System.Drawing.Point(157, 415);
             this.buttonSendFileRequest.Name = "buttonSendFileRequest";
-            this.buttonSendFileRequest.Size = new System.Drawing.Size(155, 49);
+            this.buttonSendFileRequest.Size = new System.Drawing.Size(153, 49);
             this.buttonSendFileRequest.TabIndex = 19;
             this.buttonSendFileRequest.Text = "Отправить запрос на получение файла";
             this.buttonSendFileRequest.UseVisualStyleBackColor = true;
@@ -367,6 +371,7 @@ namespace SatteliteManagment
             // 
             // sendAllPackageButton
             // 
+            this.sendAllPackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendAllPackageButton.Enabled = false;
             this.sendAllPackageButton.Location = new System.Drawing.Point(157, 361);
             this.sendAllPackageButton.Name = "sendAllPackageButton";
@@ -378,6 +383,7 @@ namespace SatteliteManagment
             // 
             // sendOnePackageButton
             // 
+            this.sendOnePackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendOnePackageButton.Enabled = false;
             this.sendOnePackageButton.Location = new System.Drawing.Point(157, 307);
             this.sendOnePackageButton.Name = "sendOnePackageButton";
@@ -865,6 +871,21 @@ namespace SatteliteManagment
             this.checkBoxRSSI.Text = "Получать значения RSSI";
             this.checkBoxRSSI.UseVisualStyleBackColor = true;
             // 
+            // buttonSelectPathFile
+            // 
+            this.buttonSelectPathFile.BackColor = System.Drawing.Color.LightBlue;
+            this.buttonSelectPathFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
+            this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
+            this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSelectPathFile.Location = new System.Drawing.Point(354, 415);
+            this.buttonSelectPathFile.Name = "buttonSelectPathFile";
+            this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
+            this.buttonSelectPathFile.TabIndex = 20;
+            this.buttonSelectPathFile.Text = "Указать путь для сохранения";
+            this.buttonSelectPathFile.UseVisualStyleBackColor = false;
+            this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -969,6 +990,7 @@ namespace SatteliteManagment
         private CheckBox checkBoxSendNextIfGetAck;
         private CheckBox checkBoxSendRequestIfGetPacket;
         private Button buttonSendFileRequest;
+        private Button buttonSelectPathFile;
     }
 }
 

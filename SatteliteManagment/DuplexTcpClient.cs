@@ -21,6 +21,9 @@ namespace SatteliteManagment
 
         public event Action<FileTransferPacket> FileReceived;
 
+        public event Action<FileTransferPacket> LastFileReceived;
+
+
         public async Task ConnectAsync(string ip, int port)
         {
             _client = new TcpClient();
@@ -70,6 +73,10 @@ namespace SatteliteManagment
 
                         case PacketType.FileRequestingAck:
                             FileReceived?.Invoke(packet);
+                            break;
+
+                        case PacketType.FileRequestingLast:
+                            LastFileReceived?.Invoke(packet);
                             break;
                     }
                 }
