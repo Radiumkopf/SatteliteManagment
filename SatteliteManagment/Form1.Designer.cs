@@ -362,7 +362,7 @@ namespace SatteliteManagment
             this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
             this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
             this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSelectPathFile.Location = new System.Drawing.Point(354, 415);
+            this.buttonSelectPathFile.Location = new System.Drawing.Point(327, 415);
             this.buttonSelectPathFile.Name = "buttonSelectPathFile";
             this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
             this.buttonSelectPathFile.TabIndex = 20;
@@ -399,6 +399,7 @@ namespace SatteliteManagment
             this.testbutton.TabIndex = 16;
             this.testbutton.Text = "button2";
             this.testbutton.UseVisualStyleBackColor = true;
+            this.testbutton.Visible = false;
             this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
             // 
             // logdataGridView
@@ -409,7 +410,7 @@ namespace SatteliteManagment
             this.logdataGridView.ReadOnly = true;
             this.logdataGridView.RowHeadersWidth = 51;
             this.logdataGridView.RowTemplate.Height = 24;
-            this.logdataGridView.Size = new System.Drawing.Size(736, 150);
+            this.logdataGridView.Size = new System.Drawing.Size(736, 255);
             this.logdataGridView.TabIndex = 15;
             // 
             // sendAllPackageButton
@@ -442,6 +443,7 @@ namespace SatteliteManagment
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
+            this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logTextBox.Size = new System.Drawing.Size(736, 79);
             this.logTextBox.TabIndex = 12;
             // 
@@ -601,7 +603,6 @@ namespace SatteliteManagment
             this.label11.Size = new System.Drawing.Size(85, 18);
             this.label11.TabIndex = 0;
             this.label11.Text = "ID триггера";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label13
             // 

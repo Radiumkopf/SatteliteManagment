@@ -78,6 +78,7 @@ namespace SatteliteManagment
                 if(!Equals(satelliteAddress, currentServerTxAddress))
                 {
                     fileSender.SetTxRegister(satelliteAddress);
+                    LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
                 }
 
                 Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
@@ -104,18 +105,27 @@ namespace SatteliteManagment
         {
             BeginInvoke(new Action(() => {
                 byte[] newAddr = new byte[packet.data.Length];
-                Array.Copy(newAddr, packet.data, packet.data.Length);
+                Array.Copy(packet.data, newAddr, packet.data.Length);
                 currentServerTxAddress = newAddr;
-            
+
+                LogTextBoxWriteNewAddr( "Сервер", newAddr);
             }));
             
          }
+
+        private void LogTextBoxWriteNewAddr(string who, byte[] addr) {
+
+            logTextBox.AppendText(who);
+            logTextBox.AppendText( " изменил TX-адрес: ");
+            logTextBox.AppendText(ByteArrayToStringHEX(addr));
+            logTextBox.AppendText(  Environment.NewLine );
+        }
 
         //Обработчик успешно принятого файла
         private void OnFullFileReceived()
         {
             buttonSendFileRequest.Enabled = false;
-            MessageBox.Show("File received!");
+            logTextBox.AppendText("Файл получен");
         }
 
         void changeInterfaceState(bool stateServer)
@@ -271,16 +281,6 @@ namespace SatteliteManagment
 
         }
 
-        private void logSendingInfo(int i)
-        {
-            String logInfo = "Пакет успешно отправлен. №" + i + "\n";
-            logTextBox.Text += logInfo;
-            
-
-        }
-
-
-
 
         private async void sendOnePackageButton_Click(object sender, EventArgs e)
         {
@@ -305,11 +305,6 @@ namespace SatteliteManagment
             await fileSender.SendFileRequestAsync();
         }
 
-        private byte[] BuildProtocolPackage( PacketType type, byte[] value)
-        {
-            FileTransferPacket ftp = new FileTransferPacket(type, destId, currentPackageIndex, packetSizeValue, value);
-            return ftp.ToByteArray();
-        }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
@@ -319,38 +314,7 @@ namespace SatteliteManagment
             //byte[] datab = new byte[] { 0x01, 0x02, 0x03 };
             //gridViewLogManager.AddRow(datab, "boba");
         }
-        private void packetSize_TextChanged(object sender, EventArgs e)
-        {
-            //if (int.TryParse(packetSize.Text, out int number))
-            //{
-            //    if (number < 10)
-            //    {
-            //        number = 10;
-            //        packetSize.Text = number.ToString();
 
-            //    }
-            //    else if (number > 200)
-            //    {
-            //        number = 200;
-            //        packetSize.Text = number.ToString();
-            //    }
-            //}
-            //else
-            //{
-            //    packetSize.Text = "10";
-            //}
-        }
-
-        private void idTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void buttonWriteCommand_Click(object sender, EventArgs e)
         {
@@ -399,6 +363,14 @@ namespace SatteliteManagment
             return bytes;
         }
 
+        public static string ByteArrayToStringHEX(byte[] data)
+        {
+            return BitConverter.ToString(data).Replace("-", "");
+        }
+        public static string ByteToStringHEX(byte data)
+        {
+            return BitConverter.ToString(new byte[] { data }).Replace("-", "");
+        }
 
 
         private void buttonDeleteTrigger_Click(object sender, EventArgs e)

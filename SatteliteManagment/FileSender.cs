@@ -42,7 +42,6 @@ namespace SatteliteManagment
             client.FileReceived += OnFileReceived;
             client.LastFileReceived += OnLastFileReceived;
 
-            IsTxSet = false;
         }
 
         public FileSender()
@@ -87,12 +86,11 @@ namespace SatteliteManagment
             }
         }
 
-        public void SetTxRegister(byte[] address)
+        public async void SetTxRegister(byte[] address)
         {
-            if (!IsTxSet)
-            {
-                client.SendTextAsync(TxOperator.RegisterWrite(address));
-            }
+
+                await client.SendTextAsync(TxOperator.RegisterWrite(address));
+            
         }
 
         public async Task SendNextPacketAsync()

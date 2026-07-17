@@ -26,6 +26,12 @@ namespace SatteliteManagment
         public void HeaderInfo()
         {
             dataGridView.ColumnCount = 5;
+            dataGridView.Columns[0].Width = 80;
+            dataGridView.Columns[1].Width = 40;
+            dataGridView.Columns[2].Width = 50;
+            dataGridView.Columns[3].Width = 240;
+            dataGridView.Columns[4].Width = 80;
+
             dataGridView.Columns[0].HeaderText = "Дата и время";
             dataGridView.Columns[1].HeaderText = "ID";
             dataGridView.Columns[2].HeaderText = "Номер пакета";
@@ -56,6 +62,7 @@ namespace SatteliteManagment
 
             rows[(id, number)] = row; //add to dict
         }
+
         public void MarkPacketAsReceived(byte id, short number)
         {
             dataGridView.BeginInvoke(new Action(() =>

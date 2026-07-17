@@ -53,6 +53,7 @@ namespace SatteliteManagment
                         ServerAddrChanged?.Invoke(SatellitePacketParser.Parse(data));
                         continue;
                     }
+
                     byte[] packetInfoHeaderBytes = new byte[24];
                     byte[] fileTransferPackekBytes = new byte[data.Length - 24];
                     PacketInfo packetInfo;
