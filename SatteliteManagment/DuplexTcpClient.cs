@@ -23,6 +23,8 @@ namespace SatteliteManagment
 
         public event Action<FileTransferPacket> LastFileReceived;
 
+        public event Action<FileTransferPacket> ServerAddrChanged;
+
 
         public async Task ConnectAsync(string ip, int port)
         {
@@ -47,6 +49,10 @@ namespace SatteliteManagment
                 {
                     byte[] data = await PacketProtocol.ReadPacketAsync(_stream, token);
 
+                    if (data.Length == 10) {
+                        ServerAddrChanged?.Invoke(SatellitePacketParser.Parse(data));
+                        continue;
+                    }
                     byte[] packetInfoHeaderBytes = new byte[24];
                     byte[] fileTransferPackekBytes = new byte[data.Length - 24];
                     PacketInfo packetInfo;
@@ -77,6 +83,10 @@ namespace SatteliteManagment
 
                         case PacketType.FileRequestingLast:
                             LastFileReceived?.Invoke(packet);
+                            break;
+
+                        case PacketType.AddressChanging:
+                            ServerAddrChanged?.Invoke(packet);
                             break;
                     }
                 }

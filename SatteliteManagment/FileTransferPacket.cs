@@ -17,7 +17,8 @@ namespace SatteliteManagment
         TimeSetAck = 0x1A,
         FileSendingAck = 0x1B,
         FileRequestingAck = 0x1C,
-        FileRequestingLast = 0x2C
+        FileRequestingLast = 0x2C,
+        AddressChanging = 0xAC
 
     }
 

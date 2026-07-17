@@ -21,6 +21,8 @@ namespace SatteliteManagment
         private byte packetSizeValue = 10;
         private short currentPackageIndex = 0;
         private short currentReceiveIndex = 0;
+
+        private byte[] currentServerTxAddress;
         private List<byte[]> fileSendingData;
         private byte destId;
         private GridViewLogManager logManager;
@@ -34,12 +36,16 @@ namespace SatteliteManagment
             InitializeComponent();
 
             _client.PacketReceived += OnAddressReceived;
+            _client.ServerAddrChanged += OnServerAddrChanged;
+
 
             logManager = new GridViewLogManager(this.logdataGridView);
             commandSender = new CommandSender(_client);
             triggerManager = new TriggerManager();
             triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState, triggerManager);
             fileSender = new FileSender(_client, logManager);
+
+            fileSender.LastFileReceived += OnFullFileReceived;
         
         }
 
@@ -67,6 +73,13 @@ namespace SatteliteManagment
         {
             BeginInvoke(new Action(() =>
             {
+                byte[] satelliteAddress = BitConverter.GetBytes(packet.SourceAddr);
+
+                if(!Equals(satelliteAddress, currentServerTxAddress))
+                {
+                    fileSender.SetTxRegister(satelliteAddress);
+                }
+
                 Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
                 if (trigger != null)
                 {
@@ -85,6 +98,24 @@ namespace SatteliteManagment
                 else Console.WriteLine("Нужный триггер/адрес не найден!");
 
             }));
+        }
+
+        private void OnServerAddrChanged(FileTransferPacket packet)
+        {
+            BeginInvoke(new Action(() => {
+                byte[] newAddr = new byte[packet.data.Length];
+                Array.Copy(newAddr, packet.data, packet.data.Length);
+                currentServerTxAddress = newAddr;
+            
+            }));
+            
+         }
+
+        //Обработчик успешно принятого файла
+        private void OnFullFileReceived()
+        {
+            buttonSendFileRequest.Enabled = false;
+            MessageBox.Show("File received!");
         }
 
         void changeInterfaceState(bool stateServer)
@@ -205,19 +236,25 @@ namespace SatteliteManagment
             if (openFileDialog1.FileName == "" || Path.GetExtension(openFileDialog1.FileName).ToLower() != ".txt")
                 return;
             string path = openFileDialog1.FileName;
-            byte[] dataArray=File.ReadAllBytes(path);
+
+            byte[] dataArray = File.ReadAllBytes(path);
 
             fileSendingData = new List<byte[]>();
 
-            byte.TryParse(packetSize.Text, out packetSizeValue);
+            packetSizeValue = (byte)numericUpDownPacketSize.Value;
 
-            int countDataPacket = (int)(dataArray.Length / packetSizeValue);
-            for (int index = 0; index <= countDataPacket; index++)
+            int countDataPacket = (int)Math.Ceiling((double)dataArray.Length / packetSizeValue);
+
+            for (int index = 0; index < countDataPacket; index++)
             {
-                int subArrayLength = (index!= countDataPacket) ? packetSizeValue : dataArray.Length % packetSizeValue;
+                int offset = index * packetSizeValue;
+
+                int subArrayLength = Math.Min(packetSizeValue, dataArray.Length - offset);
+
                 byte[] subArray = new byte[subArrayLength];
 
-                Array.Copy(dataArray, subArray, subArrayLength);
+                Array.Copy(dataArray, offset, subArray, 0, subArrayLength);
+
                 fileSendingData.Add(subArray);
             }
 
@@ -229,6 +266,8 @@ namespace SatteliteManagment
             sendOnePackageButton.Enabled = true;
             sendAllPackageButton.Enabled = true;
             currentPackageIndex = 0;
+            fileSender.FileData = fileSendingData;
+            fileSender.PacketSize = (byte) numericUpDownPacketSize.Value;
 
         }
 
@@ -245,29 +284,23 @@ namespace SatteliteManagment
 
         private async void sendOnePackageButton_Click(object sender, EventArgs e)
         {
-            if (!byte.TryParse(idTextBox.Text, out byte id))
-                return;
 
-            fileSender.DestinationId = id;
+            fileSender.DestinationId = (byte)numericUpDownId.Value;
 
             await fileSender.SendNextPacketAsync();
         }
 
         private async void sendAllPackageButton_Click(object sender, EventArgs e)
         {
-            if (!byte.TryParse(idTextBox.Text, out byte id))
-                return;
 
-            fileSender.DestinationId = id;
+            fileSender.DestinationId = (byte)numericUpDownId.Value;
 
             await fileSender.SendAllAsync();
         } 
         private async void buttonSendFileRequest_Click(object sender, EventArgs e)
         {
-            if (!byte.TryParse(idTextBox.Text, out byte id))
-                return;
 
-            fileSender.DestinationId = id;
+            fileSender.DestinationId = (byte)numericUpDownId.Value;
 
             await fileSender.SendFileRequestAsync();
         }
@@ -288,52 +321,31 @@ namespace SatteliteManagment
         }
         private void packetSize_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(packetSize.Text, out int number))
-            {
-                if (number < 10)
-                {
-                    number = 10;
-                    packetSize.Text = number.ToString();
+            //if (int.TryParse(packetSize.Text, out int number))
+            //{
+            //    if (number < 10)
+            //    {
+            //        number = 10;
+            //        packetSize.Text = number.ToString();
 
-                }
-                else if (number > 200)
-                {
-                    number = 200;
-                    packetSize.Text = number.ToString();
-                }
-            }
-            else
-            {
-               // MessageBox.Show("Некорректный ввод", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                packetSize.Text = "10";
-            }
+            //    }
+            //    else if (number > 200)
+            //    {
+            //        number = 200;
+            //        packetSize.Text = number.ToString();
+            //    }
+            //}
+            //else
+            //{
+            //    packetSize.Text = "10";
+            //}
         }
 
         private void idTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (byte.TryParse(idTextBox.Text, out byte number))
-            {
-                if (number < 0)
-                {
-                    number = 0;
-                    idTextBox.Text = number.ToString();
-                    destId = number;
 
-                }
-                else if (number > 255)
-                {
-                    number = 255;
-                    idTextBox.Text = number.ToString();
-                    destId = number;
-
-                }
-            }
-            else
-            {
-                idTextBox.Text = "10";
-                destId = 10;
-            }
         }
+
 
         private void label11_Click(object sender, EventArgs e)
         {
@@ -451,5 +463,7 @@ namespace SatteliteManagment
                 }
             }
         }
+
+
     }
 }

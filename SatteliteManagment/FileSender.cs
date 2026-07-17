@@ -27,6 +27,10 @@ namespace SatteliteManagment
         public byte PacketSize { get; set; }
         public bool IsSendNextIfAck { get; set; }
         public bool IsSendRequestIfGetPacket { get; set; }
+        public bool IsTxSet {  get; set; }
+
+        public event Action LastFileReceived;
+
 
         public FileSender(DuplexTcpClient client,
                           GridViewLogManager logManager)
@@ -37,6 +41,8 @@ namespace SatteliteManagment
             client.AckReceived += OnAckReceived;
             client.FileReceived += OnFileReceived;
             client.LastFileReceived += OnLastFileReceived;
+
+            IsTxSet = false;
         }
 
         public FileSender()
@@ -81,6 +87,14 @@ namespace SatteliteManagment
             }
         }
 
+        public void SetTxRegister(byte[] address)
+        {
+            if (!IsTxSet)
+            {
+                client.SendTextAsync(TxOperator.RegisterWrite(address));
+            }
+        }
+
         public async Task SendNextPacketAsync()
         {
             if (CurrentPacketIndex >= FileData.Count)
@@ -91,9 +105,10 @@ namespace SatteliteManagment
                     PacketType.FileSending,
                     FileData[CurrentPacketIndex]);
 
+            CurrentPacketIndex++;
+
             await SendPackageAsync(packet);
 
-            CurrentPacketIndex++;
         }
 
         public async Task SendAllAsync()
@@ -150,5 +165,11 @@ namespace SatteliteManagment
             }
             else throw new Exception("Already writing in this path");
         }
+
+        public void RequestCurrentServerTxAddress()
+        {
+
+        }
+
     }
 }

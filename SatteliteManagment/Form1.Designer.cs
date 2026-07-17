@@ -48,16 +48,17 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.numericUpDownPacketSize = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownId = new System.Windows.Forms.NumericUpDown();
+            this.buttonSelectPathFile = new System.Windows.Forms.Button();
             this.buttonSendFileRequest = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.idTextBox = new System.Windows.Forms.TextBox();
             this.testbutton = new System.Windows.Forms.Button();
             this.logdataGridView = new System.Windows.Forms.DataGridView();
             this.sendAllPackageButton = new System.Windows.Forms.Button();
             this.sendOnePackageButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.packetSize = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControlMain = new System.Windows.Forms.TabControl();
@@ -99,10 +100,11 @@ namespace SatteliteManagment
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
-            this.buttonSelectPathFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPageConn.SuspendLayout();
@@ -298,17 +300,17 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.numericUpDownPacketSize);
+            this.panelRadioControl.Controls.Add(this.numericUpDownId);
             this.panelRadioControl.Controls.Add(this.buttonSelectPathFile);
             this.panelRadioControl.Controls.Add(this.buttonSendFileRequest);
             this.panelRadioControl.Controls.Add(this.label3);
-            this.panelRadioControl.Controls.Add(this.idTextBox);
             this.panelRadioControl.Controls.Add(this.testbutton);
             this.panelRadioControl.Controls.Add(this.logdataGridView);
             this.panelRadioControl.Controls.Add(this.sendAllPackageButton);
             this.panelRadioControl.Controls.Add(this.sendOnePackageButton);
             this.panelRadioControl.Controls.Add(this.logTextBox);
             this.panelRadioControl.Controls.Add(this.label2);
-            this.panelRadioControl.Controls.Add(this.packetSize);
             this.panelRadioControl.Controls.Add(this.button1);
             this.panelRadioControl.Controls.Add(this.label1);
             this.panelRadioControl.Controls.Add(this.groupBox1);
@@ -318,6 +320,55 @@ namespace SatteliteManagment
             this.panelRadioControl.Name = "panelRadioControl";
             this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
             this.panelRadioControl.TabIndex = 0;
+            // 
+            // numericUpDownPacketSize
+            // 
+            this.numericUpDownPacketSize.Location = new System.Drawing.Point(12, 311);
+            this.numericUpDownPacketSize.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.numericUpDownPacketSize.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownPacketSize.Name = "numericUpDownPacketSize";
+            this.numericUpDownPacketSize.Size = new System.Drawing.Size(102, 22);
+            this.numericUpDownPacketSize.TabIndex = 22;
+            this.numericUpDownPacketSize.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownId
+            // 
+            this.numericUpDownId.Location = new System.Drawing.Point(12, 361);
+            this.numericUpDownId.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUpDownId.Name = "numericUpDownId";
+            this.numericUpDownId.Size = new System.Drawing.Size(100, 22);
+            this.numericUpDownId.TabIndex = 21;
+            // 
+            // buttonSelectPathFile
+            // 
+            this.buttonSelectPathFile.BackColor = System.Drawing.Color.LightBlue;
+            this.buttonSelectPathFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
+            this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
+            this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSelectPathFile.Location = new System.Drawing.Point(354, 415);
+            this.buttonSelectPathFile.Name = "buttonSelectPathFile";
+            this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
+            this.buttonSelectPathFile.TabIndex = 20;
+            this.buttonSelectPathFile.Text = "Указать путь для сохранения";
+            this.buttonSelectPathFile.UseVisualStyleBackColor = false;
+            this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
             // 
             // buttonSendFileRequest
             // 
@@ -339,14 +390,6 @@ namespace SatteliteManagment
             this.label3.Size = new System.Drawing.Size(102, 16);
             this.label3.TabIndex = 18;
             this.label3.Text = "ID назначения";
-            // 
-            // idTextBox
-            // 
-            this.idTextBox.Location = new System.Drawing.Point(12, 361);
-            this.idTextBox.Name = "idTextBox";
-            this.idTextBox.Size = new System.Drawing.Size(100, 22);
-            this.idTextBox.TabIndex = 17;
-            this.idTextBox.TextChanged += new System.EventHandler(this.idTextBox_TextChanged);
             // 
             // testbutton
             // 
@@ -410,16 +453,6 @@ namespace SatteliteManagment
             this.label2.Size = new System.Drawing.Size(106, 16);
             this.label2.TabIndex = 11;
             this.label2.Text = "Размер пакета";
-            // 
-            // packetSize
-            // 
-            this.packetSize.Location = new System.Drawing.Point(12, 307);
-            this.packetSize.MaxLength = 32;
-            this.packetSize.Name = "packetSize";
-            this.packetSize.Size = new System.Drawing.Size(100, 22);
-            this.packetSize.TabIndex = 10;
-            this.packetSize.Text = "10";
-            this.packetSize.TextChanged += new System.EventHandler(this.packetSize_TextChanged);
             // 
             // button1
             // 
@@ -871,21 +904,6 @@ namespace SatteliteManagment
             this.checkBoxRSSI.Text = "Получать значения RSSI";
             this.checkBoxRSSI.UseVisualStyleBackColor = true;
             // 
-            // buttonSelectPathFile
-            // 
-            this.buttonSelectPathFile.BackColor = System.Drawing.Color.LightBlue;
-            this.buttonSelectPathFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
-            this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
-            this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSelectPathFile.Location = new System.Drawing.Point(354, 415);
-            this.buttonSelectPathFile.Name = "buttonSelectPathFile";
-            this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
-            this.buttonSelectPathFile.TabIndex = 20;
-            this.buttonSelectPathFile.Text = "Указать путь для сохранения";
-            this.buttonSelectPathFile.UseVisualStyleBackColor = false;
-            this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -901,6 +919,8 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRadioControl.ResumeLayout(false);
             this.panelRadioControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).EndInit();
             this.tabControlMain.ResumeLayout(false);
             this.tabPageConn.ResumeLayout(false);
@@ -941,7 +961,6 @@ namespace SatteliteManagment
         private Panel panelRadioControl;
         private Button button1;
         private OpenFileDialog openFileDialog1;
-        private TextBox packetSize;
         private Label label2;
         private TextBox logTextBox;
         private Button sendAllPackageButton;
@@ -949,7 +968,6 @@ namespace SatteliteManagment
         private DataGridView logdataGridView;
         private Button testbutton;
         private Label label3;
-        private TextBox idTextBox;
         private TabControl tabControlMain;
         private TabPage tabPageConn;
         private TabPage tabPageSatellite;
@@ -991,6 +1009,8 @@ namespace SatteliteManagment
         private CheckBox checkBoxSendRequestIfGetPacket;
         private Button buttonSendFileRequest;
         private Button buttonSelectPathFile;
+        private NumericUpDown numericUpDownId;
+        private NumericUpDown numericUpDownPacketSize;
     }
 }
 
