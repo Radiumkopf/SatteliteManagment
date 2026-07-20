@@ -100,6 +100,8 @@ namespace SatteliteManagment
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
+            this.tabPageTelemetry = new System.Windows.Forms.TabPage();
+            this.groupBoxTelemetryLog = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -115,6 +117,7 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTriggerState)).BeginInit();
             this.groupBoxTriggerSettings.SuspendLayout();
             this.groupBoxAskSettings.SuspendLayout();
+            this.tabPageTelemetry.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -475,6 +478,7 @@ namespace SatteliteManagment
             // 
             this.tabControlMain.Controls.Add(this.tabPageConn);
             this.tabControlMain.Controls.Add(this.tabPageSatellite);
+            this.tabControlMain.Controls.Add(this.tabPageTelemetry);
             this.tabControlMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControlMain.Location = new System.Drawing.Point(12, 2);
             this.tabControlMain.Name = "tabControlMain";
@@ -905,6 +909,25 @@ namespace SatteliteManagment
             this.checkBoxRSSI.Text = "Получать значения RSSI";
             this.checkBoxRSSI.UseVisualStyleBackColor = true;
             // 
+            // tabPageTelemetry
+            // 
+            this.tabPageTelemetry.Controls.Add(this.groupBoxTelemetryLog);
+            this.tabPageTelemetry.Location = new System.Drawing.Point(4, 29);
+            this.tabPageTelemetry.Name = "tabPageTelemetry";
+            this.tabPageTelemetry.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageTelemetry.TabIndex = 2;
+            this.tabPageTelemetry.Text = "Telemetry";
+            this.tabPageTelemetry.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTelemetryLog
+            // 
+            this.groupBoxTelemetryLog.Location = new System.Drawing.Point(16, 18);
+            this.groupBoxTelemetryLog.Name = "groupBoxTelemetryLog";
+            this.groupBoxTelemetryLog.Size = new System.Drawing.Size(319, 466);
+            this.groupBoxTelemetryLog.TabIndex = 0;
+            this.groupBoxTelemetryLog.TabStop = false;
+            this.groupBoxTelemetryLog.Text = "Telemetry Log";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -937,6 +960,7 @@ namespace SatteliteManagment
             this.groupBoxTriggerSettings.PerformLayout();
             this.groupBoxAskSettings.ResumeLayout(false);
             this.groupBoxAskSettings.PerformLayout();
+            this.tabPageTelemetry.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1012,6 +1036,8 @@ namespace SatteliteManagment
         private Button buttonSelectPathFile;
         private NumericUpDown numericUpDownId;
         private NumericUpDown numericUpDownPacketSize;
+        private TabPage tabPageTelemetry;
+        private GroupBox groupBoxTelemetryLog;
     }
 }
 

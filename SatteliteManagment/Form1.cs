@@ -286,6 +286,7 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
+            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendNextPacketAsync();
         }
@@ -294,6 +295,7 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
+            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendAllAsync();
         } 
@@ -301,6 +303,7 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
+            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendFileRequestAsync();
         }
