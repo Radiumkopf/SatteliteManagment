@@ -25,15 +25,35 @@ namespace SatteliteManagment
                 throw new InvalidDataException("Ошибка разбора пакета.", ex);
             }
         }
+        public static PacketType GetPacketType(byte symbol)
+        {
+            if (symbol == null)
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
+            try
+            {
+                return (PacketType)symbol;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Ошибка разбора пакета.", ex);
+            }
+        }
 
         public static FileTransferPacket Parse(byte[] bytes)
+        {
+            return Parse(bytes, 0);
+        }
+
+        public static FileTransferPacket Parse(byte[] bytes, int index)
         {
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));
 
             try
             {
-                int index = 0;
+                //index = 0;
 
                 if (bytes.Length < 6)
                     throw new InvalidDataException("Пакет слишком короткий.");

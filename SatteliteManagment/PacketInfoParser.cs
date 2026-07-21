@@ -16,8 +16,8 @@ namespace SatteliteManagment
 
             const int HeaderSize = 1 + 8 + 8 + 1 + 1 + 1 + 4 + 1 + 1;
 
-            if (bytes.Length < HeaderSize)
-                throw new InvalidDataException("Пакет слишком короткий.");
+            //if (bytes.Length < HeaderSize)
+            //    throw new InvalidDataException("Пакет слишком короткий.");
 
             try
             {
@@ -67,6 +67,20 @@ namespace SatteliteManagment
             {
                 throw new InvalidDataException("Ошибка разбора пакета.", ex);
             }
+        }
+
+        public static bool IsPacketInfoNull(PacketInfo packetInfo) //fix this shit
+        {
+            if(packetInfo == null)
+            {
+                return true;
+            }
+            if (packetInfo.DestAddr == 0 && packetInfo.SourceAddr == 0 && packetInfo.retrCount == 0)
+            {
+                return true;
+            }
+            else return false;
+
         }
     }
 }

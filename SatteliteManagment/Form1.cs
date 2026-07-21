@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SatteliteManagment.Telemetry;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,7 @@ namespace SatteliteManagment
         private TriggerGridViewManager triggerGridManager;
         private TriggerManager triggerManager;
         private FileSender fileSender;
+        private PlotManager plotManager;
 
         public Form1()
         {
@@ -46,7 +48,17 @@ namespace SatteliteManagment
             fileSender = new FileSender(_client, logManager);
 
             fileSender.LastFileReceived += OnFullFileReceived;
+
+            InizializeGraphs();
         
+        }
+
+        private void InizializeGraphs()
+        {
+            plotManager = new PlotManager(_client);
+
+            comboBoxTelemetryType.DataSource = plotManager.sensors;
+            comboBoxTelemetryType.DisplayMember = "Name";
         }
 
         //private void OnAckReceived(FileTransferPacket packet)
@@ -421,6 +433,24 @@ namespace SatteliteManagment
         {
             fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
 
+        }
+        private void comboBoxTelemetryType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxTelemetryType.SelectedItem is SensorGraph graph)
+            {
+                ShowGraph(graph);
+            }
+        }
+
+        private void ShowGraph(SensorGraph graph)
+        {
+            formsPlotTelemetry.Plot.Clear();
+
+            formsPlotTelemetry.Plot.Add.Signal(graph.Values);
+
+            formsPlotTelemetry.Refresh();
+
+            labelTelType.Text = graph.Name;
         }
 
         private void buttonSelectPathFile_Click(object sender, EventArgs e)

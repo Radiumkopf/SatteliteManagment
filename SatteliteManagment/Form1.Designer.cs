@@ -101,7 +101,11 @@ namespace SatteliteManagment
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
             this.tabPageTelemetry = new System.Windows.Forms.TabPage();
+            this.groupBoxTelemetryPlots = new System.Windows.Forms.GroupBox();
+            this.formsPlotTelemetry = new ScottPlot.WinForms.FormsPlot();
+            this.comboBoxTelemetryType = new System.Windows.Forms.ComboBox();
             this.groupBoxTelemetryLog = new System.Windows.Forms.GroupBox();
+            this.labelTelType = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -118,6 +122,7 @@ namespace SatteliteManagment
             this.groupBoxTriggerSettings.SuspendLayout();
             this.groupBoxAskSettings.SuspendLayout();
             this.tabPageTelemetry.SuspendLayout();
+            this.groupBoxTelemetryPlots.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -911,6 +916,7 @@ namespace SatteliteManagment
             // 
             // tabPageTelemetry
             // 
+            this.tabPageTelemetry.Controls.Add(this.groupBoxTelemetryPlots);
             this.tabPageTelemetry.Controls.Add(this.groupBoxTelemetryLog);
             this.tabPageTelemetry.Location = new System.Drawing.Point(4, 29);
             this.tabPageTelemetry.Name = "tabPageTelemetry";
@@ -918,6 +924,34 @@ namespace SatteliteManagment
             this.tabPageTelemetry.TabIndex = 2;
             this.tabPageTelemetry.Text = "Telemetry";
             this.tabPageTelemetry.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTelemetryPlots
+            // 
+            this.groupBoxTelemetryPlots.Controls.Add(this.labelTelType);
+            this.groupBoxTelemetryPlots.Controls.Add(this.formsPlotTelemetry);
+            this.groupBoxTelemetryPlots.Controls.Add(this.comboBoxTelemetryType);
+            this.groupBoxTelemetryPlots.Location = new System.Drawing.Point(342, 18);
+            this.groupBoxTelemetryPlots.Name = "groupBoxTelemetryPlots";
+            this.groupBoxTelemetryPlots.Size = new System.Drawing.Size(840, 466);
+            this.groupBoxTelemetryPlots.TabIndex = 1;
+            this.groupBoxTelemetryPlots.TabStop = false;
+            this.groupBoxTelemetryPlots.Text = "Некрасивое";
+            // 
+            // formsPlotTelemetry
+            // 
+            this.formsPlotTelemetry.Location = new System.Drawing.Point(7, 62);
+            this.formsPlotTelemetry.Name = "formsPlotTelemetry";
+            this.formsPlotTelemetry.Size = new System.Drawing.Size(814, 368);
+            this.formsPlotTelemetry.TabIndex = 1;
+            // 
+            // comboBoxTelemetryType
+            // 
+            this.comboBoxTelemetryType.FormattingEnabled = true;
+            this.comboBoxTelemetryType.Location = new System.Drawing.Point(7, 27);
+            this.comboBoxTelemetryType.Name = "comboBoxTelemetryType";
+            this.comboBoxTelemetryType.Size = new System.Drawing.Size(153, 28);
+            this.comboBoxTelemetryType.TabIndex = 0;
+            this.comboBoxTelemetryType.SelectedIndexChanged += new System.EventHandler(this.comboBoxTelemetryType_SelectedIndexChanged);
             // 
             // groupBoxTelemetryLog
             // 
@@ -927,6 +961,15 @@ namespace SatteliteManagment
             this.groupBoxTelemetryLog.TabIndex = 0;
             this.groupBoxTelemetryLog.TabStop = false;
             this.groupBoxTelemetryLog.Text = "Telemetry Log";
+            // 
+            // labelTelType
+            // 
+            this.labelTelType.AutoSize = true;
+            this.labelTelType.Location = new System.Drawing.Point(183, 27);
+            this.labelTelType.Name = "labelTelType";
+            this.labelTelType.Size = new System.Drawing.Size(62, 20);
+            this.labelTelType.TabIndex = 2;
+            this.labelTelType.Text = "label14";
             // 
             // Form1
             // 
@@ -961,6 +1004,8 @@ namespace SatteliteManagment
             this.groupBoxAskSettings.ResumeLayout(false);
             this.groupBoxAskSettings.PerformLayout();
             this.tabPageTelemetry.ResumeLayout(false);
+            this.groupBoxTelemetryPlots.ResumeLayout(false);
+            this.groupBoxTelemetryPlots.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1038,6 +1083,10 @@ namespace SatteliteManagment
         private NumericUpDown numericUpDownPacketSize;
         private TabPage tabPageTelemetry;
         private GroupBox groupBoxTelemetryLog;
+        private GroupBox groupBoxTelemetryPlots;
+        private ComboBox comboBoxTelemetryType;
+        private ScottPlot.WinForms.FormsPlot formsPlotTelemetry;
+        private Label labelTelType;
     }
 }
 

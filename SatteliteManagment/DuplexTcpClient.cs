@@ -1,4 +1,5 @@
-﻿using SBandSerialReader;
+﻿using SatteliteManagment.Telemetry;
+using SBandSerialReader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace SatteliteManagment
 
         public event Action<FileTransferPacket> ServerAddrChanged;
 
+        public event Action<TlmPacket> TelemetryReceived;
+
 
         public async Task ConnectAsync(string ip, int port)
         {
@@ -49,45 +52,61 @@ namespace SatteliteManagment
                 {
                     byte[] data = await PacketProtocol.ReadPacketAsync(_stream, token);
 
-                    if (data.Length == 10) {
-                        ServerAddrChanged?.Invoke(SatellitePacketParser.Parse(data));
-                        continue;
-                    }
+                    //if (data.Length == 10)
+                    //{
+                    //    ServerAddrChanged?.Invoke(SatellitePacketParser.Parse(data));
+                    //    continue;
+                    //}
 
-                    byte[] packetInfoHeaderBytes = new byte[24];
-                    byte[] fileTransferPackekBytes = new byte[data.Length - 24];
-                    PacketInfo packetInfo;
+                    byte[] packetInfoHeaderBytes = new byte[25];
+
+                    Array.Copy(data, packetInfoHeaderBytes, 25);
+                    PacketType packetType = SatellitePacketParser.GetPacketType(data[25]);
+
+                    //if (packetType != PacketType.AddressChanging && packetType!= PacketType.Telemetry) { 
+                    //    PacketInfo packetInfo;
+                    //    try
+                    //    {
+                    //        packetInfo = PacketInfoParser.Parse(packetInfoHeaderBytes);
+
+                    //        PacketReceived?.Invoke(packetInfo);
+
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Console.WriteLine(ex.Message);
+                    //        continue;
+                    //    }
+                    // }
+
+
                     FileTransferPacket packet;
-                    try
-                    {
-                        packetInfo = PacketInfoParser.Parse(packetInfoHeaderBytes);
-                        packet = SatellitePacketParser.Parse(fileTransferPackekBytes);
-
-                        PacketReceived?.Invoke(packetInfo);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        continue;
-                    }
-
-                    switch (packet.Type)
+                    switch (packetType)
                     {
 
                         case PacketType.FileSendingAck:
+                            packet = SatellitePacketParser.Parse(data, 25);
                             AckReceived?.Invoke(packet);
                             break;
 
                         case PacketType.FileRequestingAck:
+                            packet = SatellitePacketParser.Parse(data, 25);
                             FileReceived?.Invoke(packet);
                             break;
 
                         case PacketType.FileRequestingLast:
+                            packet = SatellitePacketParser.Parse(data, 25);
                             LastFileReceived?.Invoke(packet);
                             break;
 
                         case PacketType.AddressChanging:
+                            packet = SatellitePacketParser.Parse(data, 25);
                             ServerAddrChanged?.Invoke(packet);
+                            break;
+
+                        case PacketType.Telemetry:
+                            TlmPacket telemetryPacket = TlmPacket.Parse(data);
+                            TelemetryReceived?.Invoke(telemetryPacket);
                             break;
                     }
                 }
