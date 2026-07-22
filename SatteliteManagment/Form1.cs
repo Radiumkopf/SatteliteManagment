@@ -55,7 +55,8 @@ namespace SatteliteManagment
 
         private void InizializeGraphs()
         {
-            plotManager = new PlotManager(_client);
+            System.Windows.Forms.TextBox[] logTextBoxes = groupBoxTelemetryLog.Controls.OfType<System.Windows.Forms.TextBox>().ToArray(); 
+            plotManager = new PlotManager(_client, logTextBoxes);
 
             comboBoxTelemetryType.DataSource = plotManager.sensors;
             comboBoxTelemetryType.DisplayMember = "Name";

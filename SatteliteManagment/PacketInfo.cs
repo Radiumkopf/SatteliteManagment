@@ -21,7 +21,8 @@ namespace SatteliteManagment
         public uint ID { get; set; }
         public sbyte rssi { get; set; }
         public sbyte snr { get; set; }
-
+        //28 байт итог без месседж массива (+1 с массивом)
+        //25 входной
 
         public byte[] ToByteArray()
         {

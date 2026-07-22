@@ -102,10 +102,31 @@ namespace SatteliteManagment
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
             this.tabPageTelemetry = new System.Windows.Forms.TabPage();
             this.groupBoxTelemetryPlots = new System.Windows.Forms.GroupBox();
+            this.labelTelType = new System.Windows.Forms.Label();
             this.formsPlotTelemetry = new ScottPlot.WinForms.FormsPlot();
             this.comboBoxTelemetryType = new System.Windows.Forms.ComboBox();
             this.groupBoxTelemetryLog = new System.Windows.Forms.GroupBox();
-            this.labelTelType = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryTemperature1 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryTemperature2 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryVoltage = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryPV = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryAngularRate = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryMagField = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryCharge = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryDischarge = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryReset = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBoxTelemetryStausFlag = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -123,6 +144,7 @@ namespace SatteliteManagment
             this.groupBoxAskSettings.SuspendLayout();
             this.tabPageTelemetry.SuspendLayout();
             this.groupBoxTelemetryPlots.SuspendLayout();
+            this.groupBoxTelemetryLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -937,6 +959,15 @@ namespace SatteliteManagment
             this.groupBoxTelemetryPlots.TabStop = false;
             this.groupBoxTelemetryPlots.Text = "Некрасивое";
             // 
+            // labelTelType
+            // 
+            this.labelTelType.AutoSize = true;
+            this.labelTelType.Location = new System.Drawing.Point(183, 27);
+            this.labelTelType.Name = "labelTelType";
+            this.labelTelType.Size = new System.Drawing.Size(62, 20);
+            this.labelTelType.TabIndex = 2;
+            this.labelTelType.Text = "label14";
+            // 
             // formsPlotTelemetry
             // 
             this.formsPlotTelemetry.Location = new System.Drawing.Point(7, 62);
@@ -955,6 +986,27 @@ namespace SatteliteManagment
             // 
             // groupBoxTelemetryLog
             // 
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryStausFlag);
+            this.groupBoxTelemetryLog.Controls.Add(this.label23);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryReset);
+            this.groupBoxTelemetryLog.Controls.Add(this.label24);
+            this.groupBoxTelemetryLog.Controls.Add(this.label22);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryDischarge);
+            this.groupBoxTelemetryLog.Controls.Add(this.label21);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryCharge);
+            this.groupBoxTelemetryLog.Controls.Add(this.label20);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryMagField);
+            this.groupBoxTelemetryLog.Controls.Add(this.label19);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryAngularRate);
+            this.groupBoxTelemetryLog.Controls.Add(this.label18);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryPV);
+            this.groupBoxTelemetryLog.Controls.Add(this.label17);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryVoltage);
+            this.groupBoxTelemetryLog.Controls.Add(this.label16);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryTemperature2);
+            this.groupBoxTelemetryLog.Controls.Add(this.label15);
+            this.groupBoxTelemetryLog.Controls.Add(this.textBoxTelemetryTemperature1);
+            this.groupBoxTelemetryLog.Controls.Add(this.label14);
             this.groupBoxTelemetryLog.Location = new System.Drawing.Point(16, 18);
             this.groupBoxTelemetryLog.Name = "groupBoxTelemetryLog";
             this.groupBoxTelemetryLog.Size = new System.Drawing.Size(319, 466);
@@ -962,14 +1014,174 @@ namespace SatteliteManagment
             this.groupBoxTelemetryLog.TabStop = false;
             this.groupBoxTelemetryLog.Text = "Telemetry Log";
             // 
-            // labelTelType
+            // label14
             // 
-            this.labelTelType.AutoSize = true;
-            this.labelTelType.Location = new System.Drawing.Point(183, 27);
-            this.labelTelType.Name = "labelTelType";
-            this.labelTelType.Size = new System.Drawing.Size(62, 20);
-            this.labelTelType.TabIndex = 2;
-            this.labelTelType.Text = "label14";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 41);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(133, 20);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Температура 1";
+            // 
+            // textBoxTelemetryTemperature1
+            // 
+            this.textBoxTelemetryTemperature1.Location = new System.Drawing.Point(188, 38);
+            this.textBoxTelemetryTemperature1.Name = "textBoxTelemetryTemperature1";
+            this.textBoxTelemetryTemperature1.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryTemperature1.TabIndex = 1;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 74);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(133, 20);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Температура 2";
+            // 
+            // textBoxTelemetryTemperature2
+            // 
+            this.textBoxTelemetryTemperature2.Location = new System.Drawing.Point(188, 71);
+            this.textBoxTelemetryTemperature2.Name = "textBoxTelemetryTemperature2";
+            this.textBoxTelemetryTemperature2.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryTemperature2.TabIndex = 1;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(7, 107);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(114, 20);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Напряжение";
+            // 
+            // textBoxTelemetryVoltage
+            // 
+            this.textBoxTelemetryVoltage.Location = new System.Drawing.Point(188, 104);
+            this.textBoxTelemetryVoltage.Name = "textBoxTelemetryVoltage";
+            this.textBoxTelemetryVoltage.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryVoltage.TabIndex = 1;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(7, 140);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 20);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "label14";
+            // 
+            // textBoxTelemetryPV
+            // 
+            this.textBoxTelemetryPV.Location = new System.Drawing.Point(188, 137);
+            this.textBoxTelemetryPV.Name = "textBoxTelemetryPV";
+            this.textBoxTelemetryPV.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryPV.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(7, 173);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(77, 20);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Ангуляр";
+            // 
+            // textBoxTelemetryAngularRate
+            // 
+            this.textBoxTelemetryAngularRate.Location = new System.Drawing.Point(188, 170);
+            this.textBoxTelemetryAngularRate.Name = "textBoxTelemetryAngularRate";
+            this.textBoxTelemetryAngularRate.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryAngularRate.TabIndex = 1;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(7, 206);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(146, 20);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Магнитное поле";
+            // 
+            // textBoxTelemetryMagField
+            // 
+            this.textBoxTelemetryMagField.Location = new System.Drawing.Point(188, 203);
+            this.textBoxTelemetryMagField.Name = "textBoxTelemetryMagField";
+            this.textBoxTelemetryMagField.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryMagField.TabIndex = 1;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(7, 239);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(171, 20);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Мощность зарядки";
+            // 
+            // textBoxTelemetryCharge
+            // 
+            this.textBoxTelemetryCharge.Location = new System.Drawing.Point(188, 236);
+            this.textBoxTelemetryCharge.Name = "textBoxTelemetryCharge";
+            this.textBoxTelemetryCharge.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryCharge.TabIndex = 1;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(7, 272);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(181, 20);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Мощность разрядки";
+            // 
+            // textBoxTelemetryDischarge
+            // 
+            this.textBoxTelemetryDischarge.Location = new System.Drawing.Point(188, 269);
+            this.textBoxTelemetryDischarge.Name = "textBoxTelemetryDischarge";
+            this.textBoxTelemetryDischarge.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryDischarge.TabIndex = 1;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(7, 305);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(114, 20);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Количество ";
+            // 
+            // textBoxTelemetryReset
+            // 
+            this.textBoxTelemetryReset.Location = new System.Drawing.Point(188, 302);
+            this.textBoxTelemetryReset.Name = "textBoxTelemetryReset";
+            this.textBoxTelemetryReset.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryReset.TabIndex = 1;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(7, 358);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(118, 20);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Статус-флаг";
+            // 
+            // textBoxTelemetryStausFlag
+            // 
+            this.textBoxTelemetryStausFlag.Location = new System.Drawing.Point(188, 355);
+            this.textBoxTelemetryStausFlag.Name = "textBoxTelemetryStausFlag";
+            this.textBoxTelemetryStausFlag.Size = new System.Drawing.Size(113, 27);
+            this.textBoxTelemetryStausFlag.TabIndex = 1;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 325);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(124, 20);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "перезапусков";
             // 
             // Form1
             // 
@@ -1006,6 +1218,8 @@ namespace SatteliteManagment
             this.tabPageTelemetry.ResumeLayout(false);
             this.groupBoxTelemetryPlots.ResumeLayout(false);
             this.groupBoxTelemetryPlots.PerformLayout();
+            this.groupBoxTelemetryLog.ResumeLayout(false);
+            this.groupBoxTelemetryLog.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1087,6 +1301,27 @@ namespace SatteliteManagment
         private ComboBox comboBoxTelemetryType;
         private ScottPlot.WinForms.FormsPlot formsPlotTelemetry;
         private Label labelTelType;
+        private TextBox textBoxTelemetryStausFlag;
+        private Label label23;
+        private TextBox textBoxTelemetryReset;
+        private Label label22;
+        private TextBox textBoxTelemetryDischarge;
+        private Label label21;
+        private TextBox textBoxTelemetryCharge;
+        private Label label20;
+        private TextBox textBoxTelemetryMagField;
+        private Label label19;
+        private TextBox textBoxTelemetryAngularRate;
+        private Label label18;
+        private TextBox textBoxTelemetryPV;
+        private Label label17;
+        private TextBox textBoxTelemetryVoltage;
+        private Label label16;
+        private TextBox textBoxTelemetryTemperature2;
+        private Label label15;
+        private TextBox textBoxTelemetryTemperature1;
+        private Label label14;
+        private Label label24;
     }
 }
 

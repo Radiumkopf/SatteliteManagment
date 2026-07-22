@@ -27,6 +27,10 @@ namespace SatteliteManagment.Telemetry
 
         public static TlmPacket Parse(byte[] data)
         {
+            return Parse(data, 0);
+        }
+        public static TlmPacket Parse(byte[] data, int offset)
+        {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
@@ -35,7 +39,7 @@ namespace SatteliteManagment.Telemetry
 
             var packet = new TlmPacket();
 
-            int offset = 0;
+            //int offset = 0;
 
             packet.Temperature1 = Decode8(data[offset++], -40.0f, 85.0f);
             packet.Temperature2 = Decode8(data[offset++], -40.0f, 85.0f);

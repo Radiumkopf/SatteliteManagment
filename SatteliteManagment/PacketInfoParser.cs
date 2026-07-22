@@ -15,7 +15,7 @@ namespace SatteliteManagment
                 throw new ArgumentNullException(nameof(bytes));
 
             const int HeaderSize = 1 + 8 + 8 + 1 + 1 + 1 + 4 + 1 + 1;
-
+            
             //if (bytes.Length < HeaderSize)
             //    throw new InvalidDataException("Пакет слишком короткий.");
 
@@ -46,7 +46,7 @@ namespace SatteliteManagment
                 packet.retrCount = bytes[index++];
                 packet.payload_lth = bytes[index++];
                 // packet.message = bytes[index++];
-                index++;
+                //index++;
 
                 packet.ID = BitConverter.ToUInt32(bytes, index);
                 index += 4;
@@ -54,6 +54,7 @@ namespace SatteliteManagment
                 packet.rssi = unchecked((sbyte)bytes[index++]);
                 packet.snr = unchecked((sbyte)bytes[index++]);
 
+                //not used
                 //if (bytes.Length != HeaderSize + packet.payload_lth)
                 //    throw new InvalidDataException("Неверная длина полезной нагрузки.");
 
