@@ -18,9 +18,9 @@ namespace SatteliteManagment
 
         private FileReceiver fileReceiver { get; set; }
 
-        public short CurrentPacketIndex { get; private set; }
+        public short CurrentPacketIndex { get;  set; }
 
-        public short CurrentReceiveIndex { get; private set; }
+        public short CurrentReceiveIndex { get;  set; }
 
         public byte DestinationId { get; set; }
 
@@ -93,6 +93,26 @@ namespace SatteliteManagment
             
         }
 
+        public void SetAndSplitFile(byte[] dataArray, byte size)
+        {
+            this.PacketSize = size;
+            FileData = new List<byte[]>();
+
+            int countDataPacket = (int)Math.Ceiling((double)dataArray.Length / PacketSize);
+
+            for (int index = 0; index < countDataPacket; index++)
+            {
+                int offset = index * PacketSize;
+
+                int subArrayLength = Math.Min(PacketSize, dataArray.Length - offset);
+
+                byte[] subArray = new byte[subArrayLength];
+
+                Array.Copy(dataArray, offset, subArray, 0, subArrayLength);
+
+                FileData.Add(subArray);
+            }
+        }
         public async Task SendNextPacketAsync()
         {
             if (CurrentPacketIndex >= FileData.Count)
@@ -162,6 +182,14 @@ namespace SatteliteManagment
                 fileReceiver.Start(path);
             }
             else throw new Exception("Already writing in this path");
+        }
+
+        public void ClearFileData()
+        {
+            FileData.Clear();
+            CurrentPacketIndex = 0;
+            DestinationId = 0;
+            PacketSize = 0;
         }
 
         public void RequestCurrentServerTxAddress()

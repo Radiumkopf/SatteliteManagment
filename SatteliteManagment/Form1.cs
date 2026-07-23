@@ -19,13 +19,9 @@ namespace SatteliteManagment
     {
 
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
-        private byte packetSizeValue = 10;
-        private short currentPackageIndex = 0;
-        private short currentReceiveIndex = 0;
+
 
         private byte[] currentServerTxAddress;
-        private List<byte[]> fileSendingData;
-        private byte destId;
         private GridViewLogManager logManager;
         private CommandSender commandSender;        
         private TriggerGridViewManager triggerGridManager;
@@ -180,10 +176,6 @@ namespace SatteliteManagment
                 changeInterfaceState(false);
         }
 
-        private void SetDataGridLogHeaders()
-        {
-
-        }
 
         private void buttonSendCommand_Click(object sender, EventArgs e)
         {/*
@@ -262,35 +254,18 @@ namespace SatteliteManagment
 
             byte[] dataArray = File.ReadAllBytes(path);
 
-            fileSendingData = new List<byte[]>();
-
-            packetSizeValue = (byte)numericUpDownPacketSize.Value;
-
-            int countDataPacket = (int)Math.Ceiling((double)dataArray.Length / packetSizeValue);
-
-            for (int index = 0; index < countDataPacket; index++)
-            {
-                int offset = index * packetSizeValue;
-
-                int subArrayLength = Math.Min(packetSizeValue, dataArray.Length - offset);
-
-                byte[] subArray = new byte[subArrayLength];
-
-                Array.Copy(dataArray, offset, subArray, 0, subArrayLength);
-
-                fileSendingData.Add(subArray);
-            }
+            fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
             if (buttonOpenCloseServer.Text == "Включить сервер" || labelComPortConnectionInfo.Text == "Выключено")
                 connectToServer_Click(sender,e);
 
-            
 
             sendOnePackageButton.Enabled = true;
             sendAllPackageButton.Enabled = true;
-            currentPackageIndex = 0;
-            fileSender.FileData = fileSendingData;
-            fileSender.PacketSize = (byte) numericUpDownPacketSize.Value;
+
+            numericUpDownPacketSize.Enabled = false;
+            button1.Enabled = false;
+            buttonDeleteCurrentFile.Enabled = true;
 
         }
 
@@ -447,10 +422,15 @@ namespace SatteliteManagment
         {
             formsPlotTelemetry.Plot.Clear();
 
-            formsPlotTelemetry.Plot.Add.Signal(graph.Values);
+            foreach (var series in graph.Series)
+            {
+                formsPlotTelemetry.Plot.Add.Signal(series.Values);
+            }
+
+            formsPlotTelemetry.Plot.Axes.AutoScale(); //перевод фокуса на новый
 
             formsPlotTelemetry.Refresh();
-
+            formsPlotTelemetry.Plot.ShowLegend();
             labelTelType.Text = graph.Name;
         }
 
@@ -468,6 +448,16 @@ namespace SatteliteManagment
                     buttonSendFileRequest.Enabled = true;
                 }
             }
+        }
+
+        private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
+        {
+            fileSender.ClearFileData();
+
+            
+            numericUpDownPacketSize.Enabled = true;
+            button1.Enabled = true;
+
         }
 
 
