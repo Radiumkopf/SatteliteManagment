@@ -102,6 +102,18 @@ namespace SatteliteManagment
             this.checkBoxAskNextPhotoPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
             this.tabPageTelemetry = new System.Windows.Forms.TabPage();
+            this.tabPageDeviceStatus = new System.Windows.Forms.TabPage();
+            this.splitContainerDeviceStatus = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanelDeviceTree = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonLoadDeviceXml = new System.Windows.Forms.Button();
+            this.treeViewDevices = new System.Windows.Forms.TreeView();
+            this.groupBoxDeviceDetails = new System.Windows.Forms.GroupBox();
+            this.textBoxDeviceMetadata = new System.Windows.Forms.TextBox();
+            this.labelDeviceMetadataTitle = new System.Windows.Forms.Label();
+            this.labelDeviceStatus = new System.Windows.Forms.Label();
+            this.labelDeviceId = new System.Windows.Forms.Label();
+            this.labelDeviceType = new System.Windows.Forms.Label();
+            this.labelDeviceName = new System.Windows.Forms.Label();
             this.groupBoxTelemetryPlots = new System.Windows.Forms.GroupBox();
             this.labelTelType = new System.Windows.Forms.Label();
             this.formsPlotTelemetry = new ScottPlot.WinForms.FormsPlot();
@@ -154,6 +166,13 @@ namespace SatteliteManagment
             this.groupBoxTriggerSettings.SuspendLayout();
             this.groupBoxAskSettings.SuspendLayout();
             this.tabPageTelemetry.SuspendLayout();
+            this.tabPageDeviceStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDeviceStatus)).BeginInit();
+            this.splitContainerDeviceStatus.Panel1.SuspendLayout();
+            this.splitContainerDeviceStatus.Panel2.SuspendLayout();
+            this.splitContainerDeviceStatus.SuspendLayout();
+            this.tableLayoutPanelDeviceTree.SuspendLayout();
+            this.groupBoxDeviceDetails.SuspendLayout();
             this.groupBoxTelemetryPlots.SuspendLayout();
             this.groupBoxTelemetryLog.SuspendLayout();
             this.SuspendLayout();
@@ -532,6 +551,7 @@ namespace SatteliteManagment
             this.tabControlMain.Controls.Add(this.tabPageConn);
             this.tabControlMain.Controls.Add(this.tabPageSatellite);
             this.tabControlMain.Controls.Add(this.tabPageTelemetry);
+            this.tabControlMain.Controls.Add(this.tabPageDeviceStatus);
             this.tabControlMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControlMain.Location = new System.Drawing.Point(12, 2);
             this.tabControlMain.Name = "tabControlMain";
@@ -973,6 +993,140 @@ namespace SatteliteManagment
             this.tabPageTelemetry.Text = "Telemetry";
             this.tabPageTelemetry.UseVisualStyleBackColor = true;
             // 
+            // tabPageDeviceStatus
+            // 
+            this.tabPageDeviceStatus.Controls.Add(this.splitContainerDeviceStatus);
+            this.tabPageDeviceStatus.Location = new System.Drawing.Point(4, 29);
+            this.tabPageDeviceStatus.Name = "tabPageDeviceStatus";
+            this.tabPageDeviceStatus.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDeviceStatus.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageDeviceStatus.TabIndex = 3;
+            this.tabPageDeviceStatus.Text = "Device Status";
+            this.tabPageDeviceStatus.UseVisualStyleBackColor = true;
+            // 
+            // splitContainerDeviceStatus
+            // 
+            this.splitContainerDeviceStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerDeviceStatus.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerDeviceStatus.Name = "splitContainerDeviceStatus";
+            // 
+            // splitContainerDeviceStatus.Panel1
+            // 
+            this.splitContainerDeviceStatus.Panel1.Controls.Add(this.tableLayoutPanelDeviceTree);
+            // 
+            // splitContainerDeviceStatus.Panel2
+            // 
+            this.splitContainerDeviceStatus.Panel2.Controls.Add(this.groupBoxDeviceDetails);
+            this.splitContainerDeviceStatus.Size = new System.Drawing.Size(1199, 498);
+            this.splitContainerDeviceStatus.SplitterDistance = 420;
+            this.splitContainerDeviceStatus.TabIndex = 0;
+            // 
+            // tableLayoutPanelDeviceTree
+            // 
+            this.tableLayoutPanelDeviceTree.ColumnCount = 1;
+            this.tableLayoutPanelDeviceTree.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelDeviceTree.Controls.Add(this.buttonLoadDeviceXml, 0, 0);
+            this.tableLayoutPanelDeviceTree.Controls.Add(this.treeViewDevices, 0, 1);
+            this.tableLayoutPanelDeviceTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelDeviceTree.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelDeviceTree.Name = "tableLayoutPanelDeviceTree";
+            this.tableLayoutPanelDeviceTree.RowCount = 2;
+            this.tableLayoutPanelDeviceTree.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanelDeviceTree.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelDeviceTree.Size = new System.Drawing.Size(420, 498);
+            this.tableLayoutPanelDeviceTree.TabIndex = 0;
+            // 
+            // buttonLoadDeviceXml
+            // 
+            this.buttonLoadDeviceXml.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonLoadDeviceXml.Location = new System.Drawing.Point(3, 3);
+            this.buttonLoadDeviceXml.Name = "buttonLoadDeviceXml";
+            this.buttonLoadDeviceXml.Size = new System.Drawing.Size(414, 34);
+            this.buttonLoadDeviceXml.TabIndex = 0;
+            this.buttonLoadDeviceXml.Text = "Load XML";
+            this.buttonLoadDeviceXml.UseVisualStyleBackColor = true;
+            this.buttonLoadDeviceXml.Click += new System.EventHandler(this.buttonLoadDeviceXml_Click);
+            // 
+            // treeViewDevices
+            // 
+            this.treeViewDevices.CheckBoxes = true;
+            this.treeViewDevices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewDevices.Location = new System.Drawing.Point(3, 43);
+            this.treeViewDevices.Name = "treeViewDevices";
+            this.treeViewDevices.Size = new System.Drawing.Size(414, 452);
+            this.treeViewDevices.TabIndex = 1;
+            // 
+            // groupBoxDeviceDetails
+            // 
+            this.groupBoxDeviceDetails.Controls.Add(this.textBoxDeviceMetadata);
+            this.groupBoxDeviceDetails.Controls.Add(this.labelDeviceMetadataTitle);
+            this.groupBoxDeviceDetails.Controls.Add(this.labelDeviceStatus);
+            this.groupBoxDeviceDetails.Controls.Add(this.labelDeviceId);
+            this.groupBoxDeviceDetails.Controls.Add(this.labelDeviceType);
+            this.groupBoxDeviceDetails.Controls.Add(this.labelDeviceName);
+            this.groupBoxDeviceDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxDeviceDetails.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxDeviceDetails.Name = "groupBoxDeviceDetails";
+            this.groupBoxDeviceDetails.Size = new System.Drawing.Size(775, 498);
+            this.groupBoxDeviceDetails.TabIndex = 0;
+            this.groupBoxDeviceDetails.TabStop = false;
+            this.groupBoxDeviceDetails.Text = "Selected device";
+            // 
+            // textBoxDeviceMetadata
+            // 
+            this.textBoxDeviceMetadata.Location = new System.Drawing.Point(16, 179);
+            this.textBoxDeviceMetadata.Multiline = true;
+            this.textBoxDeviceMetadata.Name = "textBoxDeviceMetadata";
+            this.textBoxDeviceMetadata.ReadOnly = true;
+            this.textBoxDeviceMetadata.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxDeviceMetadata.Size = new System.Drawing.Size(743, 301);
+            this.textBoxDeviceMetadata.TabIndex = 5;
+            // 
+            // labelDeviceMetadataTitle
+            // 
+            this.labelDeviceMetadataTitle.AutoSize = true;
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 154);
+            this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
+            this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(81, 20);
+            this.labelDeviceMetadataTitle.TabIndex = 4;
+            this.labelDeviceMetadataTitle.Text = "Metadata";
+            // 
+            // labelDeviceStatus
+            // 
+            this.labelDeviceStatus.AutoSize = true;
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 120);
+            this.labelDeviceStatus.Name = "labelDeviceStatus";
+            this.labelDeviceStatus.Size = new System.Drawing.Size(71, 20);
+            this.labelDeviceStatus.TabIndex = 3;
+            this.labelDeviceStatus.Text = "Status: -";
+            // 
+            // labelDeviceId
+            // 
+            this.labelDeviceId.AutoSize = true;
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 90);
+            this.labelDeviceId.Name = "labelDeviceId";
+            this.labelDeviceId.Size = new System.Drawing.Size(44, 20);
+            this.labelDeviceId.TabIndex = 2;
+            this.labelDeviceId.Text = "Id: -";
+            // 
+            // labelDeviceType
+            // 
+            this.labelDeviceType.AutoSize = true;
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 60);
+            this.labelDeviceType.Name = "labelDeviceType";
+            this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
+            this.labelDeviceType.TabIndex = 1;
+            this.labelDeviceType.Text = "Type: -";
+            // 
+            // labelDeviceName
+            // 
+            this.labelDeviceName.AutoSize = true;
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 30);
+            this.labelDeviceName.Name = "labelDeviceName";
+            this.labelDeviceName.Size = new System.Drawing.Size(67, 20);
+            this.labelDeviceName.TabIndex = 0;
+            this.labelDeviceName.Text = "Name: -";
+            // 
             // groupBoxTelemetryPlots
             // 
             this.groupBoxTelemetryPlots.Controls.Add(this.labelTelType);
@@ -1342,6 +1496,14 @@ namespace SatteliteManagment
             this.groupBoxAskSettings.ResumeLayout(false);
             this.groupBoxAskSettings.PerformLayout();
             this.tabPageTelemetry.ResumeLayout(false);
+            this.tabPageDeviceStatus.ResumeLayout(false);
+            this.splitContainerDeviceStatus.Panel1.ResumeLayout(false);
+            this.splitContainerDeviceStatus.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDeviceStatus)).EndInit();
+            this.splitContainerDeviceStatus.ResumeLayout(false);
+            this.tableLayoutPanelDeviceTree.ResumeLayout(false);
+            this.groupBoxDeviceDetails.ResumeLayout(false);
+            this.groupBoxDeviceDetails.PerformLayout();
             this.groupBoxTelemetryPlots.ResumeLayout(false);
             this.groupBoxTelemetryPlots.PerformLayout();
             this.groupBoxTelemetryLog.ResumeLayout(false);
@@ -1422,6 +1584,18 @@ namespace SatteliteManagment
         private NumericUpDown numericUpDownId;
         private NumericUpDown numericUpDownPacketSize;
         private TabPage tabPageTelemetry;
+        private TabPage tabPageDeviceStatus;
+        private SplitContainer splitContainerDeviceStatus;
+        private TableLayoutPanel tableLayoutPanelDeviceTree;
+        private Button buttonLoadDeviceXml;
+        private TreeView treeViewDevices;
+        private GroupBox groupBoxDeviceDetails;
+        private TextBox textBoxDeviceMetadata;
+        private Label labelDeviceMetadataTitle;
+        private Label labelDeviceStatus;
+        private Label labelDeviceId;
+        private Label labelDeviceType;
+        private Label labelDeviceName;
         private GroupBox groupBoxTelemetryLog;
         private GroupBox groupBoxTelemetryPlots;
         private ComboBox comboBoxTelemetryType;
