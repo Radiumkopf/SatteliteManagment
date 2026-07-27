@@ -151,15 +151,15 @@ namespace SatteliteManagment
         public async Task SendFileRequestAsync()
         {
             byte[] packet = BuildProtocolPackage(PacketType.FileRequesting, CurrentReceiveIndex, Array.Empty<byte>());
-
-            await SendPackageAsync(packet);
-
-            CurrentReceiveIndex++;
-
+            
             if (!fileReceiver.IsReceiving)
             {
                 throw new Exception("Firtsly set the path");
             }
+
+            await SendPackageAsync(packet);
+
+            CurrentReceiveIndex++;
         }
 
         private async Task SendPackageAsync(byte[] packet)
@@ -190,7 +190,7 @@ namespace SatteliteManagment
                     type,
                     DestinationId,
                     number,
-                    PacketSize,
+                    (byte)value.Length, // FIXME fix for last one
                     value);
 
             return packet.ToByteArray();

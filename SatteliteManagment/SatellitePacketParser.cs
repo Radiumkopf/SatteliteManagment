@@ -55,7 +55,7 @@ namespace SatteliteManagment
             {
                 //index = 0;
 
-                if (bytes.Length < 6)
+                if (bytes.Length - index < 6 || index < 0)
                     throw new InvalidDataException("Пакет слишком короткий.");
 
                 //if (bytes[index++] != (byte)'#')

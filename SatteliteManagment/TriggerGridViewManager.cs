@@ -61,14 +61,14 @@ namespace SatteliteManagment
 
             DataGridViewRow row = dataGridView.Rows[e.RowIndex];
 
-            if(row.Cells["status"].Value == "Активен")
+            if(row.Cells["status"].Value.ToString() == "Активен")
             {
                 SetStatusAndColor(TriggerStatus.DisableByUser, row);
 
                 byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
                 StatusChange?.Invoke(address, TriggerStatus.DisableByUser);
             }
-            else if (row.Cells["status"].Value == "Отключен")
+            else if (row.Cells["status"].Value.ToString() == "Отключен")
             {
                 SetStatusAndColor(TriggerStatus.Active, row);
 

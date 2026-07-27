@@ -34,7 +34,7 @@ namespace SatteliteManagment.Telemetry
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            if (data.Length < SIZE)
+            if (data.Length < SIZE + offset || offset < 0)
                 throw new ArgumentException($"Data length must be at least {SIZE} bytes");
 
             var packet = new TlmPacket();
