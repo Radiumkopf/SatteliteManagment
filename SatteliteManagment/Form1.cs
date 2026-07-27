@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -52,11 +53,21 @@ namespace SatteliteManagment
 
         private void InizializeGraphs()
         {
-            System.Windows.Forms.TextBox[] logTextBoxes = groupBoxTelemetryLog.Controls.OfType<System.Windows.Forms.TextBox>().ToArray(); 
+            System.Windows.Forms.TextBox[] logTextBoxes = groupBoxTelemetryLog.Controls
+                .OfType<System.Windows.Forms.TextBox>()
+                .OrderBy(tb =>
+                {
+                    Match match = Regex.Match(tb.Name, @"\d+$");
+                    return match.Success ? int.Parse(match.Value) : int.MaxValue;
+                })
+                .ToArray();
+
             plotManager = new PlotManager(_client, logTextBoxes);
 
             comboBoxTelemetryType.DataSource = plotManager.sensors;
             comboBoxTelemetryType.DisplayMember = "Name";
+
+            plotManager.GraphRefresh += RefreshGraph;
         }
 
         //private void OnAckReceived(FileTransferPacket packet)
@@ -419,6 +430,12 @@ namespace SatteliteManagment
             }
         }
 
+        private void RefreshGraph()
+        {
+            formsPlotTelemetry.Plot.Axes.AutoScale(); 
+            formsPlotTelemetry.Refresh();
+        }
+
         private void ShowGraph(SensorGraph graph)
         {
             formsPlotTelemetry.Plot.Clear();
@@ -453,11 +470,23 @@ namespace SatteliteManagment
 
         private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
         {
-            fileSender.ClearFileData();
+            DialogResult result = MessageBox.Show(
+                "Удалить текущий файл?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            
-            numericUpDownPacketSize.Enabled = true;
-            button1.Enabled = true;
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                fileSender.ClearFileData();
+
+                numericUpDownPacketSize.Enabled = true;
+                button1.Enabled = true;
+            }
 
         }
         private void InitializeDeviceStatusManager()
@@ -487,6 +516,10 @@ namespace SatteliteManagment
             }
         }
 
-
+        private void buttonShowRawPackets_Click(object sender, EventArgs e)
+        {
+            FormSelectPacket dialogForm = new FormSelectPacket(fileSender);
+            dialogForm.ShowDialog();
+        }
     }
 }

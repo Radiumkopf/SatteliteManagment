@@ -12,6 +12,8 @@ namespace SatteliteManagment.Telemetry
     {
         DuplexTcpClient client;
         TextBox[] logTexBoxes;
+        public event Action GraphRefresh;
+
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
             new SensorGraph("Temperature 1")
@@ -98,6 +100,11 @@ namespace SatteliteManagment.Telemetry
             sensors[8].Series[0].Values.Add(packet.ResetCounter);
             sensors[9].Series[0].Values.Add(packet.StatusFlags);
 
+            foreach(var texbox in logTexBoxes)
+            {
+                texbox.Clear(); 
+            }
+
             logTexBoxes[index++].Text = packet.Temperature1.ToString(); 
             logTexBoxes[index++].Text = packet.Temperature2.ToString();
             logTexBoxes[index++].Text = packet.BatteryV.ToString();
@@ -113,6 +120,7 @@ namespace SatteliteManagment.Telemetry
             logTexBoxes[index++].Text = packet.ResetCounter.ToString();
             logTexBoxes[index++].Text = packet.StatusFlags.ToString();
 
+            GraphRefresh?.Invoke();
         }
 
 
