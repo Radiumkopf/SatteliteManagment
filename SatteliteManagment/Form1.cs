@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SatteliteManagment
 {
@@ -28,6 +27,7 @@ namespace SatteliteManagment
         private TriggerManager triggerManager;
         private FileSender fileSender;
         private PlotManager plotManager;
+        private DeviceStatusManager deviceStatusManager;
 
         public Form1()
         {
@@ -46,6 +46,7 @@ namespace SatteliteManagment
             fileSender.LastFileReceived += OnFullFileReceived;
 
             InizializeGraphs();
+            InitializeDeviceStatusManager();
         
         }
 
@@ -458,6 +459,32 @@ namespace SatteliteManagment
             numericUpDownPacketSize.Enabled = true;
             button1.Enabled = true;
 
+        }
+        private void InitializeDeviceStatusManager()
+        {
+            deviceStatusManager = new DeviceStatusManager(treeViewDevices, labelDeviceName, labelDeviceType, labelDeviceId, labelDeviceStatus, textBoxDeviceMetadata);
+        }
+
+        private void buttonLoadDeviceXml_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog xmlDialog = new OpenFileDialog())
+            {
+                xmlDialog.Filter = "XML files (*.xml)|*.xml";
+                xmlDialog.Title = "Выберите XML конфигурации устройств";
+                if (xmlDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                try
+                {
+                    deviceStatusManager.LoadFromFile(xmlDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Не удалось загрузить XML: " + ex.Message);
+                }
+            }
         }
 
 
