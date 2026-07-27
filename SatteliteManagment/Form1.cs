@@ -1,4 +1,5 @@
 ﻿using SatteliteManagment.Telemetry;
+using ScottPlot.MultiplotLayouts;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace SatteliteManagment
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
 
 
-        private byte[] currentServerTxAddress;
+        private byte[] currentServerTxAddress = new byte[] {};
         private GridViewLogManager logManager;
         private CommandSender commandSender;        
         private TriggerGridViewManager triggerGridManager;
@@ -40,8 +42,11 @@ namespace SatteliteManagment
 
             logManager = new GridViewLogManager(this.logdataGridView);
             commandSender = new CommandSender(_client);
-            triggerManager = new TriggerManager();
-            triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState, triggerManager);
+
+            triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState);
+
+            triggerManager = new TriggerManager(triggerGridManager);
+
             fileSender = new FileSender(_client, logManager);
 
             fileSender.LastFileReceived += OnFullFileReceived;
@@ -53,14 +58,20 @@ namespace SatteliteManagment
 
         private void InizializeGraphs()
         {
-            System.Windows.Forms.TextBox[] logTextBoxes = groupBoxTelemetryLog.Controls
-                .OfType<System.Windows.Forms.TextBox>()
-                .OrderBy(tb =>
-                {
-                    Match match = Regex.Match(tb.Name, @"\d+$");
-                    return match.Success ? int.Parse(match.Value) : int.MaxValue;
-                })
-                .ToArray();
+            //System.Windows.Forms.TextBox[] logTextBoxes = groupBoxTelemetryLog.Controls
+            //    .OfType<System.Windows.Forms.TextBox>()
+            //    .OrderBy(tb =>
+            //    {
+            //        Match match = Regex.Match(tb.Name, @"\d+$");
+            //        return match.Success ? int.Parse(match.Value) : int.MaxValue;
+            //    })
+            //    .ToArray();
+
+            System.Windows.Forms.TextBox[] logTextBoxes = new System.Windows.Forms.TextBox[]
+            {
+                textBoxTelemetry0, textBoxTelemetry1, textBoxTelemetry2, textBoxTelemetry3, textBoxTelemetry4,
+                textBoxTelemetry5, textBoxTelemetry6, textBoxTelemetry7, textBoxTelemetry8, textBoxTelemetry9
+            };
 
             plotManager = new PlotManager(_client, logTextBoxes);
 
@@ -96,7 +107,7 @@ namespace SatteliteManagment
             {
                 byte[] satelliteAddress = BitConverter.GetBytes(packet.SourceAddr);
 
-                if(!Equals(satelliteAddress, currentServerTxAddress))
+                if(!(satelliteAddress).SequenceEqual(currentServerTxAddress))
                 {
                     fileSender.SetTxRegister(satelliteAddress);
                     LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
@@ -278,6 +289,7 @@ namespace SatteliteManagment
             numericUpDownPacketSize.Enabled = false;
             button1.Enabled = false;
             buttonDeleteCurrentFile.Enabled = true;
+            buttonShowRawPackets.Enabled = true;
 
         }
 
@@ -486,6 +498,9 @@ namespace SatteliteManagment
 
                 numericUpDownPacketSize.Enabled = true;
                 button1.Enabled = true;
+                sendOnePackageButton.Enabled = false;
+                sendAllPackageButton.Enabled = false;
+                buttonShowRawPackets.Enabled = false;
             }
 
         }

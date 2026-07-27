@@ -14,7 +14,8 @@ namespace SatteliteManagment
         private readonly DuplexTcpClient client;
         private readonly GridViewLogManager logManager;
 
-        public List<byte[]> FileData { get; set; } 
+        //public List<byte[]> FileData { get; set; }
+        public Dictionary<short, RawPacket> FileData;
 
         private FileReceiver fileReceiver { get; set; }
 
@@ -50,15 +51,15 @@ namespace SatteliteManagment
         private void OnAckReceived(FileTransferPacket packet)
         {
 
-            byte id = packet.id;
-            short number = packet.number;
+            if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
+            {
+                filePacket.IsAckReceived = true;
+            }
 
             logManager.MarkPacketAsReceived(packet.id, packet.number);
 
             if (IsSendNextIfAck)
-            {
-                 SendNextPacketAsync();
-            }
+                SendNextPacketAsync();
 
         }
 
@@ -95,38 +96,48 @@ namespace SatteliteManagment
 
         public void SetAndSplitFile(byte[] dataArray, byte size)
         {
-            this.PacketSize = size;
-            FileData = new List<byte[]>();
+            PacketSize = size;
+            FileData = new Dictionary<short, RawPacket>();
 
-            int countDataPacket = (int)Math.Ceiling((double)dataArray.Length / PacketSize);
+            int count = (int)Math.Ceiling((double)dataArray.Length / PacketSize);
 
-            for (int index = 0; index < countDataPacket; index++)
+            for (short i = 0; i < count; i++)
             {
-                int offset = index * PacketSize;
+                int offset = i * PacketSize;
 
-                int subArrayLength = Math.Min(PacketSize, dataArray.Length - offset);
+                int length = Math.Min(PacketSize, dataArray.Length - offset);
 
-                byte[] subArray = new byte[subArrayLength];
+                byte[] packet = new byte[length];
 
-                Array.Copy(dataArray, offset, subArray, 0, subArrayLength);
+                Array.Copy(dataArray, offset, packet, 0, length);
 
-                FileData.Add(subArray);
+                FileData.Add(i, new RawPacket(i, packet));
             }
         }
         public async Task SendNextPacketAsync()
         {
-            if (CurrentPacketIndex >= FileData.Count)
+            if (!FileData.ContainsKey(CurrentPacketIndex))
                 return;
 
-            byte[] packet =
-                BuildProtocolPackage(
-                    PacketType.FileSending,
-                    FileData[CurrentPacketIndex]);
+            await SendPacketAsyncByNumber(CurrentPacketIndex);
 
             CurrentPacketIndex++;
 
-            await SendPackageAsync(packet);
+        }
+        public async Task SendPacketAsyncByNumber(short number)
+        {
+            if (!FileData.TryGetValue(number, out RawPacket rawPacket))
+                throw new ArgumentException($"Пакет №{number} не найден.");
 
+            byte[] packet = BuildProtocolPackage(
+                PacketType.FileSending,
+                rawPacket.Number,
+                rawPacket.Data);
+
+            rawPacket.IsSent = true;
+            await SendPackageAsync(packet, rawPacket.Number);
+
+            
         }
 
         public async Task SendAllAsync()
@@ -139,7 +150,7 @@ namespace SatteliteManagment
 
         public async Task SendFileRequestAsync()
         {
-            byte[] packet = BuildProtocolPackage(PacketType.FileRequesting, Array.Empty<byte>());
+            byte[] packet = BuildProtocolPackage(PacketType.FileRequesting, CurrentReceiveIndex, Array.Empty<byte>());
 
             await SendPackageAsync(packet);
 
@@ -161,14 +172,24 @@ namespace SatteliteManagment
                 CurrentPacketIndex,
                 "Пакет отправлен");
         }
+        private async Task SendPackageAsync(byte[] packet, short number)
+        {
+            await client.SendTextAsync(packet);
 
-        private byte[] BuildProtocolPackage(PacketType type, byte[] value)
+            logManager.AddRow(
+                packet,
+                DestinationId,
+                number,
+                "Пакет отправлен");
+        }
+
+        private byte[] BuildProtocolPackage(PacketType type, short number, byte[] value)
         {
             FileTransferPacket packet =
                 new FileTransferPacket(
                     type,
                     DestinationId,
-                    CurrentPacketIndex,
+                    number,
                     PacketSize,
                     value);
 

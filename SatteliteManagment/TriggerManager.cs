@@ -12,10 +12,18 @@ namespace SatteliteManagment
     {
 
         private List<Trigger> triggers;
-
+        private TriggerGridViewManager triggerGridViewManager;
         public TriggerManager() {
             triggers = new List<Trigger>();
         }
+
+        public TriggerManager(TriggerGridViewManager gridViewManager)
+        {
+            triggers = new List<Trigger>();
+            this.triggerGridViewManager = gridViewManager;
+            triggerGridViewManager.StatusChange += ChangeTriggerStatusByAddress;
+        }
+
 
         public Trigger GetTriggerByAddress(byte[] address)
         {

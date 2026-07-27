@@ -65,7 +65,7 @@ namespace SatteliteManagment
                     Array.Copy(data, packetInfoHeaderBytes, OFFSET);
                     PacketType packetType = SatellitePacketParser.GetPacketType(data[OFFSET]);
 
-                    if (packetType != PacketType.AddressChanging )
+                    if (packetType != PacketType.AddressChanging && packetType != PacketType.Telemetry)
                     {
                         PacketInfo packetInfo;
                         try

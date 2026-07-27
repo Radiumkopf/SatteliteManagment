@@ -22,10 +22,21 @@ namespace SatteliteManagment
         public FormSelectPacket(FileSender sender)
         {
             InitializeComponent();
-
-            packetGridViewManager = new RawPacketGridViewManager(dataGridViewPackets);
+            short currentN = sender.CurrentPacketIndex;
+            labelCurrentNumber.Text = currentN.ToString();
+            packetGridViewManager = new RawPacketGridViewManager(dataGridViewPackets, currentN);
             this.fileSender = sender;
             packetGridViewManager.AddAll(fileSender.FileData);
+
+            packetGridViewManager.PacketSendRequested += PacketGridViewManager_PacketSendRequested;
+
+        }
+        private async void PacketGridViewManager_PacketSendRequested(short number)
+        {
+            await fileSender.SendPacketAsyncByNumber(number);
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
 

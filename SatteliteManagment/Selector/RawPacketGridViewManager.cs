@@ -13,10 +13,12 @@ namespace SatteliteManagment.Selector
 
         DataGridView dataGridView;
         short lastSentNumber;
+        public event Action<short> PacketSendRequested;
 
-        public RawPacketGridViewManager(DataGridView gridView)
+        public RawPacketGridViewManager(DataGridView gridView, short last)
         {
             this.dataGridView = gridView;
+            lastSentNumber = last;
             HeaderInfo();
         }
 
@@ -37,8 +39,8 @@ namespace SatteliteManagment.Selector
             DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
             buttonColumn.HeaderText = "Send";
             buttonColumn.Name = "Action";
-            buttonColumn.Text = "Send";
-            buttonColumn.UseColumnTextForButtonValue = true;
+            //buttonColumn.Text = "---";
+            buttonColumn.UseColumnTextForButtonValue = false;
 
             dataGridView.Columns.Add(buttonColumn);
             dataGridView.CellContentClick += DataGridView_CellContentClick;
@@ -56,10 +58,12 @@ namespace SatteliteManagment.Selector
             DataGridViewButtonCell button =
                 (DataGridViewButtonCell)dataGridView.Rows[e.RowIndex].Cells["Action"];
 
-            if ((string)button.Value != "Sent")
+            if ((string)button.Value != "Уже отправлен")
             {
 
                 short number = Convert.ToInt16(dataGridView.Rows[e.RowIndex].Cells["number"].Value);
+                PacketSendRequested?.Invoke(number);
+
             }
         }
 
@@ -76,17 +80,42 @@ namespace SatteliteManagment.Selector
             {
                 row.DefaultCellStyle.BackColor = Color.LightGreen;
                 DataGridViewButtonCell button = (DataGridViewButtonCell)row.Cells["Action"];
-                button.Value = "Sent";
-
+                button.Value = "Уже отправлен";
+                
 
             }
         }
-
-        public void AddAll( List<byte[]> data) 
+        public void AddRow(RawPacket packet)
         {
-            for (short i = 0; i < data.Count; i++)
+            int index = dataGridView.Rows.Add();
+
+            DataGridViewRow row = dataGridView.Rows[index];
+
+            row.Cells["Number"].Value = packet.Number;
+            row.Cells["RawData"].Value = BitConverter.ToString(packet.Data);
+            row.Cells["Size"].Value = packet.Data.Length;
+
+            DataGridViewButtonCell button =
+                (DataGridViewButtonCell)row.Cells["Action"];
+
+            if (packet.IsSent)
             {
-                AddRow(i, data[i]);  
+                row.DefaultCellStyle.BackColor = Color.LightGreen;
+                button.Value = "Уже отправлен";
+            }
+            else
+            {
+                button.Value = "Отправить";
+            }
+        }
+
+        public void AddAll(Dictionary<short, RawPacket> data) 
+        {
+            dataGridView.Rows.Clear();
+
+            foreach (RawPacket packet in data.Values.OrderBy(p => p.Number))
+            {
+                AddRow(packet);
             }
         }
     }

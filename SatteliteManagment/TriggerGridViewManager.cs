@@ -14,13 +14,13 @@ namespace SatteliteManagment
     {
 
         private DataGridView dataGridView;
-        private TriggerManager triggerManager;
+        public event Action<byte[], TriggerStatus> StatusChange;
 
-        public TriggerGridViewManager(DataGridView dataGridView, TriggerManager triggerManager)
+
+        public TriggerGridViewManager(DataGridView dataGridView)
         {
             this.dataGridView = dataGridView;
             
-            this.triggerManager = triggerManager;
             HeaderInfo();
         }
 
@@ -65,17 +65,16 @@ namespace SatteliteManagment
             {
                 SetStatusAndColor(TriggerStatus.DisableByUser, row);
 
-
                 byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
-                triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.DisableByUser);
-
+                StatusChange?.Invoke(address, TriggerStatus.DisableByUser);
             }
             else if (row.Cells["status"].Value == "Отключен")
             {
                 SetStatusAndColor(TriggerStatus.Active, row);
 
                 byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
-                triggerManager.ChangeTriggerStatusByAddress(address, TriggerStatus.Active);
+                StatusChange?.Invoke(address, TriggerStatus.Active);
+
             }
 
 
