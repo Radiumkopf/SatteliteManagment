@@ -15,6 +15,8 @@ namespace SatteliteManagment
 
         private DataGridView dataGridView;
         public event Action<byte[], TriggerStatus> StatusChange;
+        public event Action<byte[], byte[]> AddressChanged; // oldAddress, newAddress
+        public event Action<byte[], byte[]> CommandChanged;
 
 
         public TriggerGridViewManager(DataGridView dataGridView)
@@ -36,7 +38,8 @@ namespace SatteliteManagment
             dataGridView.Columns[0].HeaderText = "Спутник";
 
             dataGridView.Columns[1].Name = "status";
-            dataGridView.Columns[1].HeaderText = "Статус";    
+            dataGridView.Columns[1].HeaderText = "Статус";
+            dataGridView.Columns[1].ReadOnly = true;
 
             dataGridView.Columns[2].Name = "command";
             dataGridView.Columns[2].HeaderText = "Команда";
@@ -48,9 +51,90 @@ namespace SatteliteManagment
             buttonColumn.UseColumnTextForButtonValue = true;
 
             dataGridView.Columns.Add(buttonColumn);
-            dataGridView.CellContentClick += DataGridView_CellContentClick;
-        }
 
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
+
+            dataGridView.CellContentClick += DataGridView_CellContentClick;
+            dataGridView.CellValidating += DataGridView_CellValidating;
+            dataGridView.EditingControlShowing += DataGridView_EditingControlShowing;
+            dataGridView.CellBeginEdit += DataGridView_CellBeginEdit;
+            dataGridView.CellValueChanged += DataGridView_CellValueChanged;
+        }
+        private void DataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            string columnName = dataGridView.CurrentCell?.OwningColumn?.Name;
+
+            if (columnName != "address" && columnName != "command")
+                return;
+
+            if (e.Control is System.Windows.Forms.TextBox tb)
+            {
+                tb.KeyPress -= HexTextBox_KeyPress;
+                tb.KeyPress += HexTextBox_KeyPress;
+            }
+        }
+        private void DataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            string columnName = dataGridView.Columns[e.ColumnIndex].Name;
+
+            if (columnName == "address" || columnName == "command")
+            {
+                DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+                row.Cells[columnName].Tag = Convert.ToString(row.Cells[columnName].Value) ?? string.Empty;
+            }
+        }
+        private void DataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            string columnName = dataGridView.Columns[e.ColumnIndex].Name;
+            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+
+            if (columnName == "address")
+            {
+                string oldHex = Convert.ToString(row.Cells["address"].Tag) ?? string.Empty;
+                string newHex = Convert.ToString(row.Cells["address"].Value) ?? string.Empty;
+
+                if (string.Equals(oldHex, newHex, StringComparison.OrdinalIgnoreCase))
+                    return;
+
+                if (!DataConverter.IsHexString(oldHex) || !DataConverter.IsHexString(newHex))
+                    return;
+
+                byte[] oldAddress = DataConverter.HexStringToBytes(oldHex);
+                byte[] newAddress = DataConverter.HexStringToBytes(newHex);
+
+                AddressChanged?.Invoke(oldAddress, newAddress);
+            }
+            else if (columnName == "command")
+            {
+                string newHex = Convert.ToString(row.Cells["command"].Value) ?? string.Empty;
+                string addressHex = Convert.ToString(row.Cells["address"].Value) ?? string.Empty;
+
+                if (!DataConverter.IsHexString(addressHex) || !DataConverter.IsHexString(newHex))
+                    return;
+
+                byte[] address = DataConverter.HexStringToBytes(addressHex);
+                byte[] newCommand = DataConverter.HexStringToBytes(newHex);
+
+                CommandChanged?.Invoke(address, newCommand);
+            }
+        }
+        private void HexTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            if (Uri.IsHexDigit(e.KeyChar) || e.KeyChar == ' ' || e.KeyChar == '-')
+                return;
+
+            e.Handled = true;
+        }
         private async void DataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
@@ -61,24 +145,48 @@ namespace SatteliteManagment
 
             DataGridViewRow row = dataGridView.Rows[e.RowIndex];
 
-            if(row.Cells["status"].Value.ToString() == "Активен")
+            string status = Convert.ToString(row.Cells["status"].Value) ?? string.Empty;
+
+            if (status == "Активен")
             {
                 SetStatusAndColor(TriggerStatus.DisableByUser, row);
-
-                byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
+                byte[] address = DataConverter.HexStringToBytes(Convert.ToString(row.Cells["address"].Value) ?? "");
                 StatusChange?.Invoke(address, TriggerStatus.DisableByUser);
             }
-            else if (row.Cells["status"].Value.ToString() == "Отключен")
+            else if (status == "Отключен")
             {
                 SetStatusAndColor(TriggerStatus.Active, row);
-
-                byte[] address = Encoding.ASCII.GetBytes(row.Cells["address"].Value.ToString());
+                byte[] address = DataConverter.HexStringToBytes(Convert.ToString(row.Cells["address"].Value) ?? "");
                 StatusChange?.Invoke(address, TriggerStatus.Active);
-
             }
 
 
         }
+
+
+        private void DataGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            string columnName = dataGridView.Columns[e.ColumnIndex].Name;
+
+            if (columnName != "address" && columnName != "command")
+                return;
+
+            string text = e.FormattedValue?.ToString() ?? string.Empty;
+
+            if (!DataConverter.IsHexString(text))
+            {
+                e.Cancel = true;
+                dataGridView.Rows[e.RowIndex].ErrorText = "Допустимы только hex-значения";
+            }
+            else
+            {
+                dataGridView.Rows[e.RowIndex].ErrorText = string.Empty;
+            }
+        }
+
 
         private void SetStatusAndColor(TriggerStatus status, DataGridViewRow row)
         {
@@ -99,13 +207,13 @@ namespace SatteliteManagment
             }
         }
 
-        public void SetRowStatusSent( byte[] address)
+        public void SetRowStatusByAddress( byte[] address, TriggerStatus status)
         {
             string addr = BitConverter.ToString(address);
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 if (Equals(row.Cells["address"].Value, addr))
                 {
-                    SetStatusAndColor(TriggerStatus.Sent, row);
+                    SetStatusAndColor(status, row);
 
                     return;
                 }

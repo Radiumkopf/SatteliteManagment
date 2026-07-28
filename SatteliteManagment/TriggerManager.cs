@@ -22,16 +22,33 @@ namespace SatteliteManagment
             triggers = new List<Trigger>();
             this.triggerGridViewManager = gridViewManager;
             triggerGridViewManager.StatusChange += ChangeTriggerStatusByAddress;
+            triggerGridViewManager.AddressChanged += OnTriggerAddressChanged;
+            triggerGridViewManager.CommandChanged += OnTriggerCommandChanged;
         }
 
 
         public Trigger GetTriggerByAddress(byte[] address)
         {
-            foreach (var trigger in triggers)
+            return triggers.FirstOrDefault(t => t.address.SequenceEqual(address));
+
+        }
+        private void OnTriggerAddressChanged(byte[] oldAddress, byte[] newAddress)
+        {
+            Trigger trigger = GetTriggerByAddress(oldAddress);
+
+            if (trigger != null)
             {
-                if(trigger.address.SequenceEqual(address)) return trigger;
+                trigger.address = newAddress;
             }
-            return null;
+        }
+        private void OnTriggerCommandChanged(byte[] address, byte[] newCommand)
+        {
+            Trigger trigger = GetTriggerByAddress(address);
+
+            if (trigger != null)
+            {
+                trigger.command = newCommand;
+            }
         }
 
         public void ChangeTriggerStatusByAddress(byte[] address, TriggerStatus status)
@@ -42,9 +59,16 @@ namespace SatteliteManagment
             }
         }
 
+        public void ChangeTriggerStatus(Trigger trigger, TriggerStatus status)
+        {
+            trigger.status = status;
+            triggerGridViewManager.SetRowStatusByAddress(trigger.address, status);
+        }
+
         public void AddTrigger(Trigger trigger)
         {
             triggers.Add(trigger);
+            triggerGridViewManager.AddRow(trigger);
         }
 
         public void DeleteTrigger(byte[] address) 
@@ -54,6 +78,7 @@ namespace SatteliteManagment
                 if (trigger.address.SequenceEqual(address))
                 {
                     triggers.Remove(trigger);
+                    triggerGridViewManager.RemoveRow(address);
                     return;
                 }
             }
@@ -69,6 +94,8 @@ namespace SatteliteManagment
                     trigger.status = TriggerStatus.Active;
                 }
             }
+
+            triggerGridViewManager.RestartTriggers();
         }
 
 

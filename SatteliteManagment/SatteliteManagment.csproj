@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandSender.cs" />
+    <Compile Include="DataConverter.cs" />
     <Compile Include="DeviceNode.cs" />
     <Compile Include="DeviceStatusManager.cs" />
     <Compile Include="DeviceTreeParser.cs" />

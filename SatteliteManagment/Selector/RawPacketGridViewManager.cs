@@ -42,6 +42,12 @@ namespace SatteliteManagment.Selector
             //buttonColumn.Text = "---";
             buttonColumn.UseColumnTextForButtonValue = false;
 
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.AllowUserToResizeRows = false;
+
+            dataGridView.ReadOnly = true;
+
             dataGridView.Columns.Add(buttonColumn);
             dataGridView.CellContentClick += DataGridView_CellContentClick;
         

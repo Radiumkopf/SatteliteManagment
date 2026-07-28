@@ -23,7 +23,7 @@ namespace SatteliteManagment
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
 
 
-        private byte[] currentServerTxAddress = new byte[] {};
+        private byte[] currentServerTxAddress = new byte[] {0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
         private GridViewLogManager logManager;
         private CommandSender commandSender;        
         private TriggerGridViewManager triggerGridManager;
@@ -121,8 +121,8 @@ namespace SatteliteManagment
                         commandSender.SendCommandAsync(trigger.command);
                         if (checkBoxDisableTriggersAfterAct.Checked)
                         {
-                            triggerGridManager.SetRowStatusSent(trigger.address);
-                            triggerManager.ChangeTriggerStatusByAddress(trigger.address, TriggerStatus.Sent);
+                            //triggerGridManager.SetRowStatusSent(trigger.address);
+                            triggerManager.ChangeTriggerStatus(trigger, TriggerStatus.Sent);
                         }
 
                         Console.WriteLine("Команда отправлена, триггер сработал " + trigger.command);
@@ -149,7 +149,7 @@ namespace SatteliteManagment
 
             logTextBox.AppendText(who);
             logTextBox.AppendText( " изменил TX-адрес: ");
-            logTextBox.AppendText(ByteArrayToStringHEX(addr));
+            logTextBox.AppendText(DataConverter.ByteArrayToStringHEX(addr));
             logTextBox.AppendText(  Environment.NewLine );
         }
 
@@ -347,44 +347,12 @@ namespace SatteliteManagment
                 {
                     commandToSend = commandToSendRaw;
                 }
-                Trigger trigger = new Trigger(HexStringToBytes(textBoxSatAddress.Text), HexStringToBytes(commandToSend));
+                Trigger trigger = new Trigger(
+                    DataConverter.HexStringToBytes(textBoxSatAddress.Text), 
+                    DataConverter.HexStringToBytes(commandToSend));
                 triggerManager.AddTrigger(trigger);
-                triggerGridManager.AddRow(trigger);
-                //commandSender.SendComandAsync(commandToSend);
             }
             else Console.WriteLine("No command/addres in textbox!!!");
-        }
-
-        public static byte[] HexStringToBytes(string hex)
-        {
-            if (string.IsNullOrWhiteSpace(hex))
-                return Array.Empty<byte>();
-
-            // Убираем пробелы, тире и двоеточия
-            hex = hex.Replace(" ", "")
-                     .Replace("-", "")
-                     .Replace(":", "");
-
-            if (hex.Length % 2 != 0)
-                throw new FormatException("Количество HEX-символов должно быть четным.");
-
-            byte[] bytes = new byte[hex.Length / 2];
-
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
-            }
-
-            return bytes;
-        }
-
-        public static string ByteArrayToStringHEX(byte[] data)
-        {
-            return BitConverter.ToString(data).Replace("-", "");
-        }
-        public static string ByteToStringHEX(byte data)
-        {
-            return BitConverter.ToString(new byte[] { data }).Replace("-", "");
         }
 
 
@@ -392,8 +360,7 @@ namespace SatteliteManagment
         {
             if(textBoxDeleteTrigger.Text != "")
             {
-                byte[] address = HexStringToBytes(textBoxDeleteTrigger.Text);
-                triggerGridManager.RemoveRow(address);
+                byte[] address = DataConverter.HexStringToBytes(textBoxDeleteTrigger.Text);
                 triggerManager.DeleteTrigger(address);
 
             }
@@ -413,15 +380,14 @@ namespace SatteliteManagment
 
         private void buttonRestartTriggers_Click(object sender, EventArgs e)
         {
-            triggerGridManager.RestartTriggers();
             triggerManager.RestartTriggers();
         }
 
         private void buttonbuttonteststatus_Click(object sender, EventArgs e)
         {
-            byte[] addr = HexStringToBytes(textBoxSatAddress.Text);
-            triggerGridManager.SetRowStatusSent(addr);
-            triggerManager.ChangeTriggerStatusByAddress(addr, TriggerStatus.Sent);
+            byte[] addr = DataConverter.HexStringToBytes(textBoxSatAddress.Text);
+            Trigger trigger = triggerManager.GetTriggerByAddress(addr);
+            triggerManager.ChangeTriggerStatus(trigger, TriggerStatus.Sent);
         }
 
         private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)
