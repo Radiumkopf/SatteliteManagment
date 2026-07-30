@@ -79,6 +79,9 @@ namespace SatteliteManagment
             comboBoxTelemetryType.DisplayMember = "Name";
 
             plotManager.GraphRefresh += RefreshGraph;
+
+            formsPlotTelemetry.MouseMove += formsPlotTelemetry_MouseMove;
+            formsPlotTelemetry.MouseLeave += formsPlotTelemetry_MouseLeave;
         }
 
         //private void OnAckReceived(FileTransferPacket packet)
@@ -408,26 +411,68 @@ namespace SatteliteManagment
             }
         }
 
+        private const int VisiblePoints = 100;
+        private SensorGraph _currentGraph;
+
+        private readonly ToolTip _graphToolTip = new ToolTip
+        {
+            AutoPopDelay = 2000,
+            InitialDelay = 0,
+            ReshowDelay = 0,
+            ShowAlways = true
+        };
+
         private void RefreshGraph()
         {
-            formsPlotTelemetry.Plot.Axes.AutoScale(); 
-            formsPlotTelemetry.Refresh();
+            if (_currentGraph == null)
+                return;
+
+            DrawGraph(_currentGraph, autoscale: true);
         }
 
         private void ShowGraph(SensorGraph graph)
+        {
+            _currentGraph = graph;
+            DrawGraph(graph, autoscale: true);
+        }
+
+        private void DrawGraph(SensorGraph graph, bool autoscale)
         {
             formsPlotTelemetry.Plot.Clear();
 
             foreach (var series in graph.Series)
             {
-                formsPlotTelemetry.Plot.Add.Signal(series.Values);
+                float[] values = series.Values
+                    .Skip(Math.Max(0, series.Values.Count - VisiblePoints))
+                    .ToArray();
+
+                formsPlotTelemetry.Plot.Add.Signal(values);
             }
 
-            formsPlotTelemetry.Plot.Axes.AutoScale(); //перевод фокуса на новый
-
-            formsPlotTelemetry.Refresh();
             formsPlotTelemetry.Plot.ShowLegend();
             labelTelType.Text = graph.Name;
+
+            if (autoscale)
+                formsPlotTelemetry.Plot.Axes.AutoScale();
+
+            formsPlotTelemetry.Refresh();
+        }
+        private void formsPlotTelemetry_MouseMove(object sender, MouseEventArgs e)
+        {
+            var coordinates = formsPlotTelemetry.Plot.GetCoordinates(new ScottPlot.Pixel(e.X, e.Y));
+
+            string text = $"X = {coordinates.X:0.###}\nY = {coordinates.Y:0.###}";
+
+            _graphToolTip.Show(
+                text,
+                formsPlotTelemetry,
+                e.Location.X + 15,
+                e.Location.Y + 15,
+                500);
+        }
+        private void formsPlotTelemetry_MouseLeave(object sender, EventArgs e)
+        {
+            _graphToolTip.Hide(formsPlotTelemetry);
         }
 
         private void buttonSelectPathFile_Click(object sender, EventArgs e)
