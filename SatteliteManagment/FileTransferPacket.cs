@@ -7,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment
 {
-    public enum PacketType : byte
-    {
-        TimeSet = 0x0A,
-        FileSending = 0x0B,
-        FileRequesting = 0x0C,
+        public enum PacketType : byte
+        {
+            TimeSet = 0x0A,
+            FileSending = 0x0B,
+            FileRequesting = 0x0C,
 
-        TimeSetAck = 0x1A,
-        FileSendingAck = 0x1B,
-        FileRequestingAck = 0x1C,
-        FileRequestingLast = 0x2C,
-        Telemetry = 0x1D,
+            TimeSetAck = 0x1A,
+            FileSendingAck = 0x1B,
+            FileRequestingAck = 0x1C,
+            FileRequestingLast = 0x2C,
+            Telemetry = 0x1D,
 
-        AddressChanging = 0xAC
+            AddressChanging = 0xAC
 
-    }
+        }
 
-    internal class FileTransferPacket
-    {
+        internal class FileTransferPacket
+        {
 
         
 
-        public PacketType Type { get; set; }
-        public byte id { get; set; }
-        public short number { get; set; }
-        public byte size { get; set; }
-        public byte[] data { get; set; }
+            public PacketType Type { get; set; }
+            public byte id { get; set; }
+            public short number { get; set; }
+            public byte size { get; set; }
+            public byte[] data { get; set; }
 
         public FileTransferPacket()
         {

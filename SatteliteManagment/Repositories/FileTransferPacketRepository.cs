@@ -1,0 +1,53 @@
+﻿using SatteliteManagment.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SatteliteManagment.Repositories
+{
+    internal class FileTransferPacketRepository
+    {
+        private readonly AppDbContext _db;
+
+        public FileTransferPacketRepository(AppDbContext db)
+        {
+            _db = db;
+        }
+
+        public async Task AddAsync(FileTransferPacketEntity entity)
+        {
+            _db.FileTransferPackets.Add(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<FileTransferPacketEntity> GetByDbIdAsync(int id)
+        {
+            return await _db.FileTransferPackets.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<FileTransferPacketEntity>> GetAllAsync()
+        {
+            return await _db.FileTransferPackets
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+        }
+
+        public async Task<List<FileTransferPacketEntity>> GetByFileIdAsync(byte fileId)
+        {
+            return await _db.FileTransferPackets
+                .Where(x => x.FileId == fileId)
+                .OrderBy(x => x.Number)
+                .ToListAsync();
+        }
+
+        public async Task<List<FileTransferPacketEntity>> GetByTypeAsync(PacketType type)
+        {
+            return await _db.FileTransferPackets
+                .Where(x => x.Type == type)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+        }
+    }
+}

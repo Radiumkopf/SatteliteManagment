@@ -32,7 +32,7 @@ namespace SBandSerialReader
             int length = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(lengthBuffer, 0));
 
             if (length <= 0 || length > 10_000_000)
-                throw new Exception("Invalid packet size");
+                return Array.Empty<byte>();
 
             return await ReadExactAsync(stream, length, token);
         }

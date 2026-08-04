@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Repositories;
+using SatteliteManagment.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -13,6 +16,7 @@ namespace SatteliteManagment.Telemetry
         DuplexTcpClient client;
         TextBox[] logTexBoxes;
         public event Action GraphRefresh;
+        private TlmPacketService tlmPacketService = ServiceFactory.GetTlmPacketService();
 
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
@@ -76,8 +80,12 @@ namespace SatteliteManagment.Telemetry
             this.logTexBoxes = textBoxes;
         }
 
-        private void AddTelemetryPacket(TlmPacket packet)
+        private async void AddTelemetryPacket(TlmPacket packet, PacketInfo packetInfo)
         {
+            await tlmPacketService.SaveAsync(packet); //FIXME
+
+            TlmPacketEntity tlmentity = TlmPacketService.
+
             int index = 0;
 
             sensors[0].Series[0].Values.Add(packet.Temperature1);

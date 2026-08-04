@@ -10,20 +10,24 @@ namespace SatteliteManagment.Telemetry
     {
         public const int SIZE = 17;
 
-        public float Temperature1 { get; private set; }
-        public float Temperature2 { get; private set; }
-        public float BatteryV { get; private set; }
+        public float Temperature1 { get;  set; }
+        public float Temperature2 { get;  set; }
+        public float BatteryV { get;  set; }
 
-        public float[] PvPower { get; private set; } = new float[3];
+        public float[] PvPower { get;  set; } = new float[3];
 
-        public float AngularRate { get; private set; }
-        public float MagFieldAbs { get; private set; }
+        public float AngularRate { get;  set; }
+        public float MagFieldAbs { get;  set; }
 
-        public float BatChargePower { get; private set; }
-        public float BatDischargePower { get; private set; }
+        public float BatChargePower { get;  set; }
+        public float BatDischargePower { get;  set; }
 
-        public byte ResetCounter { get; private set; }
-        public uint StatusFlags { get; private set; }
+        public byte ResetCounter { get;  set; }
+        public uint StatusFlags { get;  set; }
+
+
+        public DateTime ReceivedAt { get; set; } = DateTime.Now;
+
 
         public static TlmPacket Parse(byte[] data)
         {
