@@ -1,4 +1,6 @@
-﻿using SatteliteManagment.Telemetry;
+﻿using Microsoft.EntityFrameworkCore;
+using SatteliteManagment.Services;
+using SatteliteManagment.Telemetry;
 using ScottPlot.MultiplotLayouts;
 using System;
 using System.Collections.Concurrent;
@@ -51,9 +53,18 @@ namespace SatteliteManagment
 
             fileSender.LastFileReceived += OnFullFileReceived;
 
+            InizializeDB();
             InizializeGraphs();
             InitializeDeviceStatusManager();
         
+        }
+
+        private void InizializeDB()
+        {
+            var db = new AppDbContext();
+            db.Database.Migrate();
+
+            ServiceFactory serviceFactory = new ServiceFactory(db);
         }
 
         private void InizializeGraphs()
@@ -192,7 +203,7 @@ namespace SatteliteManagment
                     buttonOpenCloseServer.Enabled = true;
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MessageBox.Show("Подключение к серверу не было выполнено. Проверьте, что сервер включен");
                     buttonOpenCloseServer.Enabled = true;

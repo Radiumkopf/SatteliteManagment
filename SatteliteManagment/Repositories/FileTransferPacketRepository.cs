@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SatteliteManagment.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

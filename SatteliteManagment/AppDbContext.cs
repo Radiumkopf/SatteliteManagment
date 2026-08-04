@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 
 namespace SatteliteManagment
@@ -14,10 +15,13 @@ namespace SatteliteManagment
         public DbSet<TlmPacketEntity> TlmPackets { get; set; }
         public DbSet<PacketInfoEntity> PacketInfos { get; set; }
         public DbSet<FileTransferPacketEntity> FileTransferPackets { get; set; }
-            
+
+        private readonly string path = Path.Combine(AppContext.BaseDirectory, "Properties/dbconnect.txt");
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=telemetry_db;Username=postgres;Password=1234");
+            
+            optionsBuilder.UseNpgsql(File.ReadAllText(path));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
