@@ -17,6 +17,7 @@ namespace SatteliteManagment.Telemetry
         TextBox[] logTexBoxes;
         public event Action GraphRefresh;
         private TlmPacketService tlmPacketService = ServiceFactory.GetTlmPacketService();
+        private PacketStoreService storeService = ServiceFactory.GetPacketStoreService();
 
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
@@ -82,9 +83,8 @@ namespace SatteliteManagment.Telemetry
 
         private async void AddTelemetryPacket(TlmPacket packet, PacketInfo packetInfo)
         {
-            await tlmPacketService.SaveAsync(packet); //FIXME
-
-            TlmPacketEntity tlmentity = TlmPacketService.
+            await storeService.SaveTelemetryAsync(packetInfo, packet);
+            
 
             int index = 0;
 

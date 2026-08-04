@@ -13,6 +13,8 @@ namespace SatteliteManagment.Services
         private static FileTransferPacketService fileTransferPacketService { get; set; }
         private static PacketInfoService packetInfoService { get; set; }
 
+        private static PacketStoreService packetStoreService { get; set; }
+
         private TlmPacketRepository tlmPacketRepository { get; set; }
         private FileTransferPacketRepository fileTransferPacketRepository { get; set; }
         private PacketInfoRepository packetInfoRepository { get; set; }
@@ -27,6 +29,7 @@ namespace SatteliteManagment.Services
 
             packetInfoRepository = new PacketInfoRepository(db);
             packetInfoService = new PacketInfoService(packetInfoRepository);
+            packetStoreService = new PacketStoreService(packetInfoRepository);
         }
 
         public static TlmPacketService GetTlmPacketService()
@@ -41,6 +44,11 @@ namespace SatteliteManagment.Services
         public static PacketInfoService GetPacketInfoService()
         {
             return packetInfoService;
+        }
+
+        public static PacketStoreService GetPacketStoreService()
+        {
+            return packetStoreService;
         }
 
 

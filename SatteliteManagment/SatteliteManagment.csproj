@@ -215,6 +215,7 @@
     <Compile Include="Selector\RawPacketGridViewManager.cs" />
     <Compile Include="Services\FileTransferPacketService.cs" />
     <Compile Include="Services\PacketInfoService.cs" />
+    <Compile Include="Services\PacketStoreService.cs" />
     <Compile Include="Services\ServiceFactory.cs" />
     <Compile Include="Services\TlmPacketService.cs" />
     <Compile Include="Telemetry\PlotManager.cs" />

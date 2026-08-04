@@ -48,5 +48,11 @@ namespace SatteliteManagment.Repositories
                 .Take(count)
                 .ToListAsync();
         }
+
+        public async Task AddGraphAsync(PacketInfoEntity entity)
+        {
+            _db.PacketInfos.Add(entity);
+            await _db.SaveChangesAsync();
+        }
     }
 }
