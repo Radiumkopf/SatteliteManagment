@@ -16,7 +16,7 @@ namespace SatteliteManagment
         public DbSet<PacketInfoEntity> PacketInfos { get; set; }
         public DbSet<FileTransferPacketEntity> FileTransferPackets { get; set; }
 
-        private readonly string path = Path.Combine(AppContext.BaseDirectory, "Properties/dbconnect.txt");
+        private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), "Properties/dbconnect.txt");
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
