@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SatteliteManagment.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,11 @@ namespace SatteliteManagment.Entities
         public short Number { get; set; }
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();
+
+        public byte[] ToBytes()
+        {
+            FileTransferPacket ftp = FileTransferPacketService.MapToModel(this);
+            return ftp.ToByteArray();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SatteliteManagment.Services;
+using SatteliteManagment.Telemetry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +31,11 @@ namespace SatteliteManagment.Entities
 
         public byte ResetCounter { get; set; }
         public uint StatusFlags { get; set; }
+
+        public byte[] ToBytes()
+        {
+            TlmPacket tlmPacket = TlmPacketService.MapToModel(this);
+            return tlmPacket.ToBytes();
+        }
     }
 }

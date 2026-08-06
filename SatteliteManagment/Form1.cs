@@ -417,6 +417,11 @@ namespace SatteliteManagment
             fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
 
         }
+
+        /// <summary>
+        /// 3. Telemetry Graph and Log
+        /// </summary>
+
         private void comboBoxTelemetryType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTelemetryType.SelectedItem is SensorGraph graph)
@@ -574,7 +579,7 @@ namespace SatteliteManagment
             FileTransferPacket
         }
 
-        private async Task<IReadOnlyList<IDbEntity>> LoadLastEntitiesAsync(int count)
+        private async Task<IReadOnlyList<IDataConvertable>> LoadLastEntitiesAsync(int count)
         {
             DbEntityType selectedType = (DbEntityType)comboBoxEntityType.SelectedItem;
 
@@ -582,34 +587,34 @@ namespace SatteliteManagment
             {
                 case DbEntityType.PacketInfo:
                     return (await ServiceFactory.GetPacketInfoService().GetLastAsync(count))
-                        .Cast<IDbEntity>()
+                        .Cast<IDataConvertable>()
                         .ToList();
 
                 case DbEntityType.TlmPacket:
                     return (await ServiceFactory.GetTlmPacketService().GetLastAsync(count))
-                        .Cast<IDbEntity>()
+                        .Cast<IDataConvertable>()
                         .ToList();
 
                 case DbEntityType.FileTransferPacket:
                     return (await ServiceFactory.GetFileTransferPacketService().GetLastAsync(count))
-                        .Cast<IDbEntity>().ToList();
+                        .Cast<IDataConvertable>().ToList();
                 default:
-                    return Array.Empty<IDbEntity>();
+                    return Array.Empty<IDataConvertable>();
             }
         }
-        private void buttonGetLast_Click(object sender, EventArgs e)
+        private async void buttonGetLast_Click(object sender, EventArgs e)
         {
-            dataGridViewEntities.DataSource = null;
-            var entity = LoadLastEntitiesAsync(1);
-            dataGridViewEntities.DataSource = entity;
+            dataGridViewEntities.Columns.Clear();
+            var entity =  await LoadLastEntitiesAsync(1);
+            dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
+            //textBoxHexView.AppendText(entity);
         }
 
-        private void buttonGetLastX_Click(object sender, EventArgs e)
+        private async void buttonGetLastX_Click(object sender, EventArgs e)
         {
             dataGridViewEntities.DataSource = null;
-            int count = (int)numericUpDownGetCount.Value;
-            var entity = LoadLastEntitiesAsync(count);
-            dataGridViewEntities.DataSource = entity;
+            var entity = await LoadLastEntitiesAsync((int)numericUpDownGetCount.Value);
+            dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
         }
     }
 }

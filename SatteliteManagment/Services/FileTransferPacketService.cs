@@ -65,7 +65,7 @@ namespace SatteliteManagment.Services
             };
         }
 
-        private static FileTransferPacket MapToModel(FileTransferPacketEntity entity)
+        public static FileTransferPacket MapToModel(FileTransferPacketEntity entity)
         {
             return new FileTransferPacket
             {

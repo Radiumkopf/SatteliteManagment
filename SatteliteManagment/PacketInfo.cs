@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment
 {
-    internal class PacketInfo
+    internal class PacketInfo : IDataConvertable
     {
         public byte AES_CRC;
         public bool BROADCAST;
@@ -48,7 +48,7 @@ namespace SatteliteManagment
             fullPackage.AddRange(BitConverter.GetBytes(SourceAddr));
             fullPackage.Add(retrCount);
             fullPackage.Add(payload_lth);
-            fullPackage.AddRange(message);
+            //fullPackage.AddRange(message);
             fullPackage.AddRange(BitConverter.GetBytes(ID));
             fullPackage.Add((byte)rssi);
             fullPackage.Add((byte)snr);

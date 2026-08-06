@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SatteliteManagment.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,5 +29,11 @@ namespace SatteliteManagment.Entities
         //не уверен
         public TlmPacketEntity TlmPacket { get; set; }
         public FileTransferPacketEntity FileTransferPacket { get; set; }
+
+        public byte[] ToBytes()
+        {
+            PacketInfo packetInfo = PacketInfoService.MapToModel(this);
+            return packetInfo.ToByteArray();
+        }
     }
 }

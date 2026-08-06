@@ -8,5 +8,6 @@ namespace SatteliteManagment.Entities
 {
     internal interface IDbEntity
     {
+        byte[] ToBytes();
     }
 }

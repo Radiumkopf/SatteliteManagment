@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Telemetry
 {
-    internal class TlmPacket
+    internal class TlmPacket : IDataConvertable
     {
         public const int SIZE = 17;
 
@@ -26,7 +26,7 @@ namespace SatteliteManagment.Telemetry
         public uint StatusFlags { get;  set; }
 
 
-        public DateTime ReceivedAt { get; set; } = DateTime.Now;
+        //public DateTime ReceivedAt { get; set; } = DateTime.Now;
 
 
         public static TlmPacket Parse(byte[] data)

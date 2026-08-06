@@ -183,7 +183,6 @@
     <Compile Include="AppDbContext.cs" />
     <Compile Include="CommandSender.cs" />
     <Compile Include="DataConverter.cs" />
-    <Compile Include="DBViewController.cs" />
     <Compile Include="Devices\DeviceNode.cs" />
     <Compile Include="Devices\DeviceStatusManager.cs" />
     <Compile Include="Devices\DeviceTreeParser.cs" />
@@ -192,6 +191,7 @@
     <Compile Include="Entities\IDbEntity.cs" />
     <Compile Include="Entities\PacketInfoEntity.cs" />
     <Compile Include="Entities\TlmPacketEntity.cs" />
+    <Compile Include="EntityTableConverter.cs" />
     <Compile Include="FileReseiver.cs" />
     <Compile Include="FileSender.cs" />
     <Compile Include="Form1.cs">

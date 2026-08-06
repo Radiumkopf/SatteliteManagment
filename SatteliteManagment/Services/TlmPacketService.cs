@@ -42,6 +42,7 @@ namespace SatteliteManagment.Services
             return entities.Select(MapToModel).ToList();
         }
 
+
         public static TlmPacketEntity MapToEntity(TlmPacket packet)
         {
             return new TlmPacketEntity

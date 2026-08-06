@@ -23,7 +23,7 @@ namespace SatteliteManagment
 
         }
 
-        internal class FileTransferPacket
+        internal class FileTransferPacket : IDataConvertable
         {
 
         
