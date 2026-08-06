@@ -268,7 +268,6 @@ namespace SatteliteManagment
             this.buttonSendCommand.TabIndex = 11;
             this.buttonSendCommand.Text = "Отправить\r\nкоманду";
             this.buttonSendCommand.UseVisualStyleBackColor = true;
-            this.buttonSendCommand.Click += new System.EventHandler(this.buttonSendCommand_Click);
             // 
             // textBoxSendCommand
             // 
