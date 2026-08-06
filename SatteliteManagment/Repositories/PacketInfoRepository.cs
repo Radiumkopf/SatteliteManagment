@@ -29,6 +29,8 @@ namespace SatteliteManagment.Repositories
             await _db.SaveChangesAsync();
         }
 
+
+
         public async Task<PacketInfoEntity> GetByIdAsync(int id)
         {
             return await _db.PacketInfos.FirstOrDefaultAsync(x => x.Id == id);

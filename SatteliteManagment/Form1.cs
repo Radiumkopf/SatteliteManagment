@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SatteliteManagment.Entities;
 using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
 using ScottPlot.MultiplotLayouts;
@@ -65,6 +66,8 @@ namespace SatteliteManagment
             db.Database.Migrate();
 
             ServiceFactory serviceFactory = new ServiceFactory(db);
+            comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
+            dataGridViewEntities.AutoGenerateColumns = true;
         }
 
         private void InizializeGraphs()
@@ -557,6 +560,56 @@ namespace SatteliteManagment
         {
             FormSelectPacket dialogForm = new FormSelectPacket(fileSender);
             dialogForm.ShowDialog();
+        }
+
+
+        /// <summary>
+        /// 4. DB View
+        /// </summary>
+        
+        public enum DbEntityType
+        {
+            PacketInfo,
+            TlmPacket,
+            FileTransferPacket
+        }
+
+        private async Task<IReadOnlyList<IDbEntity>> LoadLastEntitiesAsync(int count)
+        {
+            DbEntityType selectedType = (DbEntityType)comboBoxEntityType.SelectedItem;
+
+            switch (selectedType)
+            {
+                case DbEntityType.PacketInfo:
+                    return (await ServiceFactory.GetPacketInfoService().GetLastAsync(count))
+                        .Cast<IDbEntity>()
+                        .ToList();
+
+                case DbEntityType.TlmPacket:
+                    return (await ServiceFactory.GetTlmPacketService().GetLastAsync(count))
+                        .Cast<IDbEntity>()
+                        .ToList();
+
+                case DbEntityType.FileTransferPacket:
+                    return (await ServiceFactory.GetFileTransferPacketService().GetLastAsync(count))
+                        .Cast<IDbEntity>().ToList();
+                default:
+                    return Array.Empty<IDbEntity>();
+            }
+        }
+        private void buttonGetLast_Click(object sender, EventArgs e)
+        {
+            dataGridViewEntities.DataSource = null;
+            var entity = LoadLastEntitiesAsync(1);
+            dataGridViewEntities.DataSource = entity;
+        }
+
+        private void buttonGetLastX_Click(object sender, EventArgs e)
+        {
+            dataGridViewEntities.DataSource = null;
+            int count = (int)numericUpDownGetCount.Value;
+            var entity = LoadLastEntitiesAsync(count);
+            dataGridViewEntities.DataSource = entity;
         }
     }
 }

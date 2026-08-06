@@ -23,6 +23,12 @@ namespace SatteliteManagment.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(TlmPacketEntity entity)
+        {
+            _db.TlmPackets.Update(entity);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<TlmPacketEntity> GetByIdAsync(int id)
         {
             return await _db.TlmPackets.FirstOrDefaultAsync(x => x.Id == id);

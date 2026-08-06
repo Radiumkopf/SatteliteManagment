@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities
 {
-    internal class FileTransferPacketEntity
+    internal class FileTransferPacketEntity : IDbEntity
     {
 
         public int Id { get; set; }          // PK базы данных

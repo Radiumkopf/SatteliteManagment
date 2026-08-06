@@ -23,6 +23,12 @@ namespace SatteliteManagment.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(FileTransferPacketEntity entity)
+        {
+            _db.FileTransferPackets.Update(entity);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<FileTransferPacketEntity> GetByDbIdAsync(int id)
         {
             return await _db.FileTransferPackets.FirstOrDefaultAsync(x => x.Id == id);
@@ -40,6 +46,15 @@ namespace SatteliteManagment.Repositories
             return await _db.FileTransferPackets
                 .Where(x => x.FileId == fileId)
                 .OrderBy(x => x.Number)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<FileTransferPacketEntity>> GetLastAsync(int count)
+        {
+            return await _db.FileTransferPackets
+                .OrderByDescending(x => x.Id)
+                .Take(count)
                 .ToListAsync();
         }
 

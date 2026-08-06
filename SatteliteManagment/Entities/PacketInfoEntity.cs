@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities
 {
-    internal class PacketInfoEntity
+    internal class PacketInfoEntity : IDbEntity
     {
         public int Id { get; set; }
         public byte AES_CRC { get; set; }

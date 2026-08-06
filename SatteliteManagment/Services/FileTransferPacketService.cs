@@ -1,5 +1,6 @@
 ﻿using SatteliteManagment.Entities;
 using SatteliteManagment.Repositories;
+using SatteliteManagment.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,11 @@ namespace SatteliteManagment.Services
         public async Task<List<FileTransferPacket>> GetByTypeAsync(PacketType type)
         {
             List<FileTransferPacketEntity> entities = await _repository.GetByTypeAsync(type);
+            return entities.Select(MapToModel).ToList();
+        }
+        public async Task<List<FileTransferPacket>> GetLastAsync(int count)
+        {
+            List<FileTransferPacketEntity> entities = await _repository.GetLastAsync(count);
             return entities.Select(MapToModel).ToList();
         }
 
