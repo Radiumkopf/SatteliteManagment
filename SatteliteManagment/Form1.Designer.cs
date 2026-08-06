@@ -152,6 +152,7 @@ namespace SatteliteManagment
             this.labelDeviceId = new System.Windows.Forms.Label();
             this.labelDeviceType = new System.Windows.Forms.Label();
             this.labelDeviceName = new System.Windows.Forms.Label();
+            this.buttonClearPlot = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -1010,6 +1011,7 @@ namespace SatteliteManagment
             // 
             // groupBoxTelemetryPlots
             // 
+            this.groupBoxTelemetryPlots.Controls.Add(this.buttonClearPlot);
             this.groupBoxTelemetryPlots.Controls.Add(this.labelTelType);
             this.groupBoxTelemetryPlots.Controls.Add(this.formsPlotTelemetry);
             this.groupBoxTelemetryPlots.Controls.Add(this.comboBoxTelemetryType);
@@ -1436,7 +1438,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 159);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 164);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1445,7 +1447,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 125);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 130);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1454,7 +1456,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 95);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 100);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1463,7 +1465,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 65);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 70);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1472,11 +1474,22 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 35);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 40);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
             this.labelDeviceName.Text = "Name: -";
+            // 
+            // buttonClearPlot
+            // 
+            this.buttonClearPlot.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonClearPlot.Location = new System.Drawing.Point(7, 433);
+            this.buttonClearPlot.Name = "buttonClearPlot";
+            this.buttonClearPlot.Size = new System.Drawing.Size(172, 27);
+            this.buttonClearPlot.TabIndex = 3;
+            this.buttonClearPlot.Text = "Очистить график";
+            this.buttonClearPlot.UseVisualStyleBackColor = true;
+            this.buttonClearPlot.Click += new System.EventHandler(this.buttonClearPlot_Click);
             // 
             // Form1
             // 
@@ -1649,6 +1662,7 @@ namespace SatteliteManagment
         private Label label27;
         private Label label26;
         private Button buttonShowRawPackets;
+        private Button buttonClearPlot;
     }
 }
 

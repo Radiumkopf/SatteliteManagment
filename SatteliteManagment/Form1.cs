@@ -474,6 +474,10 @@ namespace SatteliteManagment
         {
             _graphToolTip.Hide(formsPlotTelemetry);
         }
+        private void buttonClearPlot_Click(object sender, EventArgs e)
+        {
+            formsPlotTelemetry.Plot.Clear();
+        }
 
         private void buttonSelectPathFile_Click(object sender, EventArgs e)
         {
@@ -547,5 +551,7 @@ namespace SatteliteManagment
             FormSelectPacket dialogForm = new FormSelectPacket(fileSender);
             dialogForm.ShowDialog();
         }
+
+
     }
 }
