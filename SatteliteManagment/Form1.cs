@@ -223,7 +223,7 @@ namespace SatteliteManagment
         private async void button1_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
-            if (openFileDialog1.FileName == "" || Path.GetExtension(openFileDialog1.FileName).ToLower() != ".txt")
+            if (openFileDialog1.FileName == "")
                 return;
             string path = openFileDialog1.FileName;
 
