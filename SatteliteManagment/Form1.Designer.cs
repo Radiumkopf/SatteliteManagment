@@ -559,7 +559,7 @@ namespace SatteliteManagment
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.Filter = "Text files (*.txt)|*.txt";
+            //this.openFileDialog1.Filter = "Text files (*.txt)|*.txt";
             // 
             // tabControlMain
             // 
