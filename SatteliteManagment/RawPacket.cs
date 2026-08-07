@@ -9,7 +9,7 @@ namespace SatteliteManagment
     internal class RawPacket
     {
 
-        public short Number { get; }
+        public ushort Number { get; }
 
         public byte[] Data { get; }
 
@@ -17,7 +17,7 @@ namespace SatteliteManagment
 
         public bool IsAckReceived { get; set; }
 
-        public RawPacket(short number, byte[] data)
+        public RawPacket(ushort number, byte[] data)
         {
             Number = number;
             Data = data;

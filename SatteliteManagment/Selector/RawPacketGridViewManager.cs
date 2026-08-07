@@ -12,10 +12,10 @@ namespace SatteliteManagment.Selector
     {
 
         DataGridView dataGridView;
-        short lastSentNumber;
-        public event Action<short> PacketSendRequested;
+        ushort lastSentNumber;
+        public event Action<ushort> PacketSendRequested;
 
-        public RawPacketGridViewManager(DataGridView gridView, short last)
+        public RawPacketGridViewManager(DataGridView gridView, ushort last)
         {
             this.dataGridView = gridView;
             lastSentNumber = last;
@@ -67,13 +67,13 @@ namespace SatteliteManagment.Selector
             if ((string)button.Value != "Уже отправлен")
             {
 
-                short number = Convert.ToInt16(dataGridView.Rows[e.RowIndex].Cells["number"].Value);
+                ushort number = Convert.ToUInt16(dataGridView.Rows[e.RowIndex].Cells["number"].Value);
                 PacketSendRequested?.Invoke(number);
 
             }
         }
 
-        public void AddRow(short number, byte[] data)
+        public void AddRow(ushort number, byte[] data)
         {
             int index = dataGridView.Rows.Add();
 
@@ -115,7 +115,7 @@ namespace SatteliteManagment.Selector
             }
         }
 
-        public void AddAll(Dictionary<short, RawPacket> data) 
+        public void AddAll(Dictionary<ushort, RawPacket> data) 
         {
             dataGridView.Rows.Clear();
 

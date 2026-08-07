@@ -30,7 +30,7 @@ namespace SatteliteManagment
 
         public PacketType Type { get; set; }
         public byte id { get; set; }
-        public short number { get; set; }
+        public ushort number { get; set; }
         public byte size { get; set; }
         public byte[] data { get; set; }
 
@@ -38,7 +38,7 @@ namespace SatteliteManagment
         {
 
         }
-        public FileTransferPacket(PacketType type,  byte _id, short _number, byte _size, byte[] _data) {
+        public FileTransferPacket(PacketType type,  byte _id, ushort _number, byte _size, byte[] _data) {
             this.Type = type;
 
             this.id = _id;

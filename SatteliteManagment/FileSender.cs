@@ -15,13 +15,13 @@ namespace SatteliteManagment
         private readonly GridViewLogManager logManager;
 
         //public List<byte[]> FileData { get; set; }
-        public Dictionary<short, RawPacket> FileData;
+        public Dictionary<ushort, RawPacket> FileData;
 
         private FileReceiver fileReceiver { get; set; }
 
-        public short CurrentPacketIndex { get;  set; }
+        public ushort CurrentPacketIndex { get;  set; }
 
-        public short CurrentReceiveIndex { get;  set; }
+        public ushort CurrentReceiveIndex { get;  set; }
 
         public byte DestinationId { get; set; }
 
@@ -97,11 +97,11 @@ namespace SatteliteManagment
         public void SetAndSplitFile(byte[] dataArray, byte size)
         {
             PacketSize = size;
-            FileData = new Dictionary<short, RawPacket>();
+            FileData = new Dictionary<ushort, RawPacket>();
 
             int count = (int)Math.Ceiling((double)dataArray.Length / PacketSize);
 
-            for (short i = 0; i < count; i++)
+            for (ushort i = 0; i < count; i++)
             {
                 int offset = i * PacketSize;
 
@@ -124,7 +124,7 @@ namespace SatteliteManagment
             CurrentPacketIndex++;
 
         }
-        public async Task SendPacketAsyncByNumber(short number)
+        public async Task SendPacketAsyncByNumber(ushort number)
         {
             if (!FileData.TryGetValue(number, out RawPacket rawPacket))
                 throw new ArgumentException($"Пакет №{number} не найден.");
@@ -172,7 +172,7 @@ namespace SatteliteManagment
                 CurrentPacketIndex,
                 "Пакет отправлен");
         }
-        private async Task SendPackageAsync(byte[] packet, short number)
+        private async Task SendPackageAsync(byte[] packet, ushort number)
         {
             await client.SendTextAsync(packet);
 
@@ -183,7 +183,7 @@ namespace SatteliteManagment
                 "Пакет отправлен");
         }
 
-        private byte[] BuildProtocolPackage(PacketType type, short number, byte[] value)
+        private byte[] BuildProtocolPackage(PacketType type, ushort number, byte[] value)
         {
             FileTransferPacket packet =
                 new FileTransferPacket(

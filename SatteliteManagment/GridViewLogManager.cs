@@ -16,13 +16,13 @@ namespace SatteliteManagment
         public GridViewLogManager(DataGridView dataGridView)
         {
             this.dataGridView = dataGridView;
-            this.rows = new Dictionary<(byte id, short number), DataGridViewRow> ();
+            this.rows = new Dictionary<(byte id, ushort number), DataGridViewRow> ();
 
             HeaderInfo();
         }
 
         public DataGridView DataGridView { get => dataGridView; set => dataGridView = value; }
-        public Dictionary<(byte id, short number), DataGridViewRow> rows ;
+        public Dictionary<(byte id, ushort number), DataGridViewRow> rows ;
         public void HeaderInfo()
         {
             dataGridView.ColumnCount = 5;
@@ -40,7 +40,7 @@ namespace SatteliteManagment
             dataGridView.Columns[4].HeaderText = "Info";
         }
 
-        public void AddRow(byte[] bytes, byte id,  short number, String text)
+        public void AddRow(byte[] bytes, byte id,  ushort number, String text)
         {
             //dataGridView.Rows.Add(
             //    DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"),
@@ -63,7 +63,7 @@ namespace SatteliteManagment
             rows[(id, number)] = row; //add to dict
         }
 
-        public void MarkPacketAsReceived(byte id, short number)
+        public void MarkPacketAsReceived(byte id, ushort number)
         {
             dataGridView.BeginInvoke(new Action(() =>
             {

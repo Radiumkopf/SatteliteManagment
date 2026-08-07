@@ -65,7 +65,7 @@ namespace SatteliteManagment
 
                 packet.Type = (PacketType)bytes[index++];
                 packet.id = bytes[index++];
-                packet.number = BitConverter.ToInt16(bytes, index);
+                packet.number = (ushort) BitConverter.ToInt16(bytes, index);
                 index += 2;
 
                 byte size = bytes[index++];
