@@ -11,6 +11,7 @@ namespace SatteliteManagment
 {
     public interface IDataConvertable
     {
+        byte[] ToByteArray();
     }
 
     internal class EntityTableConverter

@@ -183,6 +183,7 @@
     <Compile Include="AppDbContext.cs" />
     <Compile Include="CommandSender.cs" />
     <Compile Include="DataConverter.cs" />
+    <Compile Include="DbServices.cs" />
     <Compile Include="Devices\DeviceNode.cs" />
     <Compile Include="Devices\DeviceStatusManager.cs" />
     <Compile Include="Devices\DeviceTreeParser.cs" />
@@ -227,7 +228,6 @@
     <Compile Include="Services\FileTransferPacketService.cs" />
     <Compile Include="Services\PacketInfoService.cs" />
     <Compile Include="Services\PacketStoreService.cs" />
-    <Compile Include="Services\ServiceFactory.cs" />
     <Compile Include="Services\TlmPacketService.cs" />
     <Compile Include="Telemetry\PlotManager.cs" />
     <Compile Include="Telemetry\SensorGraph.cs" />

@@ -16,8 +16,7 @@ namespace SatteliteManagment.Telemetry
         DuplexTcpClient client;
         TextBox[] logTexBoxes;
         public event Action GraphRefresh;
-        private TlmPacketService tlmPacketService = ServiceFactory.GetTlmPacketService();
-        private PacketStoreService storeService = ServiceFactory.GetPacketStoreService();
+        DbServices services;
 
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
@@ -72,18 +71,20 @@ namespace SatteliteManagment.Telemetry
                 }
         };
 
-        public PlotManager( DuplexTcpClient client, TextBox[] textBoxes)
+        public PlotManager( DuplexTcpClient client, TextBox[] textBoxes, DbServices dbSevrices)
         {
             this.client = client;
 
             client.TelemetryReceived += AddTelemetryPacket;
 
             this.logTexBoxes = textBoxes;
+
+            services = dbSevrices;
         }
 
         private async void AddTelemetryPacket(TlmPacket packet, PacketInfo packetInfo)
         {
-            await storeService.SaveTelemetryAsync(packetInfo, packet);
+            await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
             
 
             int index = 0;

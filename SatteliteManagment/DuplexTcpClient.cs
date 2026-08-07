@@ -17,8 +17,6 @@ namespace SatteliteManagment
         private NetworkStream _stream;
         private CancellationTokenSource _cts;
 
-        private PacketInfoService packetInfoService = ServiceFactory.GetPacketInfoService();
-
         public event Action<PacketInfo> PacketReceived;
 
         public event Action<FileTransferPacket> AckReceived;

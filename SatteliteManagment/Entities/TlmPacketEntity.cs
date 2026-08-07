@@ -35,7 +35,7 @@ namespace SatteliteManagment.Entities
         public byte[] ToBytes()
         {
             TlmPacket tlmPacket = TlmPacketService.MapToModel(this);
-            return tlmPacket.ToBytes();
+            return tlmPacket.ToByteArray();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace SatteliteManagment.Telemetry
             return packet;
         }
 
-        public byte[] ToBytes()
+        public byte[] ToByteArray()
         {
             byte[] buffer = new byte[40];
 

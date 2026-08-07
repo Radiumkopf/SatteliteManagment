@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using SatteliteManagment.Entities;
 using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
@@ -34,6 +35,7 @@ namespace SatteliteManagment
         private FileSender fileSender;
         private PlotManager plotManager;
         private DeviceStatusManager deviceStatusManager;
+        private DbServices dbSevrices;
 
         public Form1()
         {
@@ -65,7 +67,8 @@ namespace SatteliteManagment
             var db = new AppDbContext();
             db.Database.Migrate();
 
-            ServiceFactory serviceFactory = new ServiceFactory(db);
+            dbSevrices = new DbServices(db);
+
             comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
             dataGridViewEntities.AutoGenerateColumns = true;
         }
@@ -87,7 +90,7 @@ namespace SatteliteManagment
                 textBoxTelemetry5, textBoxTelemetry6, textBoxTelemetry7, textBoxTelemetry8, textBoxTelemetry9
             };
 
-            plotManager = new PlotManager(_client, logTextBoxes);
+            plotManager = new PlotManager(_client, logTextBoxes, dbSevrices);
 
             comboBoxTelemetryType.DataSource = plotManager.sensors;
             comboBoxTelemetryType.DisplayMember = "Name";
@@ -176,7 +179,10 @@ namespace SatteliteManagment
             buttonSendFileRequest.Enabled = false;
             logTextBox.AppendText("Файл получен");
         }
-
+        /// <summary>
+        /// Server connection part
+        /// </summary>
+        /// <param name="stateServer"></param>
         void changeInterfaceState(bool stateServer)
         {
             if (stateServer)
@@ -216,53 +222,6 @@ namespace SatteliteManagment
                 changeInterfaceState(false);
         }
 
-
-        private void buttonSendCommand_Click(object sender, EventArgs e)
-        {/*
-            if (!serialPort.IsOpen)
-            {
-                MessageBox.Show("COM порт закрыт!");
-                return;
-            }
-
-            try
-            {
-                string commandToSendRaw = textBoxSendCommand.Text;
-
-                string commandToSend;
-                if (radioButtonSeparatorDollar.Checked)
-                {
-                    commandToSend = commandToSendRaw.Replace("$", String.Empty);
-                }
-                else
-                {
-                    commandToSend = commandToSendRaw;
-                }
-
-                byte[] commandToSendBytes = GetBytesFromByteString(commandToSend).ToArray();
-
-                outputQueue.Add(commandToSendBytes);
-
-                ColoredItem outputLog = new ColoredItem(commandToSendBytes, "Отправка команды с терминала", Color.Blue);
-                WriteRadioControlLog(outputLog);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Не удалось преобразовать строку в команду, проверьте правильность ввода");
-            }
-            */
-        }
-
-        public void WriteRadioControlLog(/*ColoredItem item*/)
-        {
-            /*
-            if (item.color == Color.Green && !checkBoxIsLoggingTrancieverChanges.Checked)
-            {
-                return;
-            }
-
-            WriteLogHex(item);*/
-        }
 
         private IEnumerable<byte> GetBytesFromByteString(string s)
         {
@@ -569,7 +528,7 @@ namespace SatteliteManagment
 
 
         /// <summary>
-        /// 4. DB View
+        /// 5. DB View
         /// </summary>
         
         public enum DbEntityType
@@ -586,17 +545,17 @@ namespace SatteliteManagment
             switch (selectedType)
             {
                 case DbEntityType.PacketInfo:
-                    return (await ServiceFactory.GetPacketInfoService().GetLastAsync(count))
+                    return (await dbSevrices.PacketInfoService.GetLastAsync(count))
                         .Cast<IDataConvertable>()
                         .ToList();
 
                 case DbEntityType.TlmPacket:
-                    return (await ServiceFactory.GetTlmPacketService().GetLastAsync(count))
+                    return (await dbSevrices.TlmPacketService.GetLastAsync(count))
                         .Cast<IDataConvertable>()
                         .ToList();
 
                 case DbEntityType.FileTransferPacket:
-                    return (await ServiceFactory.GetFileTransferPacketService().GetLastAsync(count))
+                    return (await dbSevrices.FileTransferPacketService.GetLastAsync(count))
                         .Cast<IDataConvertable>().ToList();
                 default:
                     return Array.Empty<IDataConvertable>();
@@ -605,14 +564,16 @@ namespace SatteliteManagment
         private async void buttonGetLast_Click(object sender, EventArgs e)
         {
             dataGridViewEntities.Columns.Clear();
+            textBoxHexView.Clear();
             var entity =  await LoadLastEntitiesAsync(1);
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
-            //textBoxHexView.AppendText(entity);
+            textBoxHexView.AppendText(DataConverter.ByteArrayToStringHEX(entity.First().ToByteArray()));
         }
 
         private async void buttonGetLastX_Click(object sender, EventArgs e)
         {
-            dataGridViewEntities.DataSource = null;
+            dataGridViewEntities.Columns.Clear();
+            textBoxHexView.Clear();
             var entity = await LoadLastEntitiesAsync((int)numericUpDownGetCount.Value);
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
         }
