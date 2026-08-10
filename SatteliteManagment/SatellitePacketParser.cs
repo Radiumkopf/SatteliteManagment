@@ -55,11 +55,8 @@ namespace SatteliteManagment
             {
                 //index = 0;
 
-                if (bytes.Length - index < 6 || index < 0)
+                if (bytes.Length - index < 5 || index < 0)
                     throw new InvalidDataException("Пакет слишком короткий.");
-
-                //if (bytes[index++] != (byte)'#')
-                //    throw new InvalidDataException("Неверный стартовый символ.");
 
                 FileTransferPacket packet = new FileTransferPacket();
 
@@ -70,14 +67,19 @@ namespace SatteliteManagment
 
                 byte size = bytes[index++];
 
-                if (bytes.Length != index + size)
-                    throw new InvalidDataException("Размер пакета не соответствует заголовку.");
+                //if (bytes.Length != index + size)
+                //    throw new InvalidDataException("Размер пакета не соответствует заголовку.");
 
                 packet.size = size;
 
-                packet.data = new byte[size];
+                if (packet.Type != PacketType.FileSendingAck)       
+                {
 
-                Array.Copy(bytes, index, packet.data, 0, size);
+                    packet.data = new byte[size];
+
+                    Array.Copy(bytes, index, packet.data, 0, size);
+                }
+                else packet.data = null;
 
                 return packet;
             }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ScottPlot.Palettes;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace SatteliteManagment
@@ -32,6 +34,8 @@ namespace SatteliteManagment
 
         public event Action LastFileReceived;   //FIXME увед мейна что файл готов
 
+        private System.Timers.Timer ackTimer;
+
 
         public FileSender(DuplexTcpClient client,
                           GridViewLogManager logManager)
@@ -43,20 +47,46 @@ namespace SatteliteManagment
             client.FileReceived += OnFileReceived;
             client.LastFileReceived += OnLastFileReceived;
 
+            ackTimer = new System.Timers.Timer(3000);
+            //ackTimer.Elapsed += OnTimedEvent;
+            ackTimer.AutoReset = true;
+            //ackTimer.Enabled = true;
+
+
         }
 
         public FileSender()
         {
         }
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (FileData.TryGetValue(CurrentPacketIndex, out RawPacket rawPacket))
+            {
+                if (rawPacket.IsAckReceived == false)
+                {
+                    SendPacketAsyncByNumber(CurrentPacketIndex);
+                }
+                else
+                {
+                    ackTimer.Stop();
+                }
+
+
+            }
+        }
+
         private void OnAckReceived(FileTransferPacket packet)
         {
 
             if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
             {
                 filePacket.IsAckReceived = true;
+                logManager.MarkPacketAsReceived(packet.id, packet.number);
+
+                CurrentPacketIndex++;
+
             }
 
-            logManager.MarkPacketAsReceived(packet.id, packet.number);
 
             if (IsSendNextIfAck)
                 SendNextPacketAsync();
@@ -90,8 +120,8 @@ namespace SatteliteManagment
         public async void SetTxRegister(byte[] address)
         {
 
-                await client.SendTextAsync(TxOperator.RegisterWrite(address));
-            
+            //await client.SendTextAsync(TxOperator.RegisterWrite(address));
+            //fix addr sending    
         }
 
         public void SetAndSplitFile(byte[] dataArray, byte size)
@@ -121,7 +151,9 @@ namespace SatteliteManagment
 
             await SendPacketAsyncByNumber(CurrentPacketIndex);
 
-            CurrentPacketIndex++;
+            ackTimer.Start();
+
+            //CurrentPacketIndex++;
 
         }
         public async Task SendPacketAsyncByNumber(ushort number)
