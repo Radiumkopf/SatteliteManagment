@@ -17,7 +17,7 @@ namespace SatteliteManagment.Entities
 
         public PacketType Type { get; set; }
         public byte FileId { get; set; }     
-        public short Number { get; set; }
+        public ushort Number { get; set; }
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();
 
