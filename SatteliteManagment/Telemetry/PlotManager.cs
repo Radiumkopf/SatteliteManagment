@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Repositories;
+using SatteliteManagment.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -13,6 +16,7 @@ namespace SatteliteManagment.Telemetry
         DuplexTcpClient client;
         TextBox[] logTexBoxes;
         public event Action GraphRefresh;
+        DbServices services;
 
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
@@ -67,17 +71,22 @@ namespace SatteliteManagment.Telemetry
                 }
         };
 
-        public PlotManager( DuplexTcpClient client, TextBox[] textBoxes)
+        public PlotManager( DuplexTcpClient client, TextBox[] textBoxes, DbServices dbSevrices)
         {
             this.client = client;
 
             client.TelemetryReceived += AddTelemetryPacket;
 
             this.logTexBoxes = textBoxes;
+
+            services = dbSevrices;
         }
 
-        private void AddTelemetryPacket(TlmPacket packet)
+        private async void AddTelemetryPacket(TlmPacket packet, PacketInfo packetInfo)
         {
+            await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
+            
+
             int index = 0;
 
             sensors[0].Series[0].Values.Add(packet.Temperature1);

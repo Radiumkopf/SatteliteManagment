@@ -14,7 +14,7 @@ namespace SatteliteManagment
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));
 
-            const int HeaderSize = 1 + 8 + 8 + 1 + 1 + 1 + 4 + 1 + 1;
+            //const int HeaderSize = 1 + 8 + 8 + 1 + 1 + 1 + 4 + 1 + 1;
             
             //if (bytes.Length < HeaderSize)
             //    throw new InvalidDataException("Пакет слишком короткий.");

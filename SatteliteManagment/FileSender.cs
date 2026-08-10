@@ -30,7 +30,7 @@ namespace SatteliteManagment
         public bool IsSendRequestIfGetPacket { get; set; }
         public bool IsTxSet {  get; set; }
 
-        public event Action LastFileReceived;
+        public event Action LastFileReceived;   //FIXME увед мейна что файл готов
 
 
         public FileSender(DuplexTcpClient client,

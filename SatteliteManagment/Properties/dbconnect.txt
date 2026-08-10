@@ -1,0 +1,1 @@
+Host=localhost;Port=5432;Database=telemetry_db;Username=postgres;Password=postgre

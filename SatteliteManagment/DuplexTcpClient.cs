@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Telemetry;
+﻿using SatteliteManagment.Services;
+using SatteliteManagment.Telemetry;
 using SBandSerialReader;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,11 @@ namespace SatteliteManagment
 
         public event Action<FileTransferPacket> ServerAddrChanged;
 
-        public event Action<TlmPacket> TelemetryReceived;
+        public event Action<TlmPacket, PacketInfo> TelemetryReceived;
 
         private const int OFFSET = 25;
+
+        
 
 
         public async Task ConnectAsync(string ip, int port)
@@ -64,19 +67,32 @@ namespace SatteliteManagment
                         continue;
                     }
 
+                    if(data.Length < 28)
+                    {
+                        continue;
+                    }
+
                     byte[] packetInfoHeaderBytes = new byte[28];
 
                     Array.Copy(data, packetInfoHeaderBytes, OFFSET);
                     PacketType packetType = SatellitePacketParser.GetPacketType(data[OFFSET]);
 
-                    if (packetType != PacketType.AddressChanging && packetType != PacketType.Telemetry)
+                    if(packetType == PacketType.AddressChanging)
                     {
+                        FileTransferPacket addrpacket = SatellitePacketParser.Parse(data, OFFSET);
+                        ServerAddrChanged?.Invoke(addrpacket);
+                        continue;
+                    }
+
                         PacketInfo packetInfo;
                         try
                         {
                             packetInfo = PacketInfoParser.Parse(packetInfoHeaderBytes);
 
-                            PacketReceived?.Invoke(packetInfo);
+                            if (packetType != PacketType.Telemetry)
+                            {
+                                PacketReceived?.Invoke(packetInfo);     //чтоб не вешало ресивер
+                            }
 
                         }
                         catch (Exception ex)
@@ -84,7 +100,7 @@ namespace SatteliteManagment
                             Console.WriteLine(ex.Message);
                             continue;
                         }
-                    }
+                    
 
 
                     FileTransferPacket packet;
@@ -106,14 +122,14 @@ namespace SatteliteManagment
                             LastFileReceived?.Invoke(packet);
                             break;
 
-                        case PacketType.AddressChanging:
-                            packet = SatellitePacketParser.Parse(data, OFFSET);
-                            ServerAddrChanged?.Invoke(packet);
-                            break;
+                        //case PacketType.AddressChanging:
+                        //    packet = SatellitePacketParser.Parse(data, OFFSET);
+                        //    ServerAddrChanged?.Invoke(packet);
+                        //    break;
 
                         case PacketType.Telemetry:
                             TlmPacket telemetryPacket = TlmPacket.Parse(data, OFFSET+1);
-                            TelemetryReceived?.Invoke(telemetryPacket);
+                            TelemetryReceived?.Invoke(telemetryPacket, packetInfo);
                             break;
                     }
                 }

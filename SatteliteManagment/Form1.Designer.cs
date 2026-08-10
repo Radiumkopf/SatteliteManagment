@@ -153,6 +153,15 @@ namespace SatteliteManagment
             this.labelDeviceType = new System.Windows.Forms.Label();
             this.labelDeviceName = new System.Windows.Forms.Label();
             this.buttonClearPlot = new System.Windows.Forms.Button();
+            this.tabPageDBView = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBoxEntityType = new System.Windows.Forms.ComboBox();
+            this.buttonGetLast = new System.Windows.Forms.Button();
+            this.buttonGetLastX = new System.Windows.Forms.Button();
+            this.numericUpDownGetCount = new System.Windows.Forms.NumericUpDown();
+            this.textBoxHexView = new System.Windows.Forms.TextBox();
+            this.dataGridViewEntities = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -178,6 +187,10 @@ namespace SatteliteManagment
             this.splitContainerDeviceStatus.SuspendLayout();
             this.tableLayoutPanelDeviceTree.SuspendLayout();
             this.groupBoxDeviceDetails.SuspendLayout();
+            this.tabPageDBView.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -567,6 +580,7 @@ namespace SatteliteManagment
             this.tabControlMain.Controls.Add(this.tabPageSatellite);
             this.tabControlMain.Controls.Add(this.tabPageTelemetry);
             this.tabControlMain.Controls.Add(this.tabPageDeviceStatus);
+            this.tabControlMain.Controls.Add(this.tabPageDBView);
             this.tabControlMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControlMain.Location = new System.Drawing.Point(12, 2);
             this.tabControlMain.Name = "tabControlMain";
@@ -1489,6 +1503,107 @@ namespace SatteliteManagment
             this.buttonClearPlot.Text = "Очистить график";
             this.buttonClearPlot.UseVisualStyleBackColor = true;
             this.buttonClearPlot.Click += new System.EventHandler(this.buttonClearPlot_Click);
+            // tabPageDBView
+            // 
+            this.tabPageDBView.Controls.Add(this.numericUpDownGetCount);
+            this.tabPageDBView.Controls.Add(this.buttonGetLastX);
+            this.tabPageDBView.Controls.Add(this.buttonGetLast);
+            this.tabPageDBView.Controls.Add(this.comboBoxEntityType);
+            this.tabPageDBView.Controls.Add(this.groupBox3);
+            this.tabPageDBView.Controls.Add(this.groupBox2);
+            this.tabPageDBView.Location = new System.Drawing.Point(4, 29);
+            this.tabPageDBView.Name = "tabPageDBView";
+            this.tabPageDBView.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageDBView.TabIndex = 4;
+            this.tabPageDBView.Text = "DB View";
+            this.tabPageDBView.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(4, 80);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(373, 399);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dataGridViewEntities);
+            this.groupBox3.Controls.Add(this.textBoxHexView);
+            this.groupBox3.Location = new System.Drawing.Point(417, 80);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(778, 399);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "groupBox3";
+            // 
+            // comboBoxEntityType
+            // 
+            this.comboBoxEntityType.FormattingEnabled = true;
+            this.comboBoxEntityType.Items.AddRange(new object[] {
+            "Телеметрия",
+            "Файловые пакеты"});
+            this.comboBoxEntityType.Location = new System.Drawing.Point(4, 17);
+            this.comboBoxEntityType.Name = "comboBoxEntityType";
+            this.comboBoxEntityType.Size = new System.Drawing.Size(139, 28);
+            this.comboBoxEntityType.TabIndex = 2;
+            // 
+            // buttonGetLast
+            // 
+            this.buttonGetLast.Location = new System.Drawing.Point(167, 7);
+            this.buttonGetLast.Name = "buttonGetLast";
+            this.buttonGetLast.Size = new System.Drawing.Size(121, 48);
+            this.buttonGetLast.TabIndex = 3;
+            this.buttonGetLast.Text = "Последний пакет";
+            this.buttonGetLast.UseVisualStyleBackColor = true;
+            this.buttonGetLast.Click += new System.EventHandler(this.buttonGetLast_Click);
+            // 
+            // buttonGetLastX
+            // 
+            this.buttonGetLastX.Location = new System.Drawing.Point(404, 7);
+            this.buttonGetLastX.Name = "buttonGetLastX";
+            this.buttonGetLastX.Size = new System.Drawing.Size(111, 48);
+            this.buttonGetLastX.TabIndex = 4;
+            this.buttonGetLastX.Text = "Последние n пакетов";
+            this.buttonGetLastX.UseVisualStyleBackColor = true;
+            this.buttonGetLastX.Click += new System.EventHandler(this.buttonGetLastX_Click);
+            // 
+            // numericUpDownGetCount
+            // 
+            this.numericUpDownGetCount.Location = new System.Drawing.Point(521, 17);
+            this.numericUpDownGetCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownGetCount.Name = "numericUpDownGetCount";
+            this.numericUpDownGetCount.Size = new System.Drawing.Size(75, 27);
+            this.numericUpDownGetCount.TabIndex = 5;
+            this.numericUpDownGetCount.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // textBoxHexView
+            // 
+            this.textBoxHexView.Location = new System.Drawing.Point(6, 37);
+            this.textBoxHexView.Multiline = true;
+            this.textBoxHexView.Name = "textBoxHexView";
+            this.textBoxHexView.ReadOnly = true;
+            this.textBoxHexView.Size = new System.Drawing.Size(646, 124);
+            this.textBoxHexView.TabIndex = 0;
+            // 
+            // dataGridViewEntities
+            // 
+            this.dataGridViewEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEntities.Location = new System.Drawing.Point(7, 168);
+            this.dataGridViewEntities.Name = "dataGridViewEntities";
+            this.dataGridViewEntities.RowHeadersWidth = 51;
+            this.dataGridViewEntities.RowTemplate.Height = 24;
+            this.dataGridViewEntities.Size = new System.Drawing.Size(765, 225);
+            this.dataGridViewEntities.TabIndex = 1;
             // 
             // Form1
             // 
@@ -1535,6 +1650,11 @@ namespace SatteliteManagment
             this.tableLayoutPanelDeviceTree.ResumeLayout(false);
             this.groupBoxDeviceDetails.ResumeLayout(false);
             this.groupBoxDeviceDetails.PerformLayout();
+            this.tabPageDBView.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1662,6 +1782,15 @@ namespace SatteliteManagment
         private Label label26;
         private Button buttonShowRawPackets;
         private Button buttonClearPlot;
+        private TabPage tabPageDBView;
+        private ComboBox comboBoxEntityType;
+        private GroupBox groupBox3;
+        private GroupBox groupBox2;
+        private Button buttonGetLastX;
+        private Button buttonGetLast;
+        private NumericUpDown numericUpDownGetCount;
+        private TextBox textBoxHexView;
+        private DataGridView dataGridViewEntities;
     }
 }
 

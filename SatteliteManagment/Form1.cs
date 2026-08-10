@@ -1,4 +1,8 @@
-﻿using SatteliteManagment.Telemetry;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using SatteliteManagment.Entities;
+using SatteliteManagment.Services;
+using SatteliteManagment.Telemetry;
 using ScottPlot.MultiplotLayouts;
 using System;
 using System.Collections.Concurrent;
@@ -31,6 +35,7 @@ namespace SatteliteManagment
         private FileSender fileSender;
         private PlotManager plotManager;
         private DeviceStatusManager deviceStatusManager;
+        private DbServices dbSevrices;
 
         public Form1()
         {
@@ -51,9 +56,21 @@ namespace SatteliteManagment
 
             fileSender.LastFileReceived += OnFullFileReceived;
 
+            InizializeDB();
             InizializeGraphs();
             InitializeDeviceStatusManager();
         
+        }
+
+        private void InizializeDB()
+        {
+            var db = new AppDbContext();
+            db.Database.Migrate();
+
+            dbSevrices = new DbServices(db);
+
+            comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
+            dataGridViewEntities.AutoGenerateColumns = true;
         }
 
         private void InizializeGraphs()
@@ -73,7 +90,7 @@ namespace SatteliteManagment
                 textBoxTelemetry5, textBoxTelemetry6, textBoxTelemetry7, textBoxTelemetry8, textBoxTelemetry9
             };
 
-            plotManager = new PlotManager(_client, logTextBoxes);
+            plotManager = new PlotManager(_client, logTextBoxes, dbSevrices);
 
             comboBoxTelemetryType.DataSource = plotManager.sensors;
             comboBoxTelemetryType.DisplayMember = "Name";
@@ -196,7 +213,7 @@ namespace SatteliteManagment
                     buttonOpenCloseServer.Enabled = true;
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MessageBox.Show("Подключение к серверу не было выполнено. Проверьте, что сервер включен");
                     buttonOpenCloseServer.Enabled = true;
@@ -205,6 +222,7 @@ namespace SatteliteManagment
             else
                 changeInterfaceState(false);
         }
+
 
 
         private void buttonClearLogs_Click(object sender, EventArgs e)
@@ -352,6 +370,11 @@ namespace SatteliteManagment
             fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
 
         }
+
+        /// <summary>
+        /// 3. Telemetry Graph and Log
+        /// </summary>
+
         private void comboBoxTelemetryType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTelemetryType.SelectedItem is SensorGraph graph)
@@ -501,6 +524,58 @@ namespace SatteliteManagment
             dialogForm.ShowDialog();
         }
 
+
+
+        /// <summary>
+        /// 5. DB View
+        /// </summary>
+        
+        public enum DbEntityType
+        {
+            PacketInfo,
+            TlmPacket,
+            FileTransferPacket
+        }
+
+        private async Task<IReadOnlyList<IDataConvertable>> LoadLastEntitiesAsync(int count)
+        {
+            DbEntityType selectedType = (DbEntityType)comboBoxEntityType.SelectedItem;
+
+            switch (selectedType)
+            {
+                case DbEntityType.PacketInfo:
+                    return (await dbSevrices.PacketInfoService.GetLastAsync(count))
+                        .Cast<IDataConvertable>()
+                        .ToList();
+
+                case DbEntityType.TlmPacket:
+                    return (await dbSevrices.TlmPacketService.GetLastAsync(count))
+                        .Cast<IDataConvertable>()
+                        .ToList();
+
+                case DbEntityType.FileTransferPacket:
+                    return (await dbSevrices.FileTransferPacketService.GetLastAsync(count))
+                        .Cast<IDataConvertable>().ToList();
+                default:
+                    return Array.Empty<IDataConvertable>();
+            }
+        }
+        private async void buttonGetLast_Click(object sender, EventArgs e)
+        {
+            dataGridViewEntities.Columns.Clear();
+            textBoxHexView.Clear();
+            var entity =  await LoadLastEntitiesAsync(1);
+            dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
+            textBoxHexView.AppendText(DataConverter.ByteArrayToStringHEX(entity.First().ToByteArray()));
+        }
+
+        private async void buttonGetLastX_Click(object sender, EventArgs e)
+        {
+            dataGridViewEntities.Columns.Clear();
+            textBoxHexView.Clear();
+            var entity = await LoadLastEntitiesAsync((int)numericUpDownGetCount.Value);
+            dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
+        }
 
     }
 }
