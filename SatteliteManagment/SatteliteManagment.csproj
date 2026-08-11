@@ -180,12 +180,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Db\AppDbContext.cs" />
+    <Compile Include="AppDbContext.cs" />
     <Compile Include="CommandSender.cs" />
-    <Compile Include="Crc32.cs" />
-    <Compile Include="Db\DatabaseCreator.cs" />
+    <Compile Include="DatabaseCreator.cs" />
     <Compile Include="DataConverter.cs" />
-    <Compile Include="Db\DbServices.cs" />
+    <Compile Include="DbServices.cs" />
     <Compile Include="Devices\DeviceNode.cs" />
     <Compile Include="Devices\DeviceStatusManager.cs" />
     <Compile Include="Devices\DeviceTreeParser.cs" />

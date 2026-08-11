@@ -151,7 +151,7 @@ namespace SatteliteManagment
 
             await SendPacketAsyncByNumber(CurrentPacketIndex);
 
-            //ackTimer.Start();
+            ackTimer.Start();
 
             //CurrentPacketIndex++;
 
