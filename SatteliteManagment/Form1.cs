@@ -136,26 +136,6 @@ namespace SatteliteManagment
             formsPlotTelemetry.MouseLeave += formsPlotTelemetry_MouseLeave;
         }
 
-        //private void OnAckReceived(FileTransferPacket packet)
-        //{
-        //    BeginInvoke(new Action(() =>
-        //    {
-        //        byte id = packet.id;
-        //        short number = packet.number;
-
-        //        if (logManager.rows.TryGetValue((id, number), out DataGridViewRow row))
-        //        {
-        //            //fix and move to sender or gridmanager
-        //            logTextBox.Text += "\ngot new ack " + id + number;
-        //            row.DefaultCellStyle.BackColor = Color.Green;
-        //        }
-
-        //        if (checkBoxSendNextIfGetAck.Checked)
-        //        {
-        //            //sendPackage(); //данные уже загружены + айди уже записан + хз какой то кринж
-        //        }
-        //    }));
-        //}
         private void OnAddressReceived(PacketInfo packet)
         {
             BeginInvoke(new Action(() =>
@@ -282,6 +262,10 @@ namespace SatteliteManagment
 
             byte[] dataArray = File.ReadAllBytes(path);
 
+            uint crc = Crc32.CalculateFile(path);
+            logTextBox.AppendText("Crc файла: " + crc.ToString());
+            labelCrc.Text = crc.ToString();
+
             fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
             if (buttonOpenCloseServer.Text == "Включить сервер" || labelComPortConnectionInfo.Text == "Выключено")
@@ -324,7 +308,47 @@ namespace SatteliteManagment
 
             await fileSender.SendFileRequestAsync();
         }
+        private void buttonSelectPathFile_Click(object sender, EventArgs e)
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Выберите папку для сохранения";
 
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
+
+                    fileSender.SetPathToSave(path);
+                    buttonSendFileRequest.Enabled = true;
+                }
+            }
+        }
+
+        private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Удалить текущий файл?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                fileSender.ClearFileData();
+
+                numericUpDownPacketSize.Enabled = true;
+                button1.Enabled = true;
+                sendOnePackageButton.Enabled = false;
+                sendAllPackageButton.Enabled = false;
+                buttonShowRawPackets.Enabled = false;
+                labelCrc.Text = "-";
+            }
+
+        }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
@@ -493,46 +517,11 @@ namespace SatteliteManagment
             plotManager.EnableWriteToDB = checkBoxWriteTLMToDB.Checked;
         }
 
-        private void buttonSelectPathFile_Click(object sender, EventArgs e)
-        {
-            using (var folderDialog = new FolderBrowserDialog())
-            {
-                folderDialog.Description = "Выберите папку для сохранения";
 
-                if (folderDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
 
-                    fileSender.SetPathToSave(path);
-                    buttonSendFileRequest.Enabled = true;
-                }
-            }
-        }
-
-        private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show(
-                "Удалить текущий файл?",
-                "Подтверждение",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.No)
-            {
-                return;
-            }
-            else
-            {
-                fileSender.ClearFileData();
-
-                numericUpDownPacketSize.Enabled = true;
-                button1.Enabled = true;
-                sendOnePackageButton.Enabled = false;
-                sendAllPackageButton.Enabled = false;
-                buttonShowRawPackets.Enabled = false;
-            }
-
-        }
+        /// <summary>
+        /// 4. Device Page
+        /// </summary>
         private void InitializeDeviceStatusManager()
         {
             deviceStatusManager = new DeviceStatusManager(treeViewDevices, labelDeviceName, labelDeviceType, labelDeviceId, labelDeviceStatus, textBoxDeviceMetadata);
