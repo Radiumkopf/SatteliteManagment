@@ -19,6 +19,7 @@ namespace SatteliteManagment.Repositories
 
         public async Task AddAsync(FileTransferPacketEntity entity)
         {
+            
             _db.FileTransferPackets.Add(entity);
             await _db.SaveChangesAsync();
         }

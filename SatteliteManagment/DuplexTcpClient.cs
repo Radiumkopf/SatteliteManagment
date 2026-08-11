@@ -62,10 +62,6 @@ namespace SatteliteManagment
                     //    ServerAddrChanged?.Invoke(SatellitePacketParser.Parse(data));
                     //    continue;
                     //}
-                    if(data.Length < 25)
-                    {
-                        continue;
-                    }
 
                     if(data.Length < 28)
                     {

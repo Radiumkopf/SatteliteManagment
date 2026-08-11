@@ -69,8 +69,29 @@ namespace SatteliteManagment
 
             dbSevrices = new DbServices(db);
 
-            comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
-            dataGridViewEntities.AutoGenerateColumns = true;
+
+
+
+            var dbCreator = new DatabaseCreator();
+
+            if (!dbCreator.TryInitialize())
+            {
+                MessageBox.Show(
+                    "Подключение к базе данных недоступно.\n" +
+                    "Функции работы с базой данных отключены.",
+                    "Предупреждение");
+
+                dbSevrices = null;
+                checkBoxWriteTLMToDB.Enabled = false;
+                TabPage dbPage =  tabControlMain.TabPages[4];
+                dbPage.Enabled = false;
+            }
+            else
+            {
+                dbSevrices = new DbServices(dbCreator.Context);
+                comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
+                dataGridViewEntities.AutoGenerateColumns = true;
+            }
         }
 
         private void InizializeGraphs()
@@ -90,7 +111,17 @@ namespace SatteliteManagment
                 textBoxTelemetry5, textBoxTelemetry6, textBoxTelemetry7, textBoxTelemetry8, textBoxTelemetry9
             };
 
-            plotManager = new PlotManager(_client, logTextBoxes, dbSevrices);
+            if (dbSevrices != null)
+            {
+                plotManager = new PlotManager(_client, logTextBoxes, dbSevrices);
+               
+            }
+            else
+            {
+                plotManager = new PlotManager(_client, logTextBoxes, null);
+            }
+
+            plotManager.EnableWriteToDB = false;
 
             comboBoxTelemetryType.DataSource = plotManager.sensors;
             comboBoxTelemetryType.DisplayMember = "Name";
@@ -300,6 +331,9 @@ namespace SatteliteManagment
             //gridViewLogManager.AddRow(datab, "boba");
         }
 
+        /// <summary>
+        ///  2. Triggers
+        /// </summary>
 
         private void buttonWriteCommand_Click(object sender, EventArgs e)
         {
@@ -332,7 +366,7 @@ namespace SatteliteManagment
             {
                 byte[] address = DataConverter.HexStringToBytes(textBoxDeleteTrigger.Text);
                 triggerManager.DeleteTrigger(address);
-
+                
             }
         }
 
@@ -449,6 +483,10 @@ namespace SatteliteManagment
         private void buttonClearPlot_Click(object sender, EventArgs e)
         {
             formsPlotTelemetry.Plot.Clear();
+        }
+        private void checkBoxWriteTLMToDB_CheckedChanged(object sender, EventArgs e)
+        {
+            plotManager.EnableWriteToDB = checkBoxWriteTLMToDB.Checked;
         }
 
         private void buttonSelectPathFile_Click(object sender, EventArgs e)
@@ -576,6 +614,7 @@ namespace SatteliteManagment
             var entity = await LoadLastEntitiesAsync((int)numericUpDownGetCount.Value);
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
         }
+
 
     }
 }

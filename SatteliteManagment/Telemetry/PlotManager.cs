@@ -17,6 +17,7 @@ namespace SatteliteManagment.Telemetry
         TextBox[] logTexBoxes;
         public event Action GraphRefresh;
         DbServices services;
+        public bool EnableWriteToDB;
 
 
         public List<SensorGraph> sensors = new List<SensorGraph>() {
@@ -84,8 +85,10 @@ namespace SatteliteManagment.Telemetry
 
         private async void AddTelemetryPacket(TlmPacket packet, PacketInfo packetInfo)
         {
-            await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
-            
+            if (EnableWriteToDB)
+            {
+                await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
+            }
 
             int index = 0;
 
