@@ -91,6 +91,10 @@ namespace SatteliteManagment
                 dbSevrices = new DbServices(dbCreator.Context);
                 comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
                 dataGridViewEntities.AutoGenerateColumns = true;
+                dataGridViewEntities.ReadOnly = true;
+                dataGridViewEntities.AllowUserToAddRows = false;
+                dataGridViewEntities.AllowUserToDeleteRows = false;
+
             }
         }
 

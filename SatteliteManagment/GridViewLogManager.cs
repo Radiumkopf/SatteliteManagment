@@ -61,6 +61,9 @@ namespace SatteliteManagment
             row.Cells[4].Value = text;
 
             rows[(id, number)] = row; //add to dict
+
+            dataGridView.FirstDisplayedScrollingRowIndex = dataGridView.Rows.Count - 1;     //AutoScroll
+
         }
 
         public void MarkPacketAsReceived(byte id, ushort number)
