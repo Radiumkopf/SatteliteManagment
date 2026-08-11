@@ -282,6 +282,9 @@ namespace SatteliteManagment
 
             byte[] dataArray = File.ReadAllBytes(path);
 
+            uint crc = Crc32.CalculateFile(path);
+            labelCrc.Text = crc.ToString();
+
             fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
             if (buttonOpenCloseServer.Text == "Включить сервер" || labelComPortConnectionInfo.Text == "Выключено")

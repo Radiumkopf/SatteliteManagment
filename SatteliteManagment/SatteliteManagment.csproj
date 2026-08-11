@@ -182,6 +182,7 @@
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
     <Compile Include="CommandSender.cs" />
+    <Compile Include="Crc32.cs" />
     <Compile Include="DatabaseCreator.cs" />
     <Compile Include="DataConverter.cs" />
     <Compile Include="DbServices.cs" />

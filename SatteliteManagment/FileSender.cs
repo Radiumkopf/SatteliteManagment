@@ -177,7 +177,7 @@ namespace SatteliteManagment
             while (CurrentPacketIndex < FileData.Count)
             {
                 await SendNextPacketAsync();
-                Task.Delay(1000);
+                await Task.Delay(1000);
             }
         }
 

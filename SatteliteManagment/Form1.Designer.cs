@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SatteliteManagment
 {
-    partial class Form1
+    public partial class Form1 : Form
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -105,6 +105,7 @@ namespace SatteliteManagment
             this.checkBoxRSSI = new System.Windows.Forms.CheckBox();
             this.tabPageTelemetry = new System.Windows.Forms.TabPage();
             this.groupBoxTelemetryPlots = new System.Windows.Forms.GroupBox();
+            this.checkBoxWriteTLMToDB = new System.Windows.Forms.CheckBox();
             this.buttonClearPlot = new System.Windows.Forms.Button();
             this.labelTelType = new System.Windows.Forms.Label();
             this.formsPlotTelemetry = new ScottPlot.WinForms.FormsPlot();
@@ -162,7 +163,7 @@ namespace SatteliteManagment
             this.dataGridViewEntities = new System.Windows.Forms.DataGridView();
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBoxWriteTLMToDB = new System.Windows.Forms.CheckBox();
+            this.labelCrc = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -376,6 +377,7 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.labelCrc);
             this.panelRadioControl.Controls.Add(this.buttonShowRawPackets);
             this.panelRadioControl.Controls.Add(this.buttonDeleteCurrentFile);
             this.panelRadioControl.Controls.Add(this.numericUpDownPacketSize);
@@ -1033,6 +1035,17 @@ namespace SatteliteManagment
             this.groupBoxTelemetryPlots.TabStop = false;
             this.groupBoxTelemetryPlots.Text = "Telemetry Graph";
             // 
+            // checkBoxWriteTLMToDB
+            // 
+            this.checkBoxWriteTLMToDB.AutoSize = true;
+            this.checkBoxWriteTLMToDB.Location = new System.Drawing.Point(355, 26);
+            this.checkBoxWriteTLMToDB.Name = "checkBoxWriteTLMToDB";
+            this.checkBoxWriteTLMToDB.Size = new System.Drawing.Size(260, 24);
+            this.checkBoxWriteTLMToDB.TabIndex = 4;
+            this.checkBoxWriteTLMToDB.Text = "Записывать данные в базу";
+            this.checkBoxWriteTLMToDB.UseVisualStyleBackColor = true;
+            this.checkBoxWriteTLMToDB.CheckedChanged += new System.EventHandler(this.checkBoxWriteTLMToDB_CheckedChanged);
+            // 
             // buttonClearPlot
             // 
             this.buttonClearPlot.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1460,7 +1473,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 169);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 174);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1469,7 +1482,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 135);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 140);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1478,7 +1491,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 105);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 110);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1487,7 +1500,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 75);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 80);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1496,7 +1509,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 45);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 50);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1604,16 +1617,14 @@ namespace SatteliteManagment
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
-            // checkBoxWriteTLMToDB
+            // labelCrc
             // 
-            this.checkBoxWriteTLMToDB.AutoSize = true;
-            this.checkBoxWriteTLMToDB.Location = new System.Drawing.Point(355, 26);
-            this.checkBoxWriteTLMToDB.Name = "checkBoxWriteTLMToDB";
-            this.checkBoxWriteTLMToDB.Size = new System.Drawing.Size(260, 24);
-            this.checkBoxWriteTLMToDB.TabIndex = 4;
-            this.checkBoxWriteTLMToDB.Text = "Записывать данные в базу";
-            this.checkBoxWriteTLMToDB.UseVisualStyleBackColor = true;
-            this.checkBoxWriteTLMToDB.CheckedChanged += new System.EventHandler(this.checkBoxWriteTLMToDB_CheckedChanged);
+            this.labelCrc.AutoSize = true;
+            this.labelCrc.Location = new System.Drawing.Point(157, 287);
+            this.labelCrc.Name = "labelCrc";
+            this.labelCrc.Size = new System.Drawing.Size(11, 16);
+            this.labelCrc.TabIndex = 25;
+            this.labelCrc.Text = "-";
             // 
             // Form1
             // 
@@ -1802,6 +1813,7 @@ namespace SatteliteManagment
         private TextBox textBoxHexView;
         private DataGridView dataGridViewEntities;
         private CheckBox checkBoxWriteTLMToDB;
+        private Label labelCrc;
     }
 }
 
