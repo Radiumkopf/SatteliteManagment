@@ -213,7 +213,9 @@ namespace SatteliteManagment
         private void OnFullFileReceived()
         {
             buttonSendFileRequest.Enabled = false;
-            logTextBox.AppendText("Файл получен");
+            logTextBox.AppendText("Файл сохранен: " + currentFilePath);
+            IsFilePathSet = false;
+            dbSevrices.StoredFileService.SaveFileAsync(currentFilePath, currentServerTxAddress);
         }
 
         /// <summary>
@@ -349,13 +351,15 @@ namespace SatteliteManagment
 
             }
 
-            using (var folderDialog = new FolderBrowserDialog())
+            using (var saveDialog = new SaveFileDialog())
             {
-                folderDialog.Description = "Выберите папку для сохранения";
+                saveDialog.Title = "Куда сохранить файл?";
+                saveDialog.Filter = "Все файлы (*.*)|*.*";
+                saveDialog.FileName = "received_file";
 
-                if (folderDialog.ShowDialog() == DialogResult.OK)
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
+                    string path = saveDialog.FileName;  
                     IsFilePathSet = true;
                     fileSender.SetPathToSave(path);
                     buttonSendFileRequest.Enabled = true;
@@ -392,11 +396,7 @@ namespace SatteliteManagment
 
         private void testbutton_Click(object sender, EventArgs e)
         {
-            //GridViewLogManager gridViewLogManager = new GridViewLogManager();
-            //gridViewLogManager.DataGridView = this.logdataGridView;
-            //gridViewLogManager.HeaderInfo();
-            //byte[] datab = new byte[] { 0x01, 0x02, 0x03 };
-            //gridViewLogManager.AddRow(datab, "boba");
+            fileSender.SendCheckSum();
         }
 
         /// <summary>

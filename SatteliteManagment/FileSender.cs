@@ -109,6 +109,7 @@ namespace SatteliteManagment
 
         }
 
+
         private void OnLastFileReceived(FileTransferPacket packet)
         {
             if (fileReceiver.IsReceiving)
@@ -233,6 +234,8 @@ namespace SatteliteManagment
             return packet.ToByteArray();
         }
 
+        
+
         public void SetPathToSave(string path)
         {
             if (!fileReceiver.IsReceiving)
@@ -249,6 +252,13 @@ namespace SatteliteManagment
             DestinationId = 0;
             PacketSize = 0;
         }
+
+        public async void SendCheckSum()    //FIXME 
+        {
+            byte[] packet = BuildProtocolPackage(PacketType.CheckSum, 0, Array.Empty<byte>());
+            await client.SendTextAsync(packet);
+        }
+
         public async Task RestartReceive()
         {
             fileReceiver.Finish();
