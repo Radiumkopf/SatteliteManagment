@@ -36,6 +36,7 @@ namespace SatteliteManagment
         private PlotManager plotManager;
         private DeviceStatusManager deviceStatusManager;
         private DbServices dbSevrices;
+        private string currentFilePath;
 
         public Form1()
         {
@@ -54,7 +55,7 @@ namespace SatteliteManagment
 
             fileSender = new FileSender(_client, logManager);
 
-            fileSender.LastFileReceived += OnFullFileReceived;
+            fileSender.SenderLastFileReceived += OnFullFileReceived;
 
             InizializeDB();
             InizializeGraphs();
@@ -284,6 +285,7 @@ namespace SatteliteManagment
 
             uint crc = Crc32.CalculateFile(path);
             labelCrc.Text = crc.ToString();
+            logTextBox.AppendText(crc.ToString());
 
             fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
@@ -328,6 +330,65 @@ namespace SatteliteManagment
             await fileSender.SendFileRequestAsync();
         }
 
+        private bool IsFilePathSet = false;
+        private void buttonSelectPathFile_Click(object sender, EventArgs e)
+        {
+            if (IsFilePathSet) {
+
+                DialogResult result = MessageBox.Show(
+                    "Запись уже началась.\nПри продолжении возможна потеря\nнекоторых полученных данных!",
+                    "Подтверждение",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+                fileSender.RestartReceive();
+
+            }
+
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Выберите папку для сохранения";
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
+                    IsFilePathSet = true;
+                    fileSender.SetPathToSave(path);
+                    buttonSendFileRequest.Enabled = true;
+                    this.currentFilePath = path;
+                }
+            }
+        }
+
+        private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Удалить текущий файл?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                fileSender.ClearFileData();
+
+                numericUpDownPacketSize.Enabled = true;
+                button1.Enabled = true;
+                sendOnePackageButton.Enabled = false;
+                sendAllPackageButton.Enabled = false;
+                buttonShowRawPackets.Enabled = false;
+                labelCrc.Text = "-";
+            }
+
+        }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
@@ -496,46 +557,7 @@ namespace SatteliteManagment
             plotManager.EnableWriteToDB = checkBoxWriteTLMToDB.Checked;
         }
 
-        private void buttonSelectPathFile_Click(object sender, EventArgs e)
-        {
-            using (var folderDialog = new FolderBrowserDialog())
-            {
-                folderDialog.Description = "Выберите папку для сохранения";
 
-                if (folderDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string path = Path.Combine(folderDialog.SelectedPath, "image.png");
-
-                    fileSender.SetPathToSave(path);
-                    buttonSendFileRequest.Enabled = true;
-                }
-            }
-        }
-
-        private void buttonDeleteCurrentFile_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show(
-                "Удалить текущий файл?",
-                "Подтверждение",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.No)
-            {
-                return;
-            }
-            else
-            {
-                fileSender.ClearFileData();
-
-                numericUpDownPacketSize.Enabled = true;
-                button1.Enabled = true;
-                sendOnePackageButton.Enabled = false;
-                sendAllPackageButton.Enabled = false;
-                buttonShowRawPackets.Enabled = false;
-            }
-
-        }
         private void InitializeDeviceStatusManager()
         {
             deviceStatusManager = new DeviceStatusManager(treeViewDevices, labelDeviceName, labelDeviceType, labelDeviceId, labelDeviceStatus, textBoxDeviceMetadata);

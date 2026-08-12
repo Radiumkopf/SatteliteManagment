@@ -193,6 +193,7 @@
     <Compile Include="Entities\FileTransferPacketEntity.cs" />
     <Compile Include="Entities\IDbEntity.cs" />
     <Compile Include="Entities\PacketInfoEntity.cs" />
+    <Compile Include="Entities\StoredFileEntity.cs" />
     <Compile Include="Entities\TlmPacketEntity.cs" />
     <Compile Include="EntityTableConverter.cs" />
     <Compile Include="FileReseiver.cs" />
@@ -207,10 +208,15 @@
     <Compile Include="Migrations\20260805074318_InitialCreate.Designer.cs">
       <DependentUpon>20260805074318_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20260812073129_AddStoredFileEntity.cs" />
+    <Compile Include="Migrations\20260812073129_AddStoredFileEntity.Designer.cs">
+      <DependentUpon>20260812073129_AddStoredFileEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="RawPacket.cs" />
     <Compile Include="Repositories\FileTransferPacketRepository.cs" />
     <Compile Include="Repositories\PacketInfoRepository.cs" />
+    <Compile Include="Repositories\StoredFileRepository.cs" />
     <Compile Include="Repositories\TlmPacketRepository.cs" />
     <Compile Include="Selector\FormSelectPacket.cs">
       <SubType>Form</SubType>
@@ -230,6 +236,7 @@
     <Compile Include="Services\FileTransferPacketService.cs" />
     <Compile Include="Services\PacketInfoService.cs" />
     <Compile Include="Services\PacketStoreService.cs" />
+    <Compile Include="Services\StoredFileService.cs" />
     <Compile Include="Services\TlmPacketService.cs" />
     <Compile Include="Telemetry\PlotManager.cs" />
     <Compile Include="Telemetry\SensorGraph.cs" />

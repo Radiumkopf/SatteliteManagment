@@ -49,6 +49,7 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.labelCrc = new System.Windows.Forms.Label();
             this.buttonShowRawPackets = new System.Windows.Forms.Button();
             this.buttonDeleteCurrentFile = new System.Windows.Forms.Button();
             this.numericUpDownPacketSize = new System.Windows.Forms.NumericUpDown();
@@ -163,7 +164,6 @@ namespace SatteliteManagment
             this.dataGridViewEntities = new System.Windows.Forms.DataGridView();
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.labelCrc = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
@@ -401,6 +401,15 @@ namespace SatteliteManagment
             this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
             this.panelRadioControl.TabIndex = 0;
             // 
+            // labelCrc
+            // 
+            this.labelCrc.AutoSize = true;
+            this.labelCrc.Location = new System.Drawing.Point(157, 287);
+            this.labelCrc.Name = "labelCrc";
+            this.labelCrc.Size = new System.Drawing.Size(11, 16);
+            this.labelCrc.TabIndex = 25;
+            this.labelCrc.Text = "-";
+            // 
             // buttonShowRawPackets
             // 
             this.buttonShowRawPackets.Location = new System.Drawing.Point(12, 390);
@@ -468,7 +477,7 @@ namespace SatteliteManagment
             this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
             this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
             this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSelectPathFile.Location = new System.Drawing.Point(327, 415);
+            this.buttonSelectPathFile.Location = new System.Drawing.Point(327, 428);
             this.buttonSelectPathFile.Name = "buttonSelectPathFile";
             this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
             this.buttonSelectPathFile.TabIndex = 20;
@@ -480,7 +489,7 @@ namespace SatteliteManagment
             // 
             this.buttonSendFileRequest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSendFileRequest.Enabled = false;
-            this.buttonSendFileRequest.Location = new System.Drawing.Point(157, 415);
+            this.buttonSendFileRequest.Location = new System.Drawing.Point(157, 428);
             this.buttonSendFileRequest.Name = "buttonSendFileRequest";
             this.buttonSendFileRequest.Size = new System.Drawing.Size(153, 49);
             this.buttonSendFileRequest.TabIndex = 19;
@@ -523,7 +532,7 @@ namespace SatteliteManagment
             // 
             this.sendAllPackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendAllPackageButton.Enabled = false;
-            this.sendAllPackageButton.Location = new System.Drawing.Point(157, 361);
+            this.sendAllPackageButton.Location = new System.Drawing.Point(157, 374);
             this.sendAllPackageButton.Name = "sendAllPackageButton";
             this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
             this.sendAllPackageButton.TabIndex = 14;
@@ -535,7 +544,7 @@ namespace SatteliteManagment
             // 
             this.sendOnePackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendOnePackageButton.Enabled = false;
-            this.sendOnePackageButton.Location = new System.Drawing.Point(157, 307);
+            this.sendOnePackageButton.Location = new System.Drawing.Point(157, 320);
             this.sendOnePackageButton.Name = "sendOnePackageButton";
             this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
             this.sendOnePackageButton.TabIndex = 13;
@@ -1473,7 +1482,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 174);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 179);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1482,7 +1491,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 140);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 145);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1491,7 +1500,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 110);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 115);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1500,7 +1509,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 80);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 85);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1509,7 +1518,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 50);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 55);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1616,15 +1625,6 @@ namespace SatteliteManagment
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
-            // 
-            // labelCrc
-            // 
-            this.labelCrc.AutoSize = true;
-            this.labelCrc.Location = new System.Drawing.Point(157, 287);
-            this.labelCrc.Name = "labelCrc";
-            this.labelCrc.Size = new System.Drawing.Size(11, 16);
-            this.labelCrc.TabIndex = 25;
-            this.labelCrc.Text = "-";
             // 
             // Form1
             // 

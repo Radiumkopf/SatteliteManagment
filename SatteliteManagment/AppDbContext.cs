@@ -15,6 +15,7 @@ namespace SatteliteManagment
         public DbSet<TlmPacketEntity> TlmPackets { get; set; }
         public DbSet<PacketInfoEntity> PacketInfos { get; set; }
         public DbSet<FileTransferPacketEntity> FileTransferPackets { get; set; }
+        public DbSet<StoredFileEntity> StoredFiles { get; set; }
 
         private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), "Properties/dbconnect.txt");
 

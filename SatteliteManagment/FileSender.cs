@@ -32,7 +32,7 @@ namespace SatteliteManagment
         public bool IsSendRequestIfGetPacket { get; set; }
         public bool IsTxSet {  get; set; }
 
-        public event Action LastFileReceived;   //FIXME увед мейна что файл готов
+        public event Action SenderLastFileReceived;   //FIXME увед мейна что файл готов
 
         private System.Timers.Timer ackTimer;
 
@@ -100,11 +100,13 @@ namespace SatteliteManagment
             if (fileReceiver.IsReceiving)
             {
                 fileReceiver.AddPacket(packet);
+
+                if (IsSendRequestIfGetPacket)
+                {
+                    SendFileRequestAsync();
+                }
             }
-            if (IsSendRequestIfGetPacket)
-            {
-                SendFileRequestAsync();
-            }
+
         }
 
         private void OnLastFileReceived(FileTransferPacket packet)
@@ -112,8 +114,10 @@ namespace SatteliteManagment
             if (fileReceiver.IsReceiving)
             {
                 fileReceiver.AddPacket(packet);
-                fileReceiver.Finish();
+                fileReceiver.Dispose();
                 //еще какой то увед что файл готов
+
+                SenderLastFileReceived?.Invoke();
             }
         }
 
@@ -244,6 +248,13 @@ namespace SatteliteManagment
             CurrentPacketIndex = 0;
             DestinationId = 0;
             PacketSize = 0;
+        }
+        public async Task RestartReceive()
+        {
+            fileReceiver.Finish();
+            byte[] packet = BuildProtocolPackage( PacketType.RestartFileReceiving, 0, Array.Empty<byte>());    
+            //Увед что нужно рестартнуть передачу
+            await client.SendTextAsync(packet);
         }
 
         public void RequestCurrentServerTxAddress()

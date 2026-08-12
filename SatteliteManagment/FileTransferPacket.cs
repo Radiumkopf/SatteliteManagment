@@ -12,6 +12,7 @@ namespace SatteliteManagment
             TimeSet = 0x0A,
             FileSending = 0x0B,
             FileRequesting = 0x0C,
+            RestartFileReceiving = 0x09,
 
             TimeSetAck = 0x1A,
             FileSendingAck = 0x1B,
