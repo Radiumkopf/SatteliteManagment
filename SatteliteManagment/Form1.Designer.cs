@@ -33,13 +33,9 @@ namespace SatteliteManagment
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearLogs = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.labelSnrInfoB = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
-            this.radioButtonSeparatorNothing = new System.Windows.Forms.RadioButton();
-            this.radioButtonSeparatorDollar = new System.Windows.Forms.RadioButton();
-            this.buttonSendCommand = new System.Windows.Forms.Button();
-            this.textBoxSendCommand = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.labelSnrInfoA = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,6 +45,7 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.buttonVerifyCheckSum = new System.Windows.Forms.Button();
             this.labelCrc = new System.Windows.Forms.Label();
             this.buttonShowRawPackets = new System.Windows.Forms.Button();
             this.buttonDeleteCurrentFile = new System.Windows.Forms.Button();
@@ -164,7 +161,11 @@ namespace SatteliteManagment
             this.dataGridViewEntities = new System.Windows.Forms.DataGridView();
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.labelCrcHex = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).BeginInit();
@@ -193,6 +194,7 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
+            this.groupBoxFileSending.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -206,29 +208,25 @@ namespace SatteliteManagment
             this.buttonClearLogs.UseVisualStyleBackColor = true;
             this.buttonClearLogs.Click += new System.EventHandler(this.buttonClearLogs_Click);
             // 
-            // groupBox1
+            // groupBoxConnection
             // 
-            this.groupBox1.Controls.Add(this.labelSnrInfoB);
-            this.groupBox1.Controls.Add(this.label61);
-            this.groupBox1.Controls.Add(this.radioButtonSeparatorNothing);
-            this.groupBox1.Controls.Add(this.radioButtonSeparatorDollar);
-            this.groupBox1.Controls.Add(this.buttonSendCommand);
-            this.groupBox1.Controls.Add(this.textBoxSendCommand);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.labelSnrInfoA);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.buttonOpenCloseServer);
-            this.groupBox1.Controls.Add(this.labelComPortConnectionInfo);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(12, 4);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox1.Size = new System.Drawing.Size(307, 241);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Подключение и данные";
+            this.groupBoxConnection.Controls.Add(this.labelSnrInfoB);
+            this.groupBoxConnection.Controls.Add(this.label61);
+            this.groupBoxConnection.Controls.Add(this.label6);
+            this.groupBoxConnection.Controls.Add(this.labelSnrInfoA);
+            this.groupBoxConnection.Controls.Add(this.label5);
+            this.groupBoxConnection.Controls.Add(this.buttonOpenCloseServer);
+            this.groupBoxConnection.Controls.Add(this.labelComPortConnectionInfo);
+            this.groupBoxConnection.Controls.Add(this.pictureBox1);
+            this.groupBoxConnection.Controls.Add(this.label4);
+            this.groupBoxConnection.Location = new System.Drawing.Point(12, 4);
+            this.groupBoxConnection.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.groupBoxConnection.Name = "groupBoxConnection";
+            this.groupBoxConnection.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.groupBoxConnection.Size = new System.Drawing.Size(307, 135);
+            this.groupBoxConnection.TabIndex = 6;
+            this.groupBoxConnection.TabStop = false;
+            this.groupBoxConnection.Text = "Подключение ";
             // 
             // labelSnrInfoB
             // 
@@ -250,57 +248,12 @@ namespace SatteliteManagment
             this.label61.TabIndex = 14;
             this.label61.Text = "RSSI B:";
             // 
-            // radioButtonSeparatorNothing
-            // 
-            this.radioButtonSeparatorNothing.AutoSize = true;
-            this.radioButtonSeparatorNothing.Location = new System.Drawing.Point(5, 188);
-            this.radioButtonSeparatorNothing.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.radioButtonSeparatorNothing.Name = "radioButtonSeparatorNothing";
-            this.radioButtonSeparatorNothing.Size = new System.Drawing.Size(176, 20);
-            this.radioButtonSeparatorNothing.TabIndex = 13;
-            this.radioButtonSeparatorNothing.Text = "Без разделителя байт";
-            this.radioButtonSeparatorNothing.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSeparatorDollar
-            // 
-            this.radioButtonSeparatorDollar.AutoSize = true;
-            this.radioButtonSeparatorDollar.Checked = true;
-            this.radioButtonSeparatorDollar.Location = new System.Drawing.Point(5, 165);
-            this.radioButtonSeparatorDollar.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.radioButtonSeparatorDollar.Name = "radioButtonSeparatorDollar";
-            this.radioButtonSeparatorDollar.Size = new System.Drawing.Size(176, 20);
-            this.radioButtonSeparatorDollar.TabIndex = 12;
-            this.radioButtonSeparatorDollar.TabStop = true;
-            this.radioButtonSeparatorDollar.Text = "Разделитель байт - \"$\"";
-            this.radioButtonSeparatorDollar.UseVisualStyleBackColor = true;
-            // 
-            // buttonSendCommand
-            // 
-            this.buttonSendCommand.Location = new System.Drawing.Point(193, 165);
-            this.buttonSendCommand.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.buttonSendCommand.Name = "buttonSendCommand";
-            this.buttonSendCommand.Size = new System.Drawing.Size(108, 43);
-            this.buttonSendCommand.TabIndex = 11;
-            this.buttonSendCommand.Text = "Отправить\r\nкоманду";
-            this.buttonSendCommand.UseVisualStyleBackColor = true;
-            // 
-            // textBoxSendCommand
-            // 
-            this.textBoxSendCommand.Location = new System.Drawing.Point(5, 138);
-            this.textBoxSendCommand.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.textBoxSendCommand.Name = "textBoxSendCommand";
-            this.textBoxSendCommand.Size = new System.Drawing.Size(295, 22);
-            this.textBoxSendCommand.TabIndex = 10;
-            // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 119);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(125, 16);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Отправка команд:";
+            this.label6.Size = new System.Drawing.Size(100, 23);
+            this.label6.TabIndex = 16;
             // 
             // labelSnrInfoA
             // 
@@ -377,23 +330,13 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelRadioControl.Controls.Add(this.labelCrc);
-            this.panelRadioControl.Controls.Add(this.buttonShowRawPackets);
-            this.panelRadioControl.Controls.Add(this.buttonDeleteCurrentFile);
-            this.panelRadioControl.Controls.Add(this.numericUpDownPacketSize);
-            this.panelRadioControl.Controls.Add(this.numericUpDownId);
+            this.panelRadioControl.Controls.Add(this.groupBoxFileSending);
             this.panelRadioControl.Controls.Add(this.buttonSelectPathFile);
-            this.panelRadioControl.Controls.Add(this.buttonSendFileRequest);
-            this.panelRadioControl.Controls.Add(this.label3);
             this.panelRadioControl.Controls.Add(this.testbutton);
             this.panelRadioControl.Controls.Add(this.logdataGridView);
-            this.panelRadioControl.Controls.Add(this.sendAllPackageButton);
-            this.panelRadioControl.Controls.Add(this.sendOnePackageButton);
             this.panelRadioControl.Controls.Add(this.logTextBox);
-            this.panelRadioControl.Controls.Add(this.label2);
-            this.panelRadioControl.Controls.Add(this.button1);
             this.panelRadioControl.Controls.Add(this.label1);
-            this.panelRadioControl.Controls.Add(this.groupBox1);
+            this.panelRadioControl.Controls.Add(this.groupBoxConnection);
             this.panelRadioControl.Controls.Add(this.buttonClearLogs);
             this.panelRadioControl.Location = new System.Drawing.Point(7, 5);
             this.panelRadioControl.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
@@ -401,10 +344,21 @@ namespace SatteliteManagment
             this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
             this.panelRadioControl.TabIndex = 0;
             // 
+            // buttonVerifyCheckSum
+            // 
+            this.buttonVerifyCheckSum.Enabled = false;
+            this.buttonVerifyCheckSum.Location = new System.Drawing.Point(3, 198);
+            this.buttonVerifyCheckSum.Name = "buttonVerifyCheckSum";
+            this.buttonVerifyCheckSum.Size = new System.Drawing.Size(134, 32);
+            this.buttonVerifyCheckSum.TabIndex = 26;
+            this.buttonVerifyCheckSum.Text = "Проверить CRC";
+            this.buttonVerifyCheckSum.UseVisualStyleBackColor = true;
+            this.buttonVerifyCheckSum.Click += new System.EventHandler(this.buttonVerifyCheckSum_Click);
+            // 
             // labelCrc
             // 
             this.labelCrc.AutoSize = true;
-            this.labelCrc.Location = new System.Drawing.Point(157, 287);
+            this.labelCrc.Location = new System.Drawing.Point(186, 58);
             this.labelCrc.Name = "labelCrc";
             this.labelCrc.Size = new System.Drawing.Size(11, 16);
             this.labelCrc.TabIndex = 25;
@@ -412,7 +366,7 @@ namespace SatteliteManagment
             // 
             // buttonShowRawPackets
             // 
-            this.buttonShowRawPackets.Location = new System.Drawing.Point(12, 390);
+            this.buttonShowRawPackets.Location = new System.Drawing.Point(3, 160);
             this.buttonShowRawPackets.Name = "buttonShowRawPackets";
             this.buttonShowRawPackets.Size = new System.Drawing.Size(107, 31);
             this.buttonShowRawPackets.TabIndex = 24;
@@ -429,7 +383,7 @@ namespace SatteliteManagment
             this.buttonDeleteCurrentFile.Enabled = false;
             this.buttonDeleteCurrentFile.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.buttonDeleteCurrentFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonDeleteCurrentFile.Location = new System.Drawing.Point(292, 252);
+            this.buttonDeleteCurrentFile.Location = new System.Drawing.Point(274, 22);
             this.buttonDeleteCurrentFile.Name = "buttonDeleteCurrentFile";
             this.buttonDeleteCurrentFile.Size = new System.Drawing.Size(27, 28);
             this.buttonDeleteCurrentFile.TabIndex = 23;
@@ -438,7 +392,7 @@ namespace SatteliteManagment
             // 
             // numericUpDownPacketSize
             // 
-            this.numericUpDownPacketSize.Location = new System.Drawing.Point(12, 311);
+            this.numericUpDownPacketSize.Location = new System.Drawing.Point(3, 81);
             this.numericUpDownPacketSize.Maximum = new decimal(new int[] {
             200,
             0,
@@ -460,7 +414,7 @@ namespace SatteliteManagment
             // 
             // numericUpDownId
             // 
-            this.numericUpDownId.Location = new System.Drawing.Point(12, 361);
+            this.numericUpDownId.Location = new System.Drawing.Point(3, 131);
             this.numericUpDownId.Maximum = new decimal(new int[] {
             255,
             0,
@@ -489,7 +443,7 @@ namespace SatteliteManagment
             // 
             this.buttonSendFileRequest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSendFileRequest.Enabled = false;
-            this.buttonSendFileRequest.Location = new System.Drawing.Point(157, 428);
+            this.buttonSendFileRequest.Location = new System.Drawing.Point(145, 239);
             this.buttonSendFileRequest.Name = "buttonSendFileRequest";
             this.buttonSendFileRequest.Size = new System.Drawing.Size(153, 49);
             this.buttonSendFileRequest.TabIndex = 19;
@@ -500,7 +454,7 @@ namespace SatteliteManagment
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 336);
+            this.label3.Location = new System.Drawing.Point(3, 106);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(102, 16);
             this.label3.TabIndex = 18;
@@ -514,6 +468,7 @@ namespace SatteliteManagment
             this.testbutton.TabIndex = 16;
             this.testbutton.Text = "button2";
             this.testbutton.UseVisualStyleBackColor = true;
+            this.testbutton.Visible = false;
             this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
             // 
             // logdataGridView
@@ -531,7 +486,7 @@ namespace SatteliteManagment
             // 
             this.sendAllPackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendAllPackageButton.Enabled = false;
-            this.sendAllPackageButton.Location = new System.Drawing.Point(157, 374);
+            this.sendAllPackageButton.Location = new System.Drawing.Point(145, 185);
             this.sendAllPackageButton.Name = "sendAllPackageButton";
             this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
             this.sendAllPackageButton.TabIndex = 14;
@@ -543,7 +498,7 @@ namespace SatteliteManagment
             // 
             this.sendOnePackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sendOnePackageButton.Enabled = false;
-            this.sendOnePackageButton.Location = new System.Drawing.Point(157, 320);
+            this.sendOnePackageButton.Location = new System.Drawing.Point(145, 131);
             this.sendOnePackageButton.Name = "sendOnePackageButton";
             this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
             this.sendOnePackageButton.TabIndex = 13;
@@ -564,7 +519,7 @@ namespace SatteliteManagment
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 288);
+            this.label2.Location = new System.Drawing.Point(4, 58);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(106, 16);
             this.label2.TabIndex = 11;
@@ -572,10 +527,10 @@ namespace SatteliteManagment
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 252);
+            this.button1.Location = new System.Drawing.Point(3, 22);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(273, 28);
+            this.button1.Size = new System.Drawing.Size(264, 28);
             this.button1.TabIndex = 9;
             this.button1.Text = "Чтение данных из файла";
             this.button1.UseVisualStyleBackColor = true;
@@ -1481,7 +1436,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 184);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 199);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1490,7 +1445,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 150);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 165);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1499,7 +1454,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 120);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 135);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1508,7 +1463,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 90);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 105);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1517,7 +1472,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 60);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 75);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1625,6 +1580,57 @@ namespace SatteliteManagment
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
+            // groupBoxFileSending
+            // 
+            this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
+            this.groupBoxFileSending.Controls.Add(this.label36);
+            this.groupBoxFileSending.Controls.Add(this.label35);
+            this.groupBoxFileSending.Controls.Add(this.button1);
+            this.groupBoxFileSending.Controls.Add(this.buttonVerifyCheckSum);
+            this.groupBoxFileSending.Controls.Add(this.label2);
+            this.groupBoxFileSending.Controls.Add(this.labelCrc);
+            this.groupBoxFileSending.Controls.Add(this.sendOnePackageButton);
+            this.groupBoxFileSending.Controls.Add(this.buttonShowRawPackets);
+            this.groupBoxFileSending.Controls.Add(this.sendAllPackageButton);
+            this.groupBoxFileSending.Controls.Add(this.buttonDeleteCurrentFile);
+            this.groupBoxFileSending.Controls.Add(this.label3);
+            this.groupBoxFileSending.Controls.Add(this.numericUpDownPacketSize);
+            this.groupBoxFileSending.Controls.Add(this.buttonSendFileRequest);
+            this.groupBoxFileSending.Controls.Add(this.numericUpDownId);
+            this.groupBoxFileSending.Location = new System.Drawing.Point(12, 145);
+            this.groupBoxFileSending.Name = "groupBoxFileSending";
+            this.groupBoxFileSending.Size = new System.Drawing.Size(307, 332);
+            this.groupBoxFileSending.TabIndex = 27;
+            this.groupBoxFileSending.TabStop = false;
+            this.groupBoxFileSending.Text = "Чтение/запись";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(124, 58);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(38, 16);
+            this.label35.TabIndex = 27;
+            this.label35.Text = "CRC:";
+            // 
+            // labelCrcHex
+            // 
+            this.labelCrcHex.AutoSize = true;
+            this.labelCrcHex.Location = new System.Drawing.Point(186, 78);
+            this.labelCrcHex.Name = "labelCrcHex";
+            this.labelCrcHex.Size = new System.Drawing.Size(11, 16);
+            this.labelCrcHex.TabIndex = 28;
+            this.labelCrcHex.Text = "-";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(124, 78);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(37, 16);
+            this.label36.TabIndex = 27;
+            this.label36.Text = "HEX:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1635,8 +1641,8 @@ namespace SatteliteManagment
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "SatteliteManagment";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxConnection.ResumeLayout(false);
+            this.groupBoxConnection.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRadioControl.ResumeLayout(false);
             this.panelRadioControl.PerformLayout();
@@ -1675,6 +1681,8 @@ namespace SatteliteManagment
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).EndInit();
+            this.groupBoxFileSending.ResumeLayout(false);
+            this.groupBoxFileSending.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1682,13 +1690,9 @@ namespace SatteliteManagment
         #endregion
         private CheckBox checkBoxDollar;
         private Button buttonClearLogs;
-        private GroupBox groupBox1;
+        private GroupBox groupBoxConnection;
         public Label labelSnrInfoB;
         private Label label61;
-        private RadioButton radioButtonSeparatorNothing;
-        private RadioButton radioButtonSeparatorDollar;
-        private Button buttonSendCommand;
-        private TextBox textBoxSendCommand;
         private Label label6;
         public Label labelSnrInfoA;
         private Label label5;
@@ -1813,6 +1817,11 @@ namespace SatteliteManagment
         private DataGridView dataGridViewEntities;
         private CheckBox checkBoxWriteTLMToDB;
         private Label labelCrc;
+        private Button buttonVerifyCheckSum;
+        private GroupBox groupBoxFileSending;
+        private Label labelCrcHex;
+        private Label label35;
+        private Label label36;
     }
 }
 

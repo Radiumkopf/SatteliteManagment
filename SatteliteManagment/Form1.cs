@@ -56,6 +56,7 @@ namespace SatteliteManagment
             fileSender = new FileSender(_client, logManager);
 
             fileSender.SenderLastFileReceived += OnFullFileReceived;
+            fileSender.SenderLastACKReceived += EnableCrcButton;
 
             InizializeDB();
             InizializeGraphs();
@@ -137,26 +138,6 @@ namespace SatteliteManagment
             formsPlotTelemetry.MouseLeave += formsPlotTelemetry_MouseLeave;
         }
 
-        //private void OnAckReceived(FileTransferPacket packet)
-        //{
-        //    BeginInvoke(new Action(() =>
-        //    {
-        //        byte id = packet.id;
-        //        short number = packet.number;
-
-        //        if (logManager.rows.TryGetValue((id, number), out DataGridViewRow row))
-        //        {
-        //            //fix and move to sender or gridmanager
-        //            logTextBox.Text += "\ngot new ack " + id + number;
-        //            row.DefaultCellStyle.BackColor = Color.Green;
-        //        }
-
-        //        if (checkBoxSendNextIfGetAck.Checked)
-        //        {
-        //            //sendPackage(); //данные уже загружены + айди уже записан + хз какой то кринж
-        //        }
-        //    }));
-        //}
         private void OnAddressReceived(PacketInfo packet)
         {
             BeginInvoke(new Action(() =>
@@ -287,7 +268,9 @@ namespace SatteliteManagment
 
             uint crc = Crc32.CalculateFile(path);
             labelCrc.Text = crc.ToString();
-            logTextBox.AppendText(crc.ToString());
+            labelCrcHex.Text = crc.ToString("X8");
+            logTextBox.AppendText("FileCrc: " + crc.ToString());
+
 
             fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
@@ -302,6 +285,7 @@ namespace SatteliteManagment
             button1.Enabled = false;
             buttonDeleteCurrentFile.Enabled = true;
             buttonShowRawPackets.Enabled = true;
+            buttonVerifyCheckSum.Enabled = false;
 
         }
 
@@ -390,13 +374,22 @@ namespace SatteliteManagment
                 sendAllPackageButton.Enabled = false;
                 buttonShowRawPackets.Enabled = false;
                 labelCrc.Text = "-";
+                labelCrcHex.Text = "-";
             }
 
+        }
+        private void buttonVerifyCheckSum_Click(object sender, EventArgs e)
+        {
+            fileSender.SendCheckSum();
+
+        }
+        private void EnableCrcButton()
+        {
+            buttonVerifyCheckSum.Enabled = true;
         }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
-            fileSender.SendCheckSum();
         }
 
         /// <summary>

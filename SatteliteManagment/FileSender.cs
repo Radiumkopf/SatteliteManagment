@@ -32,7 +32,9 @@ namespace SatteliteManagment
         public bool IsSendRequestIfGetPacket { get; set; }
         public bool IsTxSet {  get; set; }
 
-        public event Action SenderLastFileReceived;   //FIXME увед мейна что файл готов
+        public event Action SenderLastFileReceived;
+        public event Action SenderLastACKReceived;
+
 
         private System.Timers.Timer ackTimer;
 
@@ -84,6 +86,10 @@ namespace SatteliteManagment
                 logManager.MarkPacketAsReceived(packet.id, packet.number);
 
                 CurrentPacketIndex++;
+                if(packet.number == FileData.Count - 1)
+                {
+                    SenderLastACKReceived?.Invoke();
+                }
 
             }
 
@@ -126,7 +132,7 @@ namespace SatteliteManagment
         {
 
             //await client.SendTextAsync(TxOperator.RegisterWrite(address));
-            //fix addr sending    
+            //FIXME addr sending    
         }
 
         public void SetAndSplitFile(byte[] dataArray, byte size)
@@ -228,7 +234,7 @@ namespace SatteliteManagment
                     type,
                     DestinationId,
                     number,
-                    (byte)value.Length, // FIXME fix for last one
+                    (byte)value.Length, 
                     value);
 
             return packet.ToByteArray();
@@ -255,7 +261,7 @@ namespace SatteliteManagment
 
         public async void SendCheckSum()    //FIXME 
         {
-            byte[] packet = BuildProtocolPackage(PacketType.CheckSum, 0, Array.Empty<byte>());
+            byte[] packet = BuildProtocolPackage(PacketType.VerifyCheckSum, 0, Array.Empty<byte>());
             await client.SendTextAsync(packet);
         }
 
