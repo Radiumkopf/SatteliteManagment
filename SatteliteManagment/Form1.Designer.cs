@@ -31,6 +31,7 @@ namespace SatteliteManagment
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
@@ -45,22 +46,26 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
+            this.labelCrcHex = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttonVerifyCheckSum = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelCrc = new System.Windows.Forms.Label();
+            this.sendOnePackageButton = new System.Windows.Forms.Button();
             this.buttonShowRawPackets = new System.Windows.Forms.Button();
+            this.sendAllPackageButton = new System.Windows.Forms.Button();
             this.buttonDeleteCurrentFile = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.numericUpDownPacketSize = new System.Windows.Forms.NumericUpDown();
+            this.buttonSendFileRequest = new System.Windows.Forms.Button();
             this.numericUpDownId = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectPathFile = new System.Windows.Forms.Button();
-            this.buttonSendFileRequest = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.testbutton = new System.Windows.Forms.Button();
             this.logdataGridView = new System.Windows.Forms.DataGridView();
-            this.sendAllPackageButton = new System.Windows.Forms.Button();
-            this.sendOnePackageButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageConn = new System.Windows.Forms.TabPage();
@@ -161,13 +166,11 @@ namespace SatteliteManagment
             this.dataGridViewEntities = new System.Windows.Forms.DataGridView();
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.labelCrcHex = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
+            this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
+            this.groupBoxFileSending.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).BeginInit();
@@ -194,7 +197,6 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
-            this.groupBoxFileSending.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -344,6 +346,69 @@ namespace SatteliteManagment
             this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
             this.panelRadioControl.TabIndex = 0;
             // 
+            // groupBoxFileSending
+            // 
+            this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
+            this.groupBoxFileSending.Controls.Add(this.checkBoxSendNextIfGetAck);
+            this.groupBoxFileSending.Controls.Add(this.label36);
+            this.groupBoxFileSending.Controls.Add(this.label35);
+            this.groupBoxFileSending.Controls.Add(this.button1);
+            this.groupBoxFileSending.Controls.Add(this.buttonVerifyCheckSum);
+            this.groupBoxFileSending.Controls.Add(this.label2);
+            this.groupBoxFileSending.Controls.Add(this.labelCrc);
+            this.groupBoxFileSending.Controls.Add(this.sendOnePackageButton);
+            this.groupBoxFileSending.Controls.Add(this.buttonShowRawPackets);
+            this.groupBoxFileSending.Controls.Add(this.sendAllPackageButton);
+            this.groupBoxFileSending.Controls.Add(this.buttonDeleteCurrentFile);
+            this.groupBoxFileSending.Controls.Add(this.label3);
+            this.groupBoxFileSending.Controls.Add(this.numericUpDownPacketSize);
+            this.groupBoxFileSending.Controls.Add(this.buttonSendFileRequest);
+            this.groupBoxFileSending.Controls.Add(this.numericUpDownId);
+            this.groupBoxFileSending.Location = new System.Drawing.Point(12, 145);
+            this.groupBoxFileSending.Name = "groupBoxFileSending";
+            this.groupBoxFileSending.Size = new System.Drawing.Size(307, 332);
+            this.groupBoxFileSending.TabIndex = 27;
+            this.groupBoxFileSending.TabStop = false;
+            this.groupBoxFileSending.Text = "Чтение/запись";
+            // 
+            // labelCrcHex
+            // 
+            this.labelCrcHex.AutoSize = true;
+            this.labelCrcHex.Location = new System.Drawing.Point(186, 78);
+            this.labelCrcHex.Name = "labelCrcHex";
+            this.labelCrcHex.Size = new System.Drawing.Size(11, 16);
+            this.labelCrcHex.TabIndex = 28;
+            this.labelCrcHex.Text = "-";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(124, 78);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(37, 16);
+            this.label36.TabIndex = 27;
+            this.label36.Text = "HEX:";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(124, 58);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(38, 16);
+            this.label35.TabIndex = 27;
+            this.label35.Text = "CRC:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 22);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(264, 28);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Чтение данных из файла";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // buttonVerifyCheckSum
             // 
             this.buttonVerifyCheckSum.Enabled = false;
@@ -355,6 +420,15 @@ namespace SatteliteManagment
             this.buttonVerifyCheckSum.UseVisualStyleBackColor = true;
             this.buttonVerifyCheckSum.Click += new System.EventHandler(this.buttonVerifyCheckSum_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(4, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(106, 16);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Размер пакета";
+            // 
             // labelCrc
             // 
             this.labelCrc.AutoSize = true;
@@ -363,6 +437,18 @@ namespace SatteliteManagment
             this.labelCrc.Size = new System.Drawing.Size(11, 16);
             this.labelCrc.TabIndex = 25;
             this.labelCrc.Text = "-";
+            // 
+            // sendOnePackageButton
+            // 
+            this.sendOnePackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sendOnePackageButton.Enabled = false;
+            this.sendOnePackageButton.Location = new System.Drawing.Point(145, 131);
+            this.sendOnePackageButton.Name = "sendOnePackageButton";
+            this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
+            this.sendOnePackageButton.TabIndex = 13;
+            this.sendOnePackageButton.Text = "Отправить следующий пакет";
+            this.sendOnePackageButton.UseVisualStyleBackColor = true;
+            this.sendOnePackageButton.Click += new System.EventHandler(this.sendOnePackageButton_Click);
             // 
             // buttonShowRawPackets
             // 
@@ -373,6 +459,18 @@ namespace SatteliteManagment
             this.buttonShowRawPackets.Text = "Выбор пакета";
             this.buttonShowRawPackets.UseVisualStyleBackColor = true;
             this.buttonShowRawPackets.Click += new System.EventHandler(this.buttonShowRawPackets_Click);
+            // 
+            // sendAllPackageButton
+            // 
+            this.sendAllPackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sendAllPackageButton.Enabled = false;
+            this.sendAllPackageButton.Location = new System.Drawing.Point(145, 185);
+            this.sendAllPackageButton.Name = "sendAllPackageButton";
+            this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
+            this.sendAllPackageButton.TabIndex = 14;
+            this.sendAllPackageButton.Text = "Отправить все оставшиеся пакеты";
+            this.sendAllPackageButton.UseVisualStyleBackColor = true;
+            this.sendAllPackageButton.Click += new System.EventHandler(this.sendAllPackageButton_Click);
             // 
             // buttonDeleteCurrentFile
             // 
@@ -389,6 +487,15 @@ namespace SatteliteManagment
             this.buttonDeleteCurrentFile.TabIndex = 23;
             this.buttonDeleteCurrentFile.UseVisualStyleBackColor = false;
             this.buttonDeleteCurrentFile.Click += new System.EventHandler(this.buttonDeleteCurrentFile_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 106);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(102, 16);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "ID назначения";
             // 
             // numericUpDownPacketSize
             // 
@@ -411,6 +518,18 @@ namespace SatteliteManagment
             0,
             0,
             0});
+            // 
+            // buttonSendFileRequest
+            // 
+            this.buttonSendFileRequest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSendFileRequest.Enabled = false;
+            this.buttonSendFileRequest.Location = new System.Drawing.Point(145, 239);
+            this.buttonSendFileRequest.Name = "buttonSendFileRequest";
+            this.buttonSendFileRequest.Size = new System.Drawing.Size(153, 49);
+            this.buttonSendFileRequest.TabIndex = 19;
+            this.buttonSendFileRequest.Text = "Отправить запрос на получение файла";
+            this.buttonSendFileRequest.UseVisualStyleBackColor = true;
+            this.buttonSendFileRequest.Click += new System.EventHandler(this.buttonSendFileRequest_Click);
             // 
             // numericUpDownId
             // 
@@ -439,27 +558,6 @@ namespace SatteliteManagment
             this.buttonSelectPathFile.UseVisualStyleBackColor = false;
             this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
             // 
-            // buttonSendFileRequest
-            // 
-            this.buttonSendFileRequest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSendFileRequest.Enabled = false;
-            this.buttonSendFileRequest.Location = new System.Drawing.Point(145, 239);
-            this.buttonSendFileRequest.Name = "buttonSendFileRequest";
-            this.buttonSendFileRequest.Size = new System.Drawing.Size(153, 49);
-            this.buttonSendFileRequest.TabIndex = 19;
-            this.buttonSendFileRequest.Text = "Отправить запрос на получение файла";
-            this.buttonSendFileRequest.UseVisualStyleBackColor = true;
-            this.buttonSendFileRequest.Click += new System.EventHandler(this.buttonSendFileRequest_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 106);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(102, 16);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "ID назначения";
-            // 
             // testbutton
             // 
             this.testbutton.Location = new System.Drawing.Point(1070, 374);
@@ -482,30 +580,6 @@ namespace SatteliteManagment
             this.logdataGridView.Size = new System.Drawing.Size(736, 255);
             this.logdataGridView.TabIndex = 15;
             // 
-            // sendAllPackageButton
-            // 
-            this.sendAllPackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.sendAllPackageButton.Enabled = false;
-            this.sendAllPackageButton.Location = new System.Drawing.Point(145, 185);
-            this.sendAllPackageButton.Name = "sendAllPackageButton";
-            this.sendAllPackageButton.Size = new System.Drawing.Size(153, 48);
-            this.sendAllPackageButton.TabIndex = 14;
-            this.sendAllPackageButton.Text = "Отправить все оставшиеся пакеты";
-            this.sendAllPackageButton.UseVisualStyleBackColor = true;
-            this.sendAllPackageButton.Click += new System.EventHandler(this.sendAllPackageButton_Click);
-            // 
-            // sendOnePackageButton
-            // 
-            this.sendOnePackageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.sendOnePackageButton.Enabled = false;
-            this.sendOnePackageButton.Location = new System.Drawing.Point(145, 131);
-            this.sendOnePackageButton.Name = "sendOnePackageButton";
-            this.sendOnePackageButton.Size = new System.Drawing.Size(153, 48);
-            this.sendOnePackageButton.TabIndex = 13;
-            this.sendOnePackageButton.Text = "Отправить следующий пакет";
-            this.sendOnePackageButton.UseVisualStyleBackColor = true;
-            this.sendOnePackageButton.Click += new System.EventHandler(this.sendOnePackageButton_Click);
-            // 
             // logTextBox
             // 
             this.logTextBox.Location = new System.Drawing.Point(327, 60);
@@ -515,26 +589,6 @@ namespace SatteliteManagment
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logTextBox.Size = new System.Drawing.Size(736, 79);
             this.logTextBox.TabIndex = 12;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 58);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 16);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Размер пакета";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(3, 22);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(264, 28);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Чтение данных из файла";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tabControlMain
             // 
@@ -881,7 +935,6 @@ namespace SatteliteManagment
             // groupBoxAskSettings
             // 
             this.groupBoxAskSettings.Controls.Add(this.checkBoxSendRequestIfGetPacket);
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskPhotoSize);
@@ -909,12 +962,15 @@ namespace SatteliteManagment
             // checkBoxSendNextIfGetAck
             // 
             this.checkBoxSendNextIfGetAck.AutoSize = true;
+            this.checkBoxSendNextIfGetAck.BackgroundImage = global::SatteliteManagment.Properties.Resources.cyclearrow;
+            this.checkBoxSendNextIfGetAck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(6, 149);
+            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(5, 268);
             this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
-            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(484, 22);
+            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(59, 20);
             this.checkBoxSendNextIfGetAck.TabIndex = 0;
-            this.checkBoxSendNextIfGetAck.Text = "Отправлять пакет автоматически при получении подтверждения";
+            this.checkBoxSendNextIfGetAck.Text = "          ";
+            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxSendNextIfGetAck, "Отправлять пакет автоматически при получении АСК\r\n");
             this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
             this.checkBoxSendNextIfGetAck.CheckedChanged += new System.EventHandler(this.checkBoxSendNextIfGetAck_CheckedChanged);
             // 
@@ -1436,7 +1492,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 199);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 204);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1445,7 +1501,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 165);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 170);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1454,7 +1510,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 135);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 140);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1463,7 +1519,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 105);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 110);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1472,7 +1528,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 75);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 80);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1580,62 +1636,11 @@ namespace SatteliteManagment
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
-            // groupBoxFileSending
-            // 
-            this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
-            this.groupBoxFileSending.Controls.Add(this.label36);
-            this.groupBoxFileSending.Controls.Add(this.label35);
-            this.groupBoxFileSending.Controls.Add(this.button1);
-            this.groupBoxFileSending.Controls.Add(this.buttonVerifyCheckSum);
-            this.groupBoxFileSending.Controls.Add(this.label2);
-            this.groupBoxFileSending.Controls.Add(this.labelCrc);
-            this.groupBoxFileSending.Controls.Add(this.sendOnePackageButton);
-            this.groupBoxFileSending.Controls.Add(this.buttonShowRawPackets);
-            this.groupBoxFileSending.Controls.Add(this.sendAllPackageButton);
-            this.groupBoxFileSending.Controls.Add(this.buttonDeleteCurrentFile);
-            this.groupBoxFileSending.Controls.Add(this.label3);
-            this.groupBoxFileSending.Controls.Add(this.numericUpDownPacketSize);
-            this.groupBoxFileSending.Controls.Add(this.buttonSendFileRequest);
-            this.groupBoxFileSending.Controls.Add(this.numericUpDownId);
-            this.groupBoxFileSending.Location = new System.Drawing.Point(12, 145);
-            this.groupBoxFileSending.Name = "groupBoxFileSending";
-            this.groupBoxFileSending.Size = new System.Drawing.Size(307, 332);
-            this.groupBoxFileSending.TabIndex = 27;
-            this.groupBoxFileSending.TabStop = false;
-            this.groupBoxFileSending.Text = "Чтение/запись";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(124, 58);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(38, 16);
-            this.label35.TabIndex = 27;
-            this.label35.Text = "CRC:";
-            // 
-            // labelCrcHex
-            // 
-            this.labelCrcHex.AutoSize = true;
-            this.labelCrcHex.Location = new System.Drawing.Point(186, 78);
-            this.labelCrcHex.Name = "labelCrcHex";
-            this.labelCrcHex.Size = new System.Drawing.Size(11, 16);
-            this.labelCrcHex.TabIndex = 28;
-            this.labelCrcHex.Text = "-";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(124, 78);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(37, 16);
-            this.label36.TabIndex = 27;
-            this.label36.Text = "HEX:";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1223, 551);
+            this.ClientSize = new System.Drawing.Size(1223, 620);
             this.Controls.Add(this.tabControlMain);
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "Form1";
@@ -1646,6 +1651,8 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRadioControl.ResumeLayout(false);
             this.panelRadioControl.PerformLayout();
+            this.groupBoxFileSending.ResumeLayout(false);
+            this.groupBoxFileSending.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).EndInit();
@@ -1681,8 +1688,6 @@ namespace SatteliteManagment
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).EndInit();
-            this.groupBoxFileSending.ResumeLayout(false);
-            this.groupBoxFileSending.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1822,6 +1827,7 @@ namespace SatteliteManagment
         private Label labelCrcHex;
         private Label label35;
         private Label label36;
+        private ToolTip toolTipAutoSendNextInfo;
     }
 }
 
