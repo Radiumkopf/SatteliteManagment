@@ -266,7 +266,7 @@ namespace SatteliteManagment
 
             byte[] dataArray = File.ReadAllBytes(path);
 
-            uint crc = Crc32.CalculateFile(path);
+            uint crc = Crc32.CalculateFileVer2(path);
             labelCrc.Text = crc.ToString();
             labelCrcHex.Text = crc.ToString("X8");
             logTextBox.AppendText("FileCrc: " + crc.ToString());

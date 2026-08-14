@@ -21,6 +21,8 @@ namespace SatteliteManagment
 
         public event Action<FileTransferPacket> AckReceived;
 
+        public event Action FileNackReceived;
+
         public event Action<FileTransferPacket> FileReceived;
 
         public event Action<FileTransferPacket> LastFileReceived;
@@ -106,6 +108,10 @@ namespace SatteliteManagment
                         case PacketType.FileSendingAck:
                             packet = SatellitePacketParser.Parse(data, OFFSET);
                             AckReceived?.Invoke(packet);
+                            break;
+
+                        case PacketType.FileSendingNack:
+                            FileNackReceived?.Invoke();
                             break;
 
                         case PacketType.FileRequestingAck:

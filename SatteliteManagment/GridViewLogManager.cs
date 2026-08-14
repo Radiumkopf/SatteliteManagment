@@ -73,7 +73,7 @@ namespace SatteliteManagment
                 if (rows.TryGetValue((id, number), out DataGridViewRow row))
                 {
                     row.DefaultCellStyle.BackColor = Color.LightGreen;
-                    row.Cells[4].Value = "";
+                    row.Cells[4].Value = "Получен АСК";
                     //row.Cells["Status"].Value = "ACK";
                 }
             }));

@@ -48,6 +48,7 @@ namespace SatteliteManagment
             client.AckReceived += OnAckReceived;
             client.FileReceived += OnFileReceived;
             client.LastFileReceived += OnLastFileReceived;
+            client.FileNackReceived += OnNackReceived;
 
             ackTimer = new System.Timers.Timer(3000);
             //ackTimer.Elapsed += OnTimedEvent;
@@ -77,7 +78,7 @@ namespace SatteliteManagment
             }
         }
 
-        private void OnAckReceived(FileTransferPacket packet)
+        private async void OnAckReceived(FileTransferPacket packet)     //async annotation add
         {
 
             if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
@@ -86,6 +87,7 @@ namespace SatteliteManagment
                 logManager.MarkPacketAsReceived(packet.id, packet.number);
 
                 CurrentPacketIndex++;
+
                 if(packet.number == FileData.Count - 1)
                 {
                     SenderLastACKReceived?.Invoke();
@@ -95,8 +97,13 @@ namespace SatteliteManagment
 
 
             if (IsSendNextIfAck)
-                SendNextPacketAsync();
+                await SendNextPacketAsync();
 
+        }
+
+        private async void OnNackReceived()
+        {
+            await SendNextPacketAsync();
         }
 
         private void OnFileReceived(FileTransferPacket packet)
@@ -162,7 +169,7 @@ namespace SatteliteManagment
 
             await SendPacketAsyncByNumber(CurrentPacketIndex);
 
-            ackTimer.Start();
+            //ackTimer.Start();
 
             //CurrentPacketIndex++;
 
