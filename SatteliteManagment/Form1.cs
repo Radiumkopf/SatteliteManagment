@@ -395,6 +395,7 @@ namespace SatteliteManagment
         private void checkBoxAutoScroll_CheckedChanged(object sender, EventArgs e)
         {
             logSendingManager.IsAutoScrollEnable = checkBoxAutoScroll.Checked;
+            logRequestingManager.IsAutoScrollEnable = checkBoxAutoScroll.Checked;
         }
 
         private void comboBoxInOut_SelectedIndexChanged_1(object sender, EventArgs e)

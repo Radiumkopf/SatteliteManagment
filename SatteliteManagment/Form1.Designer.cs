@@ -32,10 +32,10 @@ namespace SatteliteManagment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.labelSnrInfoB = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@ namespace SatteliteManagment
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
             this.groupBoxLogTables = new System.Windows.Forms.GroupBox();
+            this.logRequestingGridView = new System.Windows.Forms.DataGridView();
             this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             this.comboBoxInOut = new System.Windows.Forms.ComboBox();
             this.logSendingGridView = new System.Windows.Forms.DataGridView();
@@ -173,11 +174,11 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
-            this.logRequestingGridView = new System.Windows.Forms.DataGridView();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
             this.groupBoxLogTables.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logSendingGridView)).BeginInit();
             this.groupBoxFileSending.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).BeginInit();
@@ -205,7 +206,6 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -367,6 +367,40 @@ namespace SatteliteManagment
             this.groupBoxLogTables.TabStop = false;
             this.groupBoxLogTables.Text = "Пришло/Ушло";
             // 
+            // logRequestingGridView
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle8;
+            this.logRequestingGridView.Location = new System.Drawing.Point(6, 64);
+            this.logRequestingGridView.Name = "logRequestingGridView";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.logRequestingGridView.RowHeadersWidth = 51;
+            this.logRequestingGridView.RowTemplate.Height = 24;
+            this.logRequestingGridView.Size = new System.Drawing.Size(736, 307);
+            this.logRequestingGridView.TabIndex = 18;
+            // 
             // checkBoxAutoScroll
             // 
             this.checkBoxAutoScroll.AutoSize = true;
@@ -407,6 +441,7 @@ namespace SatteliteManagment
             // 
             // groupBoxFileSending
             // 
+            this.groupBoxFileSending.Controls.Add(this.checkBoxSendRequestIfGetPacket);
             this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
             this.groupBoxFileSending.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxFileSending.Controls.Add(this.buttonSelectPathFile);
@@ -999,7 +1034,6 @@ namespace SatteliteManagment
             // 
             // groupBoxAskSettings
             // 
-            this.groupBoxAskSettings.Controls.Add(this.checkBoxSendRequestIfGetPacket);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxWriteLog);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskZeroPacket);
             this.groupBoxAskSettings.Controls.Add(this.checkBoxAskPhotoSize);
@@ -1016,9 +1050,9 @@ namespace SatteliteManagment
             // 
             this.checkBoxSendRequestIfGetPacket.AutoSize = true;
             this.checkBoxSendRequestIfGetPacket.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxSendRequestIfGetPacket.Location = new System.Drawing.Point(7, 177);
+            this.checkBoxSendRequestIfGetPacket.Location = new System.Drawing.Point(0, 354);
             this.checkBoxSendRequestIfGetPacket.Name = "checkBoxSendRequestIfGetPacket";
-            this.checkBoxSendRequestIfGetPacket.Size = new System.Drawing.Size(432, 22);
+            this.checkBoxSendRequestIfGetPacket.Size = new System.Drawing.Size(412, 20);
             this.checkBoxSendRequestIfGetPacket.TabIndex = 0;
             this.checkBoxSendRequestIfGetPacket.Text = "Отправлять запрос автоматически при получении пакета";
             this.checkBoxSendRequestIfGetPacket.UseVisualStyleBackColor = true;
@@ -1542,7 +1576,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 214);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 219);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1551,7 +1585,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 180);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 185);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1560,7 +1594,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 150);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 155);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1569,7 +1603,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 120);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 125);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1578,7 +1612,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 90);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 95);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1686,46 +1720,13 @@ namespace SatteliteManagment
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
-            // logRequestingGridView
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle5;
-            this.logRequestingGridView.Location = new System.Drawing.Point(6, 64);
-            this.logRequestingGridView.Name = "logRequestingGridView";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.logRequestingGridView.RowHeadersWidth = 51;
-            this.logRequestingGridView.RowTemplate.Height = 24;
-            this.logRequestingGridView.Size = new System.Drawing.Size(736, 307);
-            this.logRequestingGridView.TabIndex = 18;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 620);
             this.Controls.Add(this.tabControlMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -1737,6 +1738,7 @@ namespace SatteliteManagment
             this.panelRadioControl.PerformLayout();
             this.groupBoxLogTables.ResumeLayout(false);
             this.groupBoxLogTables.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logSendingGridView)).EndInit();
             this.groupBoxFileSending.ResumeLayout(false);
             this.groupBoxFileSending.PerformLayout();
@@ -1774,7 +1776,6 @@ namespace SatteliteManagment
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
