@@ -10,11 +10,19 @@ using System.Windows.Forms;
 
 namespace SatteliteManagment
 {
+    internal enum TableType : byte
+    {
+        SendingTable = 0x00,
+        RequestingTable = 0x01
+    }
+
     internal class FileSender
     {
 
         private readonly DuplexTcpClient client;
-        private readonly GridViewLogManager logManager;
+        private readonly GridViewLogManager logRequestingManager;
+        private readonly GridViewLogManager logSendingManager;
+
 
         //public List<byte[]> FileData { get; set; }
         public Dictionary<ushort, RawPacket> FileData;
@@ -40,10 +48,13 @@ namespace SatteliteManagment
 
 
         public FileSender(DuplexTcpClient client,
-                          GridViewLogManager logManager)
+                          GridViewLogManager logManager,
+                          GridViewLogManager logRequestingManager)
         {
             this.client = client;
-            this.logManager = logManager;
+            this.logSendingManager = logManager;
+            this.logRequestingManager = logRequestingManager;
+
             this.fileReceiver = new FileReceiver();
             client.AckReceived += OnAckReceived;
             client.FileReceived += OnFileReceived;
@@ -84,7 +95,7 @@ namespace SatteliteManagment
             if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
             {
                 filePacket.IsAckReceived = true;
-                logManager.MarkPacketAsReceived(packet.id, packet.number);
+                logSendingManager.MarkPacketAsReceived(packet.id, packet.number);
 
                 CurrentPacketIndex++;
 
@@ -185,7 +196,7 @@ namespace SatteliteManagment
                 rawPacket.Data);
 
             rawPacket.IsSent = true;
-            await SendPackageAsync(packet, rawPacket.Number);
+            await SendPackageAsync(packet, rawPacket.Number, TableType.SendingTable);
 
             
         }
@@ -195,7 +206,7 @@ namespace SatteliteManagment
             while (CurrentPacketIndex < FileData.Count)
             {
                 await SendNextPacketAsync();
-                await Task.Delay(1000);
+                await Task.Delay(700);
             }
         }
 
@@ -208,30 +219,32 @@ namespace SatteliteManagment
                 throw new Exception("Firtsly set the path");
             }
 
-            await SendPackageAsync(packet);
+            await SendPackageAsync(packet, CurrentReceiveIndex, TableType.RequestingTable);
 
             CurrentReceiveIndex++;
         }
 
-        private async Task SendPackageAsync(byte[] packet)
+        private async Task SendPackageAsync(byte[] packet, ushort number, TableType tableType)
         {
             await client.SendTextAsync(packet);
 
-            logManager.AddRow(
-                packet,
-                DestinationId,
-                CurrentPacketIndex,
-                "Пакет отправлен");
-        }
-        private async Task SendPackageAsync(byte[] packet, ushort number)
-        {
-            await client.SendTextAsync(packet);
+            if (tableType == TableType.SendingTable)
+            {
+                logSendingManager.AddRow(
+                    packet,
+                    DestinationId,
+                    number,
+                    "Пакет отправлен");
+            }
+            else
+            {
+                logRequestingManager.AddRow(
+                    packet,
+                    DestinationId,
+                    number,
+                    "Запрос отправлен");
+            }
 
-            logManager.AddRow(
-                packet,
-                DestinationId,
-                number,
-                "Пакет отправлен");
         }
 
         private byte[] BuildProtocolPackage(PacketType type, ushort number, byte[] value)

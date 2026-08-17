@@ -33,6 +33,9 @@ namespace SatteliteManagment
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.labelSnrInfoB = new System.Windows.Forms.Label();
@@ -46,8 +49,14 @@ namespace SatteliteManagment
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
+            this.groupBoxLogTables = new System.Windows.Forms.GroupBox();
+            this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
+            this.comboBoxInOut = new System.Windows.Forms.ComboBox();
+            this.logSendingGridView = new System.Windows.Forms.DataGridView();
             this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
             this.labelCrcHex = new System.Windows.Forms.Label();
+            this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
+            this.buttonSelectPathFile = new System.Windows.Forms.Button();
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -62,9 +71,7 @@ namespace SatteliteManagment
             this.numericUpDownPacketSize = new System.Windows.Forms.NumericUpDown();
             this.buttonSendFileRequest = new System.Windows.Forms.Button();
             this.numericUpDownId = new System.Windows.Forms.NumericUpDown();
-            this.buttonSelectPathFile = new System.Windows.Forms.Button();
             this.testbutton = new System.Windows.Forms.Button();
-            this.logdataGridView = new System.Windows.Forms.DataGridView();
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControlMain = new System.Windows.Forms.TabControl();
@@ -100,7 +107,6 @@ namespace SatteliteManagment
             this.checkBoxTriggerEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxAskSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxSendRequestIfGetPacket = new System.Windows.Forms.CheckBox();
-            this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.checkBoxWriteLog = new System.Windows.Forms.CheckBox();
             this.checkBoxAskZeroPacket = new System.Windows.Forms.CheckBox();
             this.checkBoxAskPhotoSize = new System.Windows.Forms.CheckBox();
@@ -167,13 +173,15 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
+            this.logRequestingGridView = new System.Windows.Forms.DataGridView();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRadioControl.SuspendLayout();
+            this.groupBoxLogTables.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logSendingGridView)).BeginInit();
             this.groupBoxFileSending.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPageConn.SuspendLayout();
             this.tabPageSatellite.SuspendLayout();
@@ -197,6 +205,7 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGetCount)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -332,10 +341,9 @@ namespace SatteliteManagment
             // 
             this.panelRadioControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRadioControl.Controls.Add(this.groupBoxLogTables);
             this.panelRadioControl.Controls.Add(this.groupBoxFileSending);
-            this.panelRadioControl.Controls.Add(this.buttonSelectPathFile);
             this.panelRadioControl.Controls.Add(this.testbutton);
-            this.panelRadioControl.Controls.Add(this.logdataGridView);
             this.panelRadioControl.Controls.Add(this.logTextBox);
             this.panelRadioControl.Controls.Add(this.label1);
             this.panelRadioControl.Controls.Add(this.groupBoxConnection);
@@ -343,13 +351,65 @@ namespace SatteliteManagment
             this.panelRadioControl.Location = new System.Drawing.Point(7, 5);
             this.panelRadioControl.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panelRadioControl.Name = "panelRadioControl";
-            this.panelRadioControl.Size = new System.Drawing.Size(1191, 494);
+            this.panelRadioControl.Size = new System.Drawing.Size(1191, 544);
             this.panelRadioControl.TabIndex = 0;
+            // 
+            // groupBoxLogTables
+            // 
+            this.groupBoxLogTables.Controls.Add(this.logRequestingGridView);
+            this.groupBoxLogTables.Controls.Add(this.checkBoxAutoScroll);
+            this.groupBoxLogTables.Controls.Add(this.comboBoxInOut);
+            this.groupBoxLogTables.Controls.Add(this.logSendingGridView);
+            this.groupBoxLogTables.Location = new System.Drawing.Point(327, 148);
+            this.groupBoxLogTables.Name = "groupBoxLogTables";
+            this.groupBoxLogTables.Size = new System.Drawing.Size(861, 377);
+            this.groupBoxLogTables.TabIndex = 28;
+            this.groupBoxLogTables.TabStop = false;
+            this.groupBoxLogTables.Text = "Пришло/Ушло";
+            // 
+            // checkBoxAutoScroll
+            // 
+            this.checkBoxAutoScroll.AutoSize = true;
+            this.checkBoxAutoScroll.BackgroundImage = global::SatteliteManagment.Properties.Resources._243_downarrow;
+            this.checkBoxAutoScroll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.checkBoxAutoScroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBoxAutoScroll.Location = new System.Drawing.Point(169, 18);
+            this.checkBoxAutoScroll.Name = "checkBoxAutoScroll";
+            this.checkBoxAutoScroll.Size = new System.Drawing.Size(69, 29);
+            this.checkBoxAutoScroll.TabIndex = 17;
+            this.checkBoxAutoScroll.Text = "       ";
+            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxAutoScroll, "Включить автопрокрутку");
+            this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
+            this.checkBoxAutoScroll.CheckedChanged += new System.EventHandler(this.checkBoxAutoScroll_CheckedChanged);
+            // 
+            // comboBoxInOut
+            // 
+            this.comboBoxInOut.FormattingEnabled = true;
+            this.comboBoxInOut.Items.AddRange(new object[] {
+            "Пришло",
+            "Ушло"});
+            this.comboBoxInOut.Location = new System.Drawing.Point(6, 25);
+            this.comboBoxInOut.Name = "comboBoxInOut";
+            this.comboBoxInOut.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxInOut.TabIndex = 16;
+            this.comboBoxInOut.SelectedIndexChanged += new System.EventHandler(this.comboBoxInOut_SelectedIndexChanged_1);
+            // 
+            // logSendingGridView
+            // 
+            this.logSendingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.logSendingGridView.Location = new System.Drawing.Point(6, 55);
+            this.logSendingGridView.Name = "logSendingGridView";
+            this.logSendingGridView.ReadOnly = true;
+            this.logSendingGridView.RowHeadersWidth = 51;
+            this.logSendingGridView.RowTemplate.Height = 24;
+            this.logSendingGridView.Size = new System.Drawing.Size(736, 316);
+            this.logSendingGridView.TabIndex = 15;
             // 
             // groupBoxFileSending
             // 
             this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
             this.groupBoxFileSending.Controls.Add(this.checkBoxSendNextIfGetAck);
+            this.groupBoxFileSending.Controls.Add(this.buttonSelectPathFile);
             this.groupBoxFileSending.Controls.Add(this.label36);
             this.groupBoxFileSending.Controls.Add(this.label35);
             this.groupBoxFileSending.Controls.Add(this.button1);
@@ -366,7 +426,7 @@ namespace SatteliteManagment
             this.groupBoxFileSending.Controls.Add(this.numericUpDownId);
             this.groupBoxFileSending.Location = new System.Drawing.Point(12, 145);
             this.groupBoxFileSending.Name = "groupBoxFileSending";
-            this.groupBoxFileSending.Size = new System.Drawing.Size(307, 332);
+            this.groupBoxFileSending.Size = new System.Drawing.Size(307, 380);
             this.groupBoxFileSending.TabIndex = 27;
             this.groupBoxFileSending.TabStop = false;
             this.groupBoxFileSending.Text = "Чтение/запись";
@@ -379,6 +439,37 @@ namespace SatteliteManagment
             this.labelCrcHex.Size = new System.Drawing.Size(11, 16);
             this.labelCrcHex.TabIndex = 28;
             this.labelCrcHex.Text = "-";
+            // 
+            // checkBoxSendNextIfGetAck
+            // 
+            this.checkBoxSendNextIfGetAck.AutoSize = true;
+            this.checkBoxSendNextIfGetAck.BackgroundImage = global::SatteliteManagment.Properties.Resources.cyclearrow;
+            this.checkBoxSendNextIfGetAck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxSendNextIfGetAck.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(5, 268);
+            this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
+            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(74, 29);
+            this.checkBoxSendNextIfGetAck.TabIndex = 0;
+            this.checkBoxSendNextIfGetAck.Text = "        ";
+            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxSendNextIfGetAck, "Отправлять пакет автоматически при получении АСК\r\n");
+            this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
+            this.checkBoxSendNextIfGetAck.CheckedChanged += new System.EventHandler(this.checkBoxSendNextIfGetAck_CheckedChanged);
+            // 
+            // buttonSelectPathFile
+            // 
+            this.buttonSelectPathFile.BackColor = System.Drawing.Color.LightBlue;
+            this.buttonSelectPathFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
+            this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
+            this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSelectPathFile.Location = new System.Drawing.Point(145, 294);
+            this.buttonSelectPathFile.Name = "buttonSelectPathFile";
+            this.buttonSelectPathFile.Size = new System.Drawing.Size(153, 49);
+            this.buttonSelectPathFile.TabIndex = 20;
+            this.buttonSelectPathFile.Text = "Указать путь для сохранения";
+            this.buttonSelectPathFile.UseVisualStyleBackColor = false;
+            this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
             // 
             // label36
             // 
@@ -543,42 +634,16 @@ namespace SatteliteManagment
             this.numericUpDownId.Size = new System.Drawing.Size(102, 22);
             this.numericUpDownId.TabIndex = 21;
             // 
-            // buttonSelectPathFile
-            // 
-            this.buttonSelectPathFile.BackColor = System.Drawing.Color.LightBlue;
-            this.buttonSelectPathFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSelectPathFile.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
-            this.buttonSelectPathFile.FlatAppearance.BorderSize = 2;
-            this.buttonSelectPathFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSelectPathFile.Location = new System.Drawing.Point(327, 428);
-            this.buttonSelectPathFile.Name = "buttonSelectPathFile";
-            this.buttonSelectPathFile.Size = new System.Drawing.Size(137, 49);
-            this.buttonSelectPathFile.TabIndex = 20;
-            this.buttonSelectPathFile.Text = "Указать путь для сохранения";
-            this.buttonSelectPathFile.UseVisualStyleBackColor = false;
-            this.buttonSelectPathFile.Click += new System.EventHandler(this.buttonSelectPathFile_Click);
-            // 
             // testbutton
             // 
-            this.testbutton.Location = new System.Drawing.Point(1070, 374);
+            this.testbutton.Location = new System.Drawing.Point(820, 10);
             this.testbutton.Name = "testbutton";
             this.testbutton.Size = new System.Drawing.Size(75, 23);
             this.testbutton.TabIndex = 16;
-            this.testbutton.Text = "button2";
+            this.testbutton.Text = "buttontest";
             this.testbutton.UseVisualStyleBackColor = true;
             this.testbutton.Visible = false;
             this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
-            // 
-            // logdataGridView
-            // 
-            this.logdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.logdataGridView.Location = new System.Drawing.Point(327, 154);
-            this.logdataGridView.Name = "logdataGridView";
-            this.logdataGridView.ReadOnly = true;
-            this.logdataGridView.RowHeadersWidth = 51;
-            this.logdataGridView.RowTemplate.Height = 24;
-            this.logdataGridView.Size = new System.Drawing.Size(736, 255);
-            this.logdataGridView.TabIndex = 15;
             // 
             // logTextBox
             // 
@@ -601,7 +666,7 @@ namespace SatteliteManagment
             this.tabControlMain.Location = new System.Drawing.Point(12, 2);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1213, 537);
+            this.tabControlMain.Size = new System.Drawing.Size(1213, 597);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPageConn
@@ -611,7 +676,7 @@ namespace SatteliteManagment
             this.tabPageConn.Location = new System.Drawing.Point(4, 29);
             this.tabPageConn.Name = "tabPageConn";
             this.tabPageConn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConn.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageConn.Size = new System.Drawing.Size(1205, 564);
             this.tabPageConn.TabIndex = 0;
             this.tabPageConn.Text = "Client Connection";
             this.tabPageConn.UseVisualStyleBackColor = true;
@@ -627,7 +692,7 @@ namespace SatteliteManagment
             this.tabPageSatellite.Location = new System.Drawing.Point(4, 29);
             this.tabPageSatellite.Name = "tabPageSatellite";
             this.tabPageSatellite.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSatellite.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageSatellite.Size = new System.Drawing.Size(1205, 564);
             this.tabPageSatellite.TabIndex = 1;
             this.tabPageSatellite.Text = "Triggers Info";
             this.tabPageSatellite.UseVisualStyleBackColor = true;
@@ -959,21 +1024,6 @@ namespace SatteliteManagment
             this.checkBoxSendRequestIfGetPacket.UseVisualStyleBackColor = true;
             this.checkBoxSendRequestIfGetPacket.CheckedChanged += new System.EventHandler(this.checkBoxSendRequestIfGetPacket_CheckedChanged);
             // 
-            // checkBoxSendNextIfGetAck
-            // 
-            this.checkBoxSendNextIfGetAck.AutoSize = true;
-            this.checkBoxSendNextIfGetAck.BackgroundImage = global::SatteliteManagment.Properties.Resources.cyclearrow;
-            this.checkBoxSendNextIfGetAck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.checkBoxSendNextIfGetAck.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBoxSendNextIfGetAck.Location = new System.Drawing.Point(5, 268);
-            this.checkBoxSendNextIfGetAck.Name = "checkBoxSendNextIfGetAck";
-            this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(59, 20);
-            this.checkBoxSendNextIfGetAck.TabIndex = 0;
-            this.checkBoxSendNextIfGetAck.Text = "          ";
-            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxSendNextIfGetAck, "Отправлять пакет автоматически при получении АСК\r\n");
-            this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
-            this.checkBoxSendNextIfGetAck.CheckedChanged += new System.EventHandler(this.checkBoxSendNextIfGetAck_CheckedChanged);
-            // 
             // checkBoxWriteLog
             // 
             this.checkBoxWriteLog.AutoSize = true;
@@ -1035,7 +1085,7 @@ namespace SatteliteManagment
             this.tabPageTelemetry.Controls.Add(this.groupBoxTelemetryLog);
             this.tabPageTelemetry.Location = new System.Drawing.Point(4, 29);
             this.tabPageTelemetry.Name = "tabPageTelemetry";
-            this.tabPageTelemetry.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageTelemetry.Size = new System.Drawing.Size(1205, 564);
             this.tabPageTelemetry.TabIndex = 2;
             this.tabPageTelemetry.Text = "Telemetry";
             this.tabPageTelemetry.UseVisualStyleBackColor = true;
@@ -1406,7 +1456,7 @@ namespace SatteliteManagment
             this.tabPageDeviceStatus.Location = new System.Drawing.Point(4, 29);
             this.tabPageDeviceStatus.Name = "tabPageDeviceStatus";
             this.tabPageDeviceStatus.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDeviceStatus.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageDeviceStatus.Size = new System.Drawing.Size(1205, 564);
             this.tabPageDeviceStatus.TabIndex = 3;
             this.tabPageDeviceStatus.Text = "Device Status";
             this.tabPageDeviceStatus.UseVisualStyleBackColor = true;
@@ -1424,7 +1474,7 @@ namespace SatteliteManagment
             // splitContainerDeviceStatus.Panel2
             // 
             this.splitContainerDeviceStatus.Panel2.Controls.Add(this.groupBoxDeviceDetails);
-            this.splitContainerDeviceStatus.Size = new System.Drawing.Size(1199, 498);
+            this.splitContainerDeviceStatus.Size = new System.Drawing.Size(1199, 558);
             this.splitContainerDeviceStatus.SplitterDistance = 420;
             this.splitContainerDeviceStatus.TabIndex = 0;
             // 
@@ -1440,7 +1490,7 @@ namespace SatteliteManagment
             this.tableLayoutPanelDeviceTree.RowCount = 2;
             this.tableLayoutPanelDeviceTree.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanelDeviceTree.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelDeviceTree.Size = new System.Drawing.Size(420, 498);
+            this.tableLayoutPanelDeviceTree.Size = new System.Drawing.Size(420, 558);
             this.tableLayoutPanelDeviceTree.TabIndex = 0;
             // 
             // buttonLoadDeviceXml
@@ -1460,7 +1510,7 @@ namespace SatteliteManagment
             this.treeViewDevices.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewDevices.Location = new System.Drawing.Point(3, 43);
             this.treeViewDevices.Name = "treeViewDevices";
-            this.treeViewDevices.Size = new System.Drawing.Size(414, 452);
+            this.treeViewDevices.Size = new System.Drawing.Size(414, 512);
             this.treeViewDevices.TabIndex = 1;
             // 
             // groupBoxDeviceDetails
@@ -1474,7 +1524,7 @@ namespace SatteliteManagment
             this.groupBoxDeviceDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxDeviceDetails.Location = new System.Drawing.Point(0, 0);
             this.groupBoxDeviceDetails.Name = "groupBoxDeviceDetails";
-            this.groupBoxDeviceDetails.Size = new System.Drawing.Size(775, 498);
+            this.groupBoxDeviceDetails.Size = new System.Drawing.Size(775, 558);
             this.groupBoxDeviceDetails.TabIndex = 0;
             this.groupBoxDeviceDetails.TabStop = false;
             this.groupBoxDeviceDetails.Text = "Selected device";
@@ -1492,7 +1542,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 204);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 214);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1501,7 +1551,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 170);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 180);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1510,7 +1560,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 140);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 150);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1519,7 +1569,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 110);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 120);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1528,7 +1578,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 80);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 90);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1544,7 +1594,7 @@ namespace SatteliteManagment
             this.tabPageDBView.Controls.Add(this.groupBox2);
             this.tabPageDBView.Location = new System.Drawing.Point(4, 29);
             this.tabPageDBView.Name = "tabPageDBView";
-            this.tabPageDBView.Size = new System.Drawing.Size(1205, 504);
+            this.tabPageDBView.Size = new System.Drawing.Size(1205, 564);
             this.tabPageDBView.TabIndex = 4;
             this.tabPageDBView.Text = "DB View";
             this.tabPageDBView.UseVisualStyleBackColor = true;
@@ -1636,6 +1686,40 @@ namespace SatteliteManagment
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
+            // logRequestingGridView
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            this.logRequestingGridView.Location = new System.Drawing.Point(6, 64);
+            this.logRequestingGridView.Name = "logRequestingGridView";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.logRequestingGridView.RowHeadersWidth = 51;
+            this.logRequestingGridView.RowTemplate.Height = 24;
+            this.logRequestingGridView.Size = new System.Drawing.Size(736, 307);
+            this.logRequestingGridView.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1651,11 +1735,13 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRadioControl.ResumeLayout(false);
             this.panelRadioControl.PerformLayout();
+            this.groupBoxLogTables.ResumeLayout(false);
+            this.groupBoxLogTables.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logSendingGridView)).EndInit();
             this.groupBoxFileSending.ResumeLayout(false);
             this.groupBoxFileSending.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPacketSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownId)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logdataGridView)).EndInit();
             this.tabControlMain.ResumeLayout(false);
             this.tabPageConn.ResumeLayout(false);
             this.tabPageSatellite.ResumeLayout(false);
@@ -1688,6 +1774,7 @@ namespace SatteliteManagment
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logRequestingGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1713,7 +1800,7 @@ namespace SatteliteManagment
         private TextBox logTextBox;
         private Button sendAllPackageButton;
         private Button sendOnePackageButton;
-        private DataGridView logdataGridView;
+        private DataGridView logSendingGridView;
         private Button testbutton;
         private Label label3;
         private TabControl tabControlMain;
@@ -1828,6 +1915,10 @@ namespace SatteliteManagment
         private Label label35;
         private Label label36;
         private ToolTip toolTipAutoSendNextInfo;
+        private GroupBox groupBoxLogTables;
+        private CheckBox checkBoxAutoScroll;
+        private ComboBox comboBoxInOut;
+        private DataGridView logRequestingGridView;
     }
 }
 

@@ -28,7 +28,9 @@ namespace SatteliteManagment
 
 
         private byte[] currentServerTxAddress = new byte[] {0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
-        private GridViewLogManager logManager;
+        private GridViewLogManager logSendingManager;
+        private GridViewLogManager logRequestingManager;
+
         private CommandSender commandSender;        
         private TriggerGridViewManager triggerGridManager;
         private TriggerManager triggerManager;
@@ -46,14 +48,16 @@ namespace SatteliteManagment
             _client.ServerAddrChanged += OnServerAddrChanged;
 
 
-            logManager = new GridViewLogManager(this.logdataGridView);
+            logSendingManager = new GridViewLogManager(this.logSendingGridView);
+            logRequestingManager = new GridViewLogManager(this.logRequestingGridView);
+
             commandSender = new CommandSender(_client);
 
             triggerGridManager = new TriggerGridViewManager(dataGridViewTriggerState);
 
             triggerManager = new TriggerManager(triggerGridManager);
 
-            fileSender = new FileSender(_client, logManager);
+            fileSender = new FileSender(_client, logSendingManager, logRequestingManager);
 
             fileSender.SenderLastFileReceived += OnFullFileReceived;
             fileSender.SenderLastACKReceived += EnableCrcButton;
@@ -386,6 +390,25 @@ namespace SatteliteManagment
         private void EnableCrcButton()
         {
             buttonVerifyCheckSum.Enabled = true;
+        }
+
+        private void checkBoxAutoScroll_CheckedChanged(object sender, EventArgs e)
+        {
+            logSendingManager.IsAutoScrollEnable = checkBoxAutoScroll.Checked;
+        }
+
+        private void comboBoxInOut_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (comboBoxInOut.SelectedIndex == 0)
+            {
+                logSendingGridView.Visible = true;
+                logRequestingGridView.Visible = false;
+            }
+            else
+            {
+                logSendingGridView.Visible = false;
+                logRequestingGridView.Visible = true;
+            }
         }
 
         private void testbutton_Click(object sender, EventArgs e)

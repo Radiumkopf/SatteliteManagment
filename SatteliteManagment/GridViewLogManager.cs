@@ -12,6 +12,7 @@ namespace SatteliteManagment
     internal class GridViewLogManager
     {
         private DataGridView dataGridView;
+        public bool IsAutoScrollEnable;
 
         public GridViewLogManager(DataGridView dataGridView)
         {
@@ -62,8 +63,10 @@ namespace SatteliteManagment
 
             rows[(id, number)] = row; //add to dict
 
-            dataGridView.FirstDisplayedScrollingRowIndex = dataGridView.Rows.Count - 1;     //AutoScroll
-
+            if (IsAutoScrollEnable)
+            {
+                dataGridView.FirstDisplayedScrollingRowIndex = dataGridView.Rows.Count - 1;     //AutoScroll
+            }
         }
 
         public void MarkPacketAsReceived(byte id, ushort number)
