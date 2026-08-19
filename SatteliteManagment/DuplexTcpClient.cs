@@ -23,6 +23,9 @@ namespace SatteliteManagment
 
         public event Action FileNackReceived;
 
+        public event Action<uint> CRCReceived;
+
+
         public event Action<FileTransferPacket> FileReceived;
 
         public event Action<FileTransferPacket> LastFileReceived;
@@ -128,7 +131,10 @@ namespace SatteliteManagment
                         //    packet = SatellitePacketParser.Parse(data, OFFSET);
                         //    ServerAddrChanged?.Invoke(packet);
                         //    break;
-
+                        case PacketType.VerifyCheckSumAck:
+                            uint satCRC = SatellitePacketParser.ParseCRC(data, OFFSET);
+                            CRCReceived?.Invoke(satCRC);
+                            break;
                         case PacketType.Telemetry:
                             TlmPacket telemetryPacket = TlmPacket.Parse(data, OFFSET+1);
                             TelemetryReceived?.Invoke(telemetryPacket, packetInfo);

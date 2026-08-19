@@ -39,6 +39,7 @@ namespace SatteliteManagment
         private DeviceStatusManager deviceStatusManager;
         private DbServices dbSevrices;
         private string currentFilePath;
+        private uint crc;
 
         public Form1()
         {
@@ -46,6 +47,8 @@ namespace SatteliteManagment
 
             _client.PacketReceived += OnAddressReceived;
             _client.ServerAddrChanged += OnServerAddrChanged;
+            _client.CRCReceived += OnCRCReceived;
+
 
 
             logSendingManager = new GridViewLogManager(this.logSendingGridView);
@@ -65,7 +68,11 @@ namespace SatteliteManagment
             InizializeDB();
             InizializeGraphs();
             InitializeDeviceStatusManager();
-        
+
+
+            maskedTextBoxIP.ValidatingType = typeof(System.Net.IPAddress);
+
+
         }
 
         private void InizializeDB()
@@ -184,8 +191,19 @@ namespace SatteliteManagment
                 LogTextBoxWriteNewAddr( "Сервер", newAddr);
             }));
             
-         }
+        }
 
+        private void OnCRCReceived(uint satCrc)
+        {
+            if (satCrc == crc)      //FIXME нормальную обработку и/или отправку уведа на сат
+            {
+                MessageBox.Show("Гойдааааааа!!!!!11!!1!!");
+            }
+            else
+            {
+                MessageBox.Show("CRC не сходится :(\n" + satCrc.ToString());
+            }
+        }
         private void LogTextBoxWriteNewAddr(string who, byte[] addr) {
 
             logTextBox.AppendText(who);
@@ -231,9 +249,17 @@ namespace SatteliteManagment
                 try
                 {
                     buttonOpenCloseServer.Enabled = false;
-                    await _client.ConnectAsync("127.0.0.1", 8924);
-                    changeInterfaceState(true);
-                    buttonOpenCloseServer.Enabled = true;
+                    int port = (int)numericUpDownPort.Value;
+                    string rawText = maskedTextBoxIP.Text.Replace(" ", "");
+                    rawText = rawText.Replace(",", ".");
+
+                    if (IPAddress.TryParse(rawText, out IPAddress ip))
+                    {
+                        await _client.ConnectAsync(ip.ToString(), port);
+                        changeInterfaceState(true);
+                        buttonOpenCloseServer.Enabled = true;
+                    }
+
 
                 }
                 catch (Exception)
@@ -270,7 +296,7 @@ namespace SatteliteManagment
 
             byte[] dataArray = File.ReadAllBytes(path);
 
-            uint crc = Crc32.CalculateFileVer2(path);
+            crc = Crc32.CalculateFileVer2(path);
             labelCrc.Text = crc.ToString();
             labelCrcHex.Text = crc.ToString("X8");
             logTextBox.AppendText("FileCrc: " + crc.ToString());
@@ -289,7 +315,7 @@ namespace SatteliteManagment
             button1.Enabled = false;
             buttonDeleteCurrentFile.Enabled = true;
             buttonShowRawPackets.Enabled = true;
-            buttonVerifyCheckSum.Enabled = false;
+            //buttonVerifyCheckSum.Enabled = false;
 
         }
 
@@ -411,6 +437,16 @@ namespace SatteliteManagment
                 logRequestingGridView.Visible = true;
             }
         }
+        private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)
+        {
+            fileSender.IsSendNextIfAck = checkBoxSendNextIfGetAck.Checked;
+        }
+
+        private void checkBoxSendRequestIfGetPacket_CheckedChanged(object sender, EventArgs e)
+        {
+            fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
+
+        }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
@@ -479,16 +515,7 @@ namespace SatteliteManagment
             triggerManager.ChangeTriggerStatus(trigger, TriggerStatus.Sent);
         }
 
-        private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)
-        {
-            fileSender.IsSendNextIfAck = checkBoxSendNextIfGetAck.Checked;
-        }
 
-        private void checkBoxSendRequestIfGetPacket_CheckedChanged(object sender, EventArgs e)
-        {
-            fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
-
-        }
 
         /// <summary>
         /// 3. Telemetry Graph and Log

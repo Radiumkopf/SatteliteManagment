@@ -15,9 +15,11 @@ namespace SatteliteManagment
             RestartFileReceiving = 0x09,
             VerifyCheckSum = 0x0E,
 
+
             TimeSetAck = 0x1A,
             FileSendingAck = 0x1B,
             FileSendingNack = 0x2B,
+            VerifyCheckSumAck = 0x1E,
             FileRequestingAck = 0x1C,
             FileRequestingLast = 0x2C,
             Telemetry = 0x1D,

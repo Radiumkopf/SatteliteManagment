@@ -125,6 +125,7 @@ namespace SatteliteManagment
             {
                 fileReceiver.AddPacket(packet);
 
+                logRequestingManager.MarkPacketAsReceived(packet.id, packet.number);
                 if (IsSendRequestIfGetPacket)
                 {
                     SendFileRequestAsync();
@@ -139,7 +140,7 @@ namespace SatteliteManagment
             if (fileReceiver.IsReceiving)
             {
                 fileReceiver.AddPacket(packet);
-                fileReceiver.Dispose();
+                fileReceiver.Finish();
                 //еще какой то увед что файл готов
 
                 SenderLastFileReceived?.Invoke();
@@ -212,7 +213,7 @@ namespace SatteliteManagment
 
         public async Task SendFileRequestAsync()
         {
-            byte[] packet = BuildProtocolPackage(PacketType.FileRequesting, CurrentReceiveIndex, Array.Empty<byte>());
+            byte[] packet = BuildProtocolPackage(PacketType.FileRequesting, CurrentReceiveIndex, PacketSize, Array.Empty<byte>());
             
             if (!fileReceiver.IsReceiving)
             {
@@ -259,16 +260,24 @@ namespace SatteliteManagment
 
             return packet.ToByteArray();
         }
+        private byte[] BuildProtocolPackage(PacketType type, ushort number, byte size, byte[] value)
+        {
+            FileTransferPacket packet =
+                new FileTransferPacket(
+                    type,
+                    DestinationId,
+                    number,
+                    size,
+                    value);
 
-        
+            return packet.ToByteArray();
+        }
+
+
 
         public void SetPathToSave(string path)
         {
-            if (!fileReceiver.IsReceiving)
-            {
-                fileReceiver.Start(path);
-            }
-            else throw new Exception("Already writing in this path");
+            fileReceiver.Start(path);
         }
 
         public void ClearFileData()
@@ -287,12 +296,15 @@ namespace SatteliteManagment
 
         public async Task RestartReceive()
         {
-            fileReceiver.Finish();
+            //fileReceiver.Cancel();
             byte[] packet = BuildProtocolPackage( PacketType.RestartFileReceiving, 0, Array.Empty<byte>());    
             //Увед что нужно рестартнуть передачу
             await client.SendTextAsync(packet);
         }
+        public async Task CompleteFirmware()
+        {
 
+        }
         public void RequestCurrentServerTxAddress()
         {
 

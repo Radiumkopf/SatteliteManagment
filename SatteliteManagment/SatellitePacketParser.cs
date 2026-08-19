@@ -25,6 +25,7 @@ namespace SatteliteManagment
                 throw new InvalidDataException("Ошибка разбора пакета.", ex);
             }
         }
+
         public static PacketType GetPacketType(byte symbol)
         {
             if (symbol == null)
@@ -39,6 +40,22 @@ namespace SatteliteManagment
             {
                 throw new InvalidDataException("Ошибка разбора пакета.", ex);
             }
+        }
+
+        public static uint ParseCRC(byte[] bytes, int offset)
+        {
+            if (bytes == null)
+                throw new ArgumentNullException(nameof(bytes));
+
+            if (bytes.Length < 5)
+                throw new ArgumentException("CRC packet must contain at least 5 bytes.", nameof(bytes));
+
+            return (uint)(
+                bytes[1+offset] |
+                ((uint)bytes[2+ offset] << 8) |
+                ((uint)bytes[3 + offset] << 16) |
+                ((uint)bytes[4 + offset] << 24)
+            );
         }
 
         public static FileTransferPacket Parse(byte[] bytes)

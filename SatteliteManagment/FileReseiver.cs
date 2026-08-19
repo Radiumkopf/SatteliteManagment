@@ -16,7 +16,7 @@ namespace SatteliteManagment
 
         public void Start(string fileName)
         {
-            _stream?.Dispose();
+            Cancel();
 
             _stream = new FileStream(
                 fileName,
@@ -42,14 +42,30 @@ namespace SatteliteManagment
 
         public void Finish()
         {
-            _stream?.Flush();
-            _stream?.Close();
+            if (_stream == null)
+                return;
+
+            _stream.Flush();
+            _stream.Dispose();
             _stream = null;
+
+            _expectedPacket = 0;
+        }
+
+        public void Cancel()
+        {
+            if (_stream == null)
+                return;
+
+            _stream.Dispose();
+            _stream = null;
+
+            _expectedPacket = 0;
         }
 
         public void Dispose()
         {
-            _stream?.Dispose();
+            Cancel();
         }
     }
 }
