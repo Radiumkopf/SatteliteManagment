@@ -23,8 +23,6 @@ namespace SatteliteManagment
         private readonly GridViewLogManager logRequestingManager;
         private readonly GridViewLogManager logSendingManager;
 
-
-        //public List<byte[]> FileData { get; set; }
         public Dictionary<ushort, RawPacket> FileData;
 
         private FileReceiver fileReceiver { get; set; }
@@ -42,7 +40,6 @@ namespace SatteliteManagment
 
         public event Action SenderLastFileReceived;
         public event Action SenderLastACKReceived;
-
 
         private System.Timers.Timer ackTimer;
 
@@ -288,27 +285,31 @@ namespace SatteliteManagment
             PacketSize = 0;
         }
 
-        public async void SendCheckSum()    //FIXME 
+        public async void CheckSumVerify()    //FIXME 
         {
             byte[] packet = BuildProtocolPackage(PacketType.VerifyCheckSum, 0, Array.Empty<byte>());
             await client.SendTextAsync(packet);
         }
-
-        public async Task RestartReceive()
+        public async Task StartReprogramming()
         {
-            //fileReceiver.Cancel();
-            byte[] packet = BuildProtocolPackage( PacketType.RestartFileReceiving, 0, Array.Empty<byte>());    
-            //Увед что нужно рестартнуть передачу
-            await client.SendTextAsync(packet);
-        }
-        public async Task CompleteFirmware()
-        {
-
+            await client.SendTextAsync(BuildSmallPackage(PacketType.ReprogrammingStart, DestinationId));
         }
         public void RequestCurrentServerTxAddress()
         {
 
         }
-
+        private byte[] BuildSmallPackage(PacketType packetType, byte first) {
+            List<byte> fullPackage = new List<byte>();
+            fullPackage.Add((byte)packetType);
+            fullPackage.Add(first);
+            return fullPackage.ToArray();
+        }
+        private byte[] BuildSmallPackage(PacketType packetType, ushort first)
+        {
+            List<byte> fullPackage = new List<byte>();
+            fullPackage.Add((byte)packetType);
+            fullPackage.AddRange(BitConverter.GetBytes(first));
+            return fullPackage.ToArray();
+        }
     }
 }

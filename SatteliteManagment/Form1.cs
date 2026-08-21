@@ -48,6 +48,7 @@ namespace SatteliteManagment
             _client.PacketReceived += OnAddressReceived;
             _client.ServerAddrChanged += OnServerAddrChanged;
             _client.CRCReceived += OnCRCReceived;
+            _client.ReprogrammingResult += OnReprogResult;
 
 
 
@@ -180,6 +181,21 @@ namespace SatteliteManagment
 
             }));
         }
+        private void OnReprogResult(bool result)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                if (result) {
+                    MessageBox.Show("Перепрошивка прошла успешно! Ура!");
+                }
+                else
+                {
+                    MessageBox.Show("Сбой при перепрошивке.");      //FIXME дать возможность 
+                                                                    //отправить запрос повторно 
+                }
+            }));
+        
+        }
 
         private void OnServerAddrChanged(FileTransferPacket packet)
         {
@@ -197,7 +213,17 @@ namespace SatteliteManagment
         {
             if (satCrc == crc)      //FIXME нормальную обработку и/или отправку уведа на сат
             {
-                MessageBox.Show("Гойдааааааа!!!!!11!!1!!");
+                DialogResult result = MessageBox.Show(
+                    "Контрольная сумма верная! Начать перепрошивку?",
+                    "Подтверждение",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    fileSender.StartReprogramming();
+                }
+                else return;
             }
             else
             {
@@ -259,8 +285,6 @@ namespace SatteliteManagment
                         changeInterfaceState(true);
                         buttonOpenCloseServer.Enabled = true;
                     }
-
-
                 }
                 catch (Exception)
                 {
@@ -271,8 +295,6 @@ namespace SatteliteManagment
             else
                 changeInterfaceState(false);
         }
-
-
 
         private void buttonClearLogs_Click(object sender, EventArgs e)
         {
@@ -361,7 +383,7 @@ namespace SatteliteManagment
                 {
                     return;
                 }
-                fileSender.RestartReceive();
+                //fileSender.RestartReceive();
 
             }
 
@@ -375,6 +397,7 @@ namespace SatteliteManagment
                 {
                     string path = saveDialog.FileName;  
                     IsFilePathSet = true;
+                    fileSender.CurrentReceiveIndex = 0;
                     fileSender.SetPathToSave(path);
                     buttonSendFileRequest.Enabled = true;
                     this.currentFilePath = path;
@@ -410,7 +433,7 @@ namespace SatteliteManagment
         }
         private void buttonVerifyCheckSum_Click(object sender, EventArgs e)
         {
-            fileSender.SendCheckSum();
+            fileSender.CheckSumVerify();
 
         }
         private void EnableCrcButton()
@@ -428,13 +451,13 @@ namespace SatteliteManagment
         {
             if (comboBoxInOut.SelectedIndex == 0)
             {
-                logSendingGridView.Visible = true;
-                logRequestingGridView.Visible = false;
+                logSendingGridView.Visible = false;
+                logRequestingGridView.Visible = true;
             }
             else
             {
-                logSendingGridView.Visible = false;
-                logRequestingGridView.Visible = true;
+                logSendingGridView.Visible = true;
+                logRequestingGridView.Visible = false;
             }
         }
         private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)

@@ -258,7 +258,6 @@ namespace SatteliteManagment
             this.maskedTextBoxIP.TabIndex = 20;
             this.maskedTextBoxIP.Text = "1270  0  1";
             this.maskedTextBoxIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTipAutoSendNextInfo.SetToolTip(this.maskedTextBoxIP, "Введите адрес сервера для подключения");
             // 
             // label38
             // 
@@ -454,7 +453,7 @@ namespace SatteliteManagment
             this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.logRequestingGridView.RowHeadersWidth = 51;
             this.logRequestingGridView.RowTemplate.Height = 24;
-            this.logRequestingGridView.Size = new System.Drawing.Size(736, 307);
+            this.logRequestingGridView.Size = new System.Drawing.Size(740, 307);
             this.logRequestingGridView.TabIndex = 18;
             // 
             // checkBoxAutoScroll
@@ -468,7 +467,6 @@ namespace SatteliteManagment
             this.checkBoxAutoScroll.Size = new System.Drawing.Size(69, 29);
             this.checkBoxAutoScroll.TabIndex = 17;
             this.checkBoxAutoScroll.Text = "       ";
-            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxAutoScroll, "Включить автопрокрутку");
             this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
             this.checkBoxAutoScroll.CheckedChanged += new System.EventHandler(this.checkBoxAutoScroll_CheckedChanged);
             // 
@@ -492,7 +490,7 @@ namespace SatteliteManagment
             this.logSendingGridView.ReadOnly = true;
             this.logSendingGridView.RowHeadersWidth = 51;
             this.logSendingGridView.RowTemplate.Height = 24;
-            this.logSendingGridView.Size = new System.Drawing.Size(736, 316);
+            this.logSendingGridView.Size = new System.Drawing.Size(740, 316);
             this.logSendingGridView.TabIndex = 15;
             // 
             // groupBoxFileSending
@@ -555,7 +553,6 @@ namespace SatteliteManagment
             this.checkBoxSendNextIfGetAck.Size = new System.Drawing.Size(74, 29);
             this.checkBoxSendNextIfGetAck.TabIndex = 0;
             this.checkBoxSendNextIfGetAck.Text = "        ";
-            this.toolTipAutoSendNextInfo.SetToolTip(this.checkBoxSendNextIfGetAck, "Отправлять пакет автоматически при получении АСК\r\n");
             this.checkBoxSendNextIfGetAck.UseVisualStyleBackColor = true;
             this.checkBoxSendNextIfGetAck.CheckedChanged += new System.EventHandler(this.checkBoxSendNextIfGetAck_CheckedChanged);
             // 
@@ -1632,7 +1629,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 229);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 234);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1641,7 +1638,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 195);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 200);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1650,7 +1647,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 165);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 170);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1659,7 +1656,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 135);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 140);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1668,7 +1665,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 105);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 110);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;

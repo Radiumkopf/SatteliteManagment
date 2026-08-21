@@ -25,6 +25,9 @@ namespace SatteliteManagment
 
         public event Action<uint> CRCReceived;
 
+        public event Action<bool> ReprogrammingResult;
+
+
 
         public event Action<FileTransferPacket> FileReceived;
 
@@ -134,6 +137,13 @@ namespace SatteliteManagment
                         case PacketType.VerifyCheckSumAck:
                             uint satCRC = SatellitePacketParser.ParseCRC(data, OFFSET);
                             CRCReceived?.Invoke(satCRC);
+                            break;
+                        case PacketType.ReprogrammingStartACK:
+                            ReprogrammingResult?.Invoke(true);
+                            break;
+
+                        case PacketType.ReprogrammingStartNACK:
+                            ReprogrammingResult?.Invoke(false);
                             break;
                         case PacketType.Telemetry:
                             TlmPacket telemetryPacket = TlmPacket.Parse(data, OFFSET+1);
