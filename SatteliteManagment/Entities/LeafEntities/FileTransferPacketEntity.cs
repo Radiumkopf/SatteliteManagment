@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Services;
+﻿using SatteliteManagment.Entities.LeafEntities;
+using SatteliteManagment.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace SatteliteManagment.Entities
 
         public int Id { get; set; }          // PK базы данных
 
-        public int PacketInfoId { get; set; }
-        public PacketInfoEntity PacketInfo { get; set; }
+        public int DescriptionId { get; set; }
+        public PacketDescriptionEntity DescriptionEntity { get; set; }
+        public CommandResult Result { get; set; } = CommandResult.NoResult;
 
-        public PacketType Type { get; set; }
         public byte FileId { get; set; }     
         public ushort Number { get; set; }
         public byte Size { get; set; }

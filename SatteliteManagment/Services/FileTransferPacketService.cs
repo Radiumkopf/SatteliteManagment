@@ -42,11 +42,7 @@ namespace SatteliteManagment.Services
             return entities.Select(MapToModel).ToList();
         }
 
-        public async Task<List<FileTransferPacket>> GetByTypeAsync(PacketType type)
-        {
-            List<FileTransferPacketEntity> entities = await _repository.GetByTypeAsync(type);
-            return entities.Select(MapToModel).ToList();
-        }
+
         public async Task<List<FileTransferPacket>> GetLastAsync(int count)
         {
             List<FileTransferPacketEntity> entities = await _repository.GetLastAsync(count);
@@ -57,7 +53,7 @@ namespace SatteliteManagment.Services
         {
             return new FileTransferPacketEntity
             {
-                Type = packet.Type,
+                //Type = packet.Type,
                 FileId = packet.id,
                 Number = packet.number,
                 Size = packet.size,
@@ -69,7 +65,7 @@ namespace SatteliteManagment.Services
         {
             return new FileTransferPacket
             {
-                Type = entity.Type,
+                //Type = entity.Type,
                 id = entity.FileId,
                 number = entity.Number,
                 size = entity.Size,

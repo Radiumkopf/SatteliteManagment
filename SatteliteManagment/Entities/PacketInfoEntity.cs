@@ -24,11 +24,7 @@ namespace SatteliteManagment.Entities
         public sbyte rssi { get; set; }
         public sbyte snr { get; set; }
 
-        public DateTime dateTime = DateTime.Now;
-
-        //не уверен
-        public TlmPacketEntity TlmPacket { get; set; }
-        public FileTransferPacketEntity FileTransferPacket { get; set; }
+        public RadioPacketEntity RadioPacketEntity { get; set; }
 
         public byte[] ToBytes()
         {

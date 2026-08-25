@@ -27,7 +27,7 @@ namespace SatteliteManagment
             PacketInfoService = new PacketInfoService(packetInfoRepository);
             TlmPacketService = new TlmPacketService(tlmPacketRepository);
             FileTransferPacketService = new FileTransferPacketService(fileTransferPacketRepository);
-            PacketStoreService = new PacketStoreService(packetInfoRepository);
+            //PacketStoreService = new PacketStoreService(packetInfoRepository);
             StoredFileService = new StoredFileService(storedFileRepository);
         }
     }

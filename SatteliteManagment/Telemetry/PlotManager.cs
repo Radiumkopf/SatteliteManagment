@@ -87,7 +87,8 @@ namespace SatteliteManagment.Telemetry
         {
             if (EnableWriteToDB)
             {
-                await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
+                //FIXME
+                //await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
             }
 
             int index = 0;

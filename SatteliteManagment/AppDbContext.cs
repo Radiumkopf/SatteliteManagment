@@ -15,6 +15,10 @@ namespace SatteliteManagment
         public DbSet<TlmPacketEntity> TlmPackets { get; set; }
         public DbSet<PacketInfoEntity> PacketInfos { get; set; }
         public DbSet<FileTransferPacketEntity> FileTransferPackets { get; set; }
+        public DbSet<RadioPacketEntity> RadioPackets { get; set; }
+        public DbSet<PacketDescriptionEntity> PacketDescriptions { get; set; }
+
+
         public DbSet<StoredFileEntity> StoredFiles { get; set; }
 
         private readonly string path = Path.Combine(Directory.GetCurrentDirectory(), "Properties/dbconnect.txt");
@@ -27,15 +31,22 @@ namespace SatteliteManagment
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PacketInfoEntity>()
-                .HasOne(p => p.TlmPacket)
-                .WithOne(t => t.PacketInfo)
-                .HasForeignKey<TlmPacketEntity>(t => t.PacketInfoId);
+            modelBuilder.Entity<RadioPacketEntity>()
+                .HasOne(x => x.PacketInfo)
+                .WithOne(x => x.RadioPacketEntity)
+                .HasForeignKey<RadioPacketEntity>(x => x.PacketInfoId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PacketInfoEntity>()
-                .HasOne(p => p.FileTransferPacket)
-                .WithOne(f => f.PacketInfo)
-                .HasForeignKey<FileTransferPacketEntity>(f => f.PacketInfoId);
+            modelBuilder.Entity<RadioPacketEntity>()
+                .HasOne(x => x.PacketDescription)
+                .WithOne()
+                .HasForeignKey<RadioPacketEntity>(x => x.DescriptionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TlmPacketEntity>()
+                .HasOne(x => x.DescriptionEntity)
+                .WithOne()
+                .HasForeignKey<TlmPacketEntity>(x => x.DescriptionId);
         }
     }
 }

@@ -59,12 +59,6 @@ namespace SatteliteManagment.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<FileTransferPacketEntity>> GetByTypeAsync(PacketType type)
-        {
-            return await _db.FileTransferPackets
-                .Where(x => x.Type == type)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
-        }
+
     }
 }
