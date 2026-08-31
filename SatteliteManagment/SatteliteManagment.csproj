@@ -224,12 +224,19 @@
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="RawPacket.cs" />
-    <Compile Include="Repositories\FileTransferPacketRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\CoilMagnetMomentRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\FileRequestRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\FileTransferPacketRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\ModuleStatusRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\MotorSpeedRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\ReprogrammingRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\TimeSetRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\VerifyCheckSumRepository.cs" />
     <Compile Include="Repositories\PacketDescriptionRepository.cs" />
     <Compile Include="Repositories\PacketInfoRepository.cs" />
     <Compile Include="Repositories\RadioPacketRepository.cs" />
     <Compile Include="Repositories\StoredFileRepository.cs" />
-    <Compile Include="Repositories\TlmPacketRepository.cs" />
+    <Compile Include="Repositories\LeafRepos\TlmPacketRepository.cs" />
     <Compile Include="Selector\FormSelectPacket.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,13 +252,21 @@
     <Compile Include="SatellitePacketParser.cs" />
     <Compile Include="FileTransferPacket.cs" />
     <Compile Include="Selector\RawPacketGridViewManager.cs" />
-    <Compile Include="Services\FileTransferPacketService.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\LeafServices\CoilMagnetMomentService.cs" />
+    <Compile Include="Services\LeafServices\FileRequestService.cs" />
+    <Compile Include="Services\LeafServices\FileTransferPacketService.cs" />
+    <Compile Include="Services\LeafServices\ModuleStatusService.cs" />
+    <Compile Include="Services\LeafServices\MotorSpeedService.cs" />
+    <Compile Include="Services\LeafServices\ReprogrammingService.cs" />
+    <Compile Include="Services\LeafServices\TimeSetService.cs" />
+    <Compile Include="Services\LeafServices\VerifyCheckSumService.cs" />
     <Compile Include="Services\PacketDescriptionService.cs" />
     <Compile Include="Services\PacketInfoService.cs" />
     <Compile Include="Services\PacketStoreService.cs" />
     <Compile Include="Services\RadioPacketService.cs" />
     <Compile Include="Services\StoredFileService.cs" />
-    <Compile Include="Services\TlmPacketService.cs" />
+    <Compile Include="Services\LeafServices\TlmPacketService.cs" />
     <Compile Include="Telemetry\PlotManager.cs" />
     <Compile Include="Telemetry\SensorGraph.cs" />
     <Compile Include="Telemetry\TlmPacket.cs" />

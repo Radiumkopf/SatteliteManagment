@@ -1629,7 +1629,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 234);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 239);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1638,7 +1638,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 200);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 205);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1647,7 +1647,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 170);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 175);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1656,7 +1656,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 140);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 145);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1665,7 +1665,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 110);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 115);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1705,9 +1705,9 @@ namespace SatteliteManagment
             // 
             // buttonGetLastX
             // 
-            this.buttonGetLastX.Location = new System.Drawing.Point(404, 7);
+            this.buttonGetLastX.Location = new System.Drawing.Point(325, 7);
             this.buttonGetLastX.Name = "buttonGetLastX";
-            this.buttonGetLastX.Size = new System.Drawing.Size(111, 48);
+            this.buttonGetLastX.Size = new System.Drawing.Size(190, 48);
             this.buttonGetLastX.TabIndex = 4;
             this.buttonGetLastX.Text = "Последние n пакетов";
             this.buttonGetLastX.UseVisualStyleBackColor = true;
@@ -1743,7 +1743,7 @@ namespace SatteliteManagment
             this.groupBox3.Size = new System.Drawing.Size(778, 399);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "groupBox3";
+            this.groupBox3.Text = "БД";
             // 
             // dataGridViewEntities
             // 
@@ -1771,7 +1771,7 @@ namespace SatteliteManagment
             this.groupBox2.Size = new System.Drawing.Size(373, 399);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.groupBox2.Text = "Лог";
             // 
             // Form1
             // 

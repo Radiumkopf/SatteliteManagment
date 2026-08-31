@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities
 {
-    internal class PacketDescriptionEntity
+    internal class PacketDescriptionEntity : IDbEntity
     {
         [Key]
         public int Id { get; set; }
