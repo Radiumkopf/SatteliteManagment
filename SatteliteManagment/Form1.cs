@@ -37,10 +37,11 @@ namespace SatteliteManagment
         private FileSender fileSender;
         private PlotManager plotManager;
         private DeviceStatusManager deviceStatusManager;
-        private DbServices dbSevrices;
+        private DbServices dbServices;
         private string currentFilePath;
         private uint crc;
 
+        private readonly Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
         public Form1()
         {
             InitializeComponent();
@@ -73,6 +74,7 @@ namespace SatteliteManagment
 
             maskedTextBoxIP.ValidatingType = typeof(System.Net.IPAddress);
 
+            EntityListLoader.LoadListEntityToDict(_entityLoaders, dbServices);
 
         }
 
@@ -81,7 +83,7 @@ namespace SatteliteManagment
             var db = new AppDbContext();
             db.Database.Migrate();
 
-            dbSevrices = new DbServices(db);
+            dbServices = new DbServices(db);
 
 
 
@@ -95,14 +97,14 @@ namespace SatteliteManagment
                     "Функции работы с базой данных отключены.",
                     "Предупреждение");
 
-                dbSevrices = null;
+                dbServices = null;
                 checkBoxWriteTLMToDB.Enabled = false;
                 TabPage dbPage =  tabControlMain.TabPages[4];
                 dbPage.Enabled = false;
             }
             else
             {
-                dbSevrices = new DbServices(dbCreator.Context);
+                dbServices = new DbServices(dbCreator.Context);
                 comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
                 dataGridViewEntities.AutoGenerateColumns = true;
                 dataGridViewEntities.ReadOnly = true;
@@ -129,9 +131,9 @@ namespace SatteliteManagment
                 textBoxTelemetry5, textBoxTelemetry6, textBoxTelemetry7, textBoxTelemetry8, textBoxTelemetry9
             };
 
-            if (dbSevrices != null)
+            if (dbServices != null)
             {
-                plotManager = new PlotManager(_client, logTextBoxes, dbSevrices);
+                plotManager = new PlotManager(_client, logTextBoxes, dbServices);
                
             }
             else
@@ -244,7 +246,7 @@ namespace SatteliteManagment
             buttonSendFileRequest.Enabled = false;
             logTextBox.AppendText("Файл сохранен: " + currentFilePath);
             IsFilePathSet = false;
-            dbSevrices.StoredFileService.SaveFileAsync(currentFilePath, currentServerTxAddress);
+            dbServices.StoredFileService.SaveFileAsync(currentFilePath, currentServerTxAddress);
         }
 
         /// <summary>
@@ -663,36 +665,16 @@ namespace SatteliteManagment
         /// <summary>
         /// 5. DB View
         /// </summary>
-        
-        public enum DbEntityType
-        {
-            PacketInfo,
-            TlmPacket,
-            FileTransferPacket
-        }
+              
 
-        private async Task<IReadOnlyList<IDataConvertable>> LoadLastEntitiesAsync(int count)
+        private async Task<IReadOnlyList<IDbEntity>> LoadLastEntitiesAsync(int count)
         {
             DbEntityType selectedType = (DbEntityType)comboBoxEntityType.SelectedItem;
 
-            switch (selectedType)
-            {
-                case DbEntityType.PacketInfo:
-                    return (await dbSevrices.PacketInfoService.GetLastAsync(count))
-                        .Cast<IDataConvertable>()
-                        .ToList();
+            if (_entityLoaders.TryGetValue(selectedType, out var loader))
+                return await loader(count);
 
-                case DbEntityType.TlmPacket:
-                    return (await dbSevrices.TlmPacketService.GetLastAsync(count))
-                        .Cast<IDataConvertable>()
-                        .ToList();
-
-                case DbEntityType.FileTransferPacket:
-                    return (await dbSevrices.FileTransferPacketService.GetLastAsync(count))
-                        .Cast<IDataConvertable>().ToList();
-                default:
-                    return Array.Empty<IDataConvertable>();
-            }
+            return Array.Empty<IDbEntity>();
         }
         private async void buttonGetLast_Click(object sender, EventArgs e)
         {
@@ -700,7 +682,7 @@ namespace SatteliteManagment
             textBoxHexView.Clear();
             var entity =  await LoadLastEntitiesAsync(1);
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
-            textBoxHexView.AppendText(DataConverter.ByteArrayToStringHEX(entity.First().ToByteArray()));
+            //textBoxHexView.AppendText(DataConverter.ByteArrayToStringHEX(entity.First().ToByteArray()));
         }
 
         private async void buttonGetLastX_Click(object sender, EventArgs e)
