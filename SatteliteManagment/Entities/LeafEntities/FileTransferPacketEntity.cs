@@ -22,6 +22,13 @@ namespace SatteliteManagment.Entities
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();
 
+        public FileTransferPacketEntity(byte FileId, ushort Number, byte Size, byte[] Data)
+        {
+            this.FileId = FileId;
+            this.Number = Number;
+            this.Size = Size;
+            this.Data = Data;
+        }
 
     }
 }

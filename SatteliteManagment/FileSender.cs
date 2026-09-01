@@ -109,6 +109,9 @@ namespace SatteliteManagment
                 }
 
             }
+            if (IsDbWritingEnable) { 
+                
+            }
 
 
             if (IsSendNextIfAck)
@@ -137,7 +140,6 @@ namespace SatteliteManagment
             }
 
         }
-
 
         private void OnLastFileReceived(FileTransferPacket packet)
         {
@@ -203,6 +205,14 @@ namespace SatteliteManagment
             rawPacket.IsSent = true;
             await SendPackageAsync(packet, rawPacket.Number, TableType.SendingTable);
 
+            if (IsDbWritingEnable)
+            {
+                FileTransferPacketEntity ftpe = new FileTransferPacketEntity(DestinationId,rawPacket.Number,(byte)rawPacket.Data.Length,rawPacket.Data);
+                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.FileSending);
+                ftpe.DescriptionEntity = pde;
+                await dbServices.PacketDescriptionService.SaveAsync(pde);
+                await dbServices.FileTransferPacketService.SaveAsync(ftpe);
+            }
             
         }
 

@@ -81,12 +81,12 @@ namespace SatteliteManagment
             public static FileTransferPacketEntity MapToSendEntity(FileTransferPacket packet)
             {
                 return new FileTransferPacketEntity
-                {
-                    FileId = packet.id,
-                    Number = packet.number,
-                    Size = packet.size,
-                    Data = packet.data ?? System.Array.Empty<byte>()
-                };
+                (
+                    packet.id,
+                    packet.number,
+                    packet.size,
+                    packet.data ?? System.Array.Empty<byte>()
+                );
             }
 
             public static FileTransferPacket MapToModel(FileTransferPacketEntity entity)
