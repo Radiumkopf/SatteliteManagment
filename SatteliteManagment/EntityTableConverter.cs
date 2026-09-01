@@ -9,89 +9,103 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment
 {
-    public interface IDataConvertable
+    public enum DbEntityType
     {
-        byte[] ToByteArray();
+        PacketInfo,
+        TlmPacket,
+        FileTransferPacket,
+        FileRequest,
+        ModuleStatus,
+        MotorSpeed,
+        Reprogramming,
+        TimeSet,
+        VerifyCheckSum,
+        CoilMagnetMoment
     }
-
-    internal class EntityTableConverter
-    {
-
-        public static DataTable ToDataTable(IEnumerable<IDataConvertable> items)
+        public interface IDataConvertable
         {
-            var list = items?.ToList() ?? new List<IDataConvertable>();
-            var table = new DataTable();
+            byte[] ToByteArray();
+        }
 
-            if (list.Count == 0)
-                return table;
+        internal class EntityTableConverter
+        {
 
-            Type itemType = list[0].GetType();
-            PropertyInfo[] props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            foreach (var prop in props)
+            public static DataTable ToDataTable(IEnumerable<IDataConvertable> items)
             {
-                Type columnType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
-                table.Columns.Add(prop.Name, columnType);
-            }
+                var list = items?.ToList() ?? new List<IDataConvertable>();
+                var table = new DataTable();
 
-            foreach (var item in list)
-            {
-                DataRow row = table.NewRow();
+                if (list.Count == 0)
+                    return table;
+
+                Type itemType = list[0].GetType();
+                PropertyInfo[] props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
                 foreach (var prop in props)
                 {
-                    object value = prop.GetValue(item);
-
-                    if (value == null)
-                        row[prop.Name] = DBNull.Value;
-                    else if (value is byte[] bytes)
-                        row[prop.Name] = BitConverter.ToString(bytes);
-                    else
-                        row[prop.Name] = value;
+                    Type columnType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    table.Columns.Add(prop.Name, columnType);
                 }
 
-                table.Rows.Add(row);
-            }
+                foreach (var item in list)
+                {
+                    DataRow row = table.NewRow();
 
-            return table;
-        }
-        public static DataTable ToDataTable(IEnumerable<IDbEntity> items)
-        {
-            var list = items?.ToList() ?? new List<IDbEntity>();
-            var table = new DataTable();
+                    foreach (var prop in props)
+                    {
+                        object value = prop.GetValue(item);
 
-            if (list.Count == 0)
+                        if (value == null)
+                            row[prop.Name] = DBNull.Value;
+                        else if (value is byte[] bytes)
+                            row[prop.Name] = BitConverter.ToString(bytes);
+                        else
+                            row[prop.Name] = value;
+                    }
+
+                    table.Rows.Add(row);
+                }
+
                 return table;
-
-            Type itemType = list[0].GetType();
-            PropertyInfo[] props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            foreach (var prop in props)
-            {
-                Type columnType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
-                table.Columns.Add(prop.Name, columnType);
             }
-
-            foreach (var item in list)
+            public static DataTable ToDataTable(IEnumerable<IDbEntity> items)
             {
-                DataRow row = table.NewRow();
+                var list = items?.ToList() ?? new List<IDbEntity>();
+                var table = new DataTable();
+
+                if (list.Count == 0)
+                    return table;
+
+                Type itemType = list[0].GetType();
+                PropertyInfo[] props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
                 foreach (var prop in props)
                 {
-                    object value = prop.GetValue(item);
-
-                    if (value == null)
-                        row[prop.Name] = DBNull.Value;
-                    else if (value is byte[] bytes)
-                        row[prop.Name] = BitConverter.ToString(bytes);
-                    else
-                        row[prop.Name] = value;
+                    Type columnType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    table.Columns.Add(prop.Name, columnType);
                 }
 
-                table.Rows.Add(row);
-            }
+                foreach (var item in list)
+                {
+                    DataRow row = table.NewRow();
 
-            return table;
+                    foreach (var prop in props)
+                    {
+                        object value = prop.GetValue(item);
+
+                        if (value == null)
+                            row[prop.Name] = DBNull.Value;
+                        else if (value is byte[] bytes)
+                            row[prop.Name] = BitConverter.ToString(bytes);
+                        else
+                            row[prop.Name] = value;
+                    }
+
+                    table.Rows.Add(row);
+                }
+
+                return table;
+            }
         }
-    }
+    
 }

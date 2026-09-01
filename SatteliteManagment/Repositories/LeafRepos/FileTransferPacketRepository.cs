@@ -59,6 +59,13 @@ namespace SatteliteManagment.Repositories
                 .Take(count)
                 .ToListAsync();
         }
+        public async Task<FileTransferPacketEntity> GetByFileIdAndNumberAsync(byte fileId, ushort number)
+        {
+            return await _db.FileTransferPackets
+                .FirstOrDefaultAsync(x =>
+                    x.FileId == fileId &&
+                    x.Number == number);
+        }
         public async Task DeleteAsync(int id)
         {
             FileTransferPacketEntity entity =

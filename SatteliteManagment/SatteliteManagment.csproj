@@ -205,7 +205,6 @@
     <Compile Include="Entities\RadioPacketEntity.cs" />
     <Compile Include="Entities\StoredFileEntity.cs" />
     <Compile Include="Entities\LeafEntities\TlmPacketEntity.cs" />
-    <Compile Include="EntityListLoader.cs" />
     <Compile Include="EntityTableConverter.cs" />
     <Compile Include="FileReseiver.cs" />
     <Compile Include="FileSender.cs" />

@@ -58,6 +58,7 @@ namespace SatteliteManagment
             this.client = client;
             this.logSendingManager = logManager;
             this.logRequestingManager = logRequestingManager;
+            this.dbServices = _services;
 
             this.fileReceiver = new FileReceiver();
             client.AckReceived += OnAckReceived;
@@ -65,32 +66,13 @@ namespace SatteliteManagment
             client.LastFileReceived += OnLastFileReceived;
             client.FileNackReceived += OnNackReceived;
 
-            ackTimer = new System.Timers.Timer(3000);
-            //ackTimer.Elapsed += OnTimedEvent;
-            ackTimer.AutoReset = true;
-            //ackTimer.Enabled = true;
+
 
 
         }
 
         public FileSender()
         {
-        }
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            if (FileData.TryGetValue(CurrentPacketIndex, out RawPacket rawPacket))
-            {
-                if (rawPacket.IsAckReceived == false)
-                {
-                    SendPacketAsyncByNumber(CurrentPacketIndex);
-                }
-                else
-                {
-                    ackTimer.Stop();
-                }
-
-
-            }
         }
 
         private async void OnAckReceived(FileTransferPacket packet)     //async annotation add
@@ -110,7 +92,9 @@ namespace SatteliteManagment
 
             }
             if (IsDbWritingEnable) { 
-                
+                FileTransferPacketEntity ftpe = await dbServices.FileTransferPacketService.GetByFileIdAndNumberAsync(DestinationId, packet.number);
+                ftpe.Result = CommandResult.ACK;
+                await dbServices.FileTransferPacketService.UpdateAsync(ftpe);
             }
 
 
@@ -124,7 +108,7 @@ namespace SatteliteManagment
             await SendNextPacketAsync();
         }
 
-        private void OnFileReceived(FileTransferPacket packet)
+        private async void OnFileReceived(FileTransferPacket packet)
         {
             //обработка полученных данных!!!!!
 
@@ -135,7 +119,14 @@ namespace SatteliteManagment
                 logRequestingManager.MarkPacketAsReceived(packet.id, packet.number);
                 if (IsSendRequestIfGetPacket)
                 {
-                    SendFileRequestAsync();
+                    await SendFileRequestAsync();
+                }
+
+                if (IsDbWritingEnable)
+                {
+                    var fre = await dbServices.FileRequestService.GetByFileIdAndNumberAsync(DestinationId, packet.number);
+                    fre.Result = CommandResult.ACK;
+                    await dbServices.FileRequestService.UpdateAsync(fre);
                 }
             }
 
@@ -237,6 +228,14 @@ namespace SatteliteManagment
             await SendPackageAsync(packet, CurrentReceiveIndex, TableType.RequestingTable);
 
             CurrentReceiveIndex++;
+
+            if (IsDbWritingEnable) { 
+                FileRequestEntity fre = new FileRequestEntity(DestinationId, CurrentReceiveIndex, PacketSize, null);
+                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.FileRequesting);
+                fre.DescriptionEntity = pde;
+                await dbServices.PacketDescriptionService.SaveAsync(pde);
+                await dbServices.FileRequestService.SaveAsync(fre);
+            }
         }
 
         private async Task SendPackageAsync(byte[] packet, ushort number, TableType tableType)

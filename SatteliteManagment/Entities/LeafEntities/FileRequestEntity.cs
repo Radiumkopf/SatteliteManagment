@@ -19,5 +19,13 @@ namespace SatteliteManagment.Entities.LeafEntities
         public ushort Number { get; set; }
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();
+
+        public FileRequestEntity(byte FileId, ushort Number, byte Size, byte[] Data)
+        {
+            this.FileId = FileId;
+            this.Number = Number;
+            this.Size = Size;
+            this.Data = Data ?? Array.Empty<byte>();
+        }
     }
 }

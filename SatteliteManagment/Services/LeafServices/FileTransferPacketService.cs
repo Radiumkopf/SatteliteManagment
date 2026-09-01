@@ -31,6 +31,11 @@ namespace SatteliteManagment.Services
         public Task<List<FileTransferPacketEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
         public async Task<FileTransferPacketEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
+        public Task<FileTransferPacketEntity> GetByFileIdAndNumberAsync(byte fileId, ushort number)
+        {
+            return _repository.GetByFileIdAndNumberAsync(fileId, number);
+        }
+
         public Task UpdateAsync(FileTransferPacketEntity entity)
             => _repository.UpdateAsync(entity);
 

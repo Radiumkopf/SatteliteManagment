@@ -54,6 +54,7 @@ namespace SatteliteManagment
             this.label1 = new System.Windows.Forms.Label();
             this.panelRadioControl = new System.Windows.Forms.Panel();
             this.groupBoxLogTables = new System.Windows.Forms.GroupBox();
+            this.checkBoxSaveToDb = new System.Windows.Forms.CheckBox();
             this.logRequestingGridView = new System.Windows.Forms.DataGridView();
             this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             this.comboBoxInOut = new System.Windows.Forms.ComboBox();
@@ -178,7 +179,6 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxSaveToDb = new System.Windows.Forms.CheckBox();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -424,6 +424,17 @@ namespace SatteliteManagment
             this.groupBoxLogTables.TabStop = false;
             this.groupBoxLogTables.Text = "Пришло/Ушло";
             // 
+            // checkBoxSaveToDb
+            // 
+            this.checkBoxSaveToDb.AutoSize = true;
+            this.checkBoxSaveToDb.Location = new System.Drawing.Point(322, 26);
+            this.checkBoxSaveToDb.Name = "checkBoxSaveToDb";
+            this.checkBoxSaveToDb.Size = new System.Drawing.Size(127, 20);
+            this.checkBoxSaveToDb.TabIndex = 19;
+            this.checkBoxSaveToDb.Text = "Сохранять в бд";
+            this.checkBoxSaveToDb.UseVisualStyleBackColor = true;
+            this.checkBoxSaveToDb.CheckedChanged += new System.EventHandler(this.checkBoxSaveToDb_CheckedChanged);
+            // 
             // logRequestingGridView
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -443,7 +454,7 @@ namespace SatteliteManagment
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.logRequestingGridView.Location = new System.Drawing.Point(6, 64);
+            this.logRequestingGridView.Location = new System.Drawing.Point(6, 55);
             this.logRequestingGridView.Name = "logRequestingGridView";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -455,7 +466,7 @@ namespace SatteliteManagment
             this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.logRequestingGridView.RowHeadersWidth = 51;
             this.logRequestingGridView.RowTemplate.Height = 24;
-            this.logRequestingGridView.Size = new System.Drawing.Size(740, 307);
+            this.logRequestingGridView.Size = new System.Drawing.Size(740, 316);
             this.logRequestingGridView.TabIndex = 18;
             // 
             // checkBoxAutoScroll
@@ -1631,7 +1642,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 244);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 249);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1640,7 +1651,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 210);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 215);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1649,7 +1660,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 180);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 185);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1658,7 +1669,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 150);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 155);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1667,7 +1678,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 120);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 125);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1774,17 +1785,6 @@ namespace SatteliteManagment
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Лог";
-            // 
-            // checkBoxSaveToDb
-            // 
-            this.checkBoxSaveToDb.AutoSize = true;
-            this.checkBoxSaveToDb.Location = new System.Drawing.Point(322, 26);
-            this.checkBoxSaveToDb.Name = "checkBoxSaveToDb";
-            this.checkBoxSaveToDb.Size = new System.Drawing.Size(127, 20);
-            this.checkBoxSaveToDb.TabIndex = 19;
-            this.checkBoxSaveToDb.Text = "Сохранять в бд";
-            this.checkBoxSaveToDb.UseVisualStyleBackColor = true;
-            this.checkBoxSaveToDb.CheckedChanged += new System.EventHandler(this.checkBoxSaveToDb_CheckedChanged);
             // 
             // Form1
             // 

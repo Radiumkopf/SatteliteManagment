@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Entities.LeafEntities;
+﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
 using SatteliteManagment.Repositories.LeafRepos;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,10 @@ namespace SatteliteManagment.Services.LeafServices
             => _repository.GetLastAsync(count);
         public async Task<FileRequestEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
 
+        public Task<FileRequestEntity> GetByFileIdAndNumberAsync(byte fileId,ushort number)
+        {
+            return _repository.GetByFileIdAndNumberAsync(fileId, number);
+        }
         public Task UpdateAsync(FileRequestEntity entity)
             => _repository.UpdateAsync(entity);
 

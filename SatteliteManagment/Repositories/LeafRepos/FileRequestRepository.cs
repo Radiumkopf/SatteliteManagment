@@ -45,7 +45,13 @@ namespace SatteliteManagment.Repositories.LeafRepos
                 .Take(count)
                 .ToListAsync();
         }
-
+        public async Task<FileRequestEntity> GetByFileIdAndNumberAsync(byte fileId, ushort number)
+        {
+            return await _db.FileRequests
+                .FirstOrDefaultAsync(x =>
+                    x.FileId == fileId &&
+                    x.Number == number);
+        }
         public async Task UpdateAsync(FileRequestEntity entity)
         {
             _db.FileRequests.Update(entity);
