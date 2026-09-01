@@ -28,7 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<MotorSpeedEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
-
+        public async Task<MotorSpeedEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
         public Task UpdateAsync(MotorSpeedEntity entity)
             => _repository.UpdateAsync(entity);
 

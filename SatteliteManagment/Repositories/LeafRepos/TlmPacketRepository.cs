@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,23 @@ namespace SatteliteManagment.Repositories
                 .OrderByDescending(x => x.Id)
                 .Take(count)
                 .ToListAsync();
+        }
+        public async Task DeleteAsync(int id)
+        {
+            TlmPacketEntity entity =
+                await _db.TlmPackets.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+                return;
+
+            _db.TlmPackets.Remove(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _db.TlmPackets
+                .AnyAsync(x => x.Id == id);
         }
     }
 }

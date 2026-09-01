@@ -15,6 +15,7 @@ namespace SatteliteManagment.Entities
         [Required]
         public PacketType packetType { get; set; }
 
+        public PacketDescriptionEntity(PacketType packetType) {  this.packetType = packetType; }
 
     }
 }

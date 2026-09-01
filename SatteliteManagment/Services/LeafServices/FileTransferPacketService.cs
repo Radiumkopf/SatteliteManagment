@@ -1,4 +1,5 @@
 ﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
 using SatteliteManagment.Repositories;
 using SatteliteManagment.Telemetry;
 using System;
@@ -18,59 +19,27 @@ namespace SatteliteManagment.Services
             _repository = repository;
         }
 
-        public Task SaveAsync(FileTransferPacket packet)
-        {
-            FileTransferPacketEntity entity = MapToEntity(packet);
-            return _repository.AddAsync(entity);
-        }
+        public Task SaveAsync(FileTransferPacketEntity entity)
+            => _repository.AddAsync(entity);
 
-        public async Task<FileTransferPacket> GetByDbIdAsync(int id)
-        {
-            FileTransferPacketEntity entity = await _repository.GetByDbIdAsync(id);
-            return entity == null ? null : MapToModel(entity);
-        }
+        public Task<FileTransferPacketEntity> GetByIdAsync(int id)
+            => _repository.GetByIdAsync(id);
 
-        public async Task<List<FileTransferPacket>> GetAllAsync()
-        {
-            List<FileTransferPacketEntity> entities = await _repository.GetAllAsync();
-            return entities.Select(MapToModel).ToList();
-        }
+        public Task<List<FileTransferPacketEntity>> GetAllAsync()
+            => _repository.GetAllAsync();
 
-        public async Task<List<FileTransferPacket>> GetByFileIdAsync(byte fileId)
-        {
-            List<FileTransferPacketEntity> entities = await _repository.GetByFileIdAsync(fileId);
-            return entities.Select(MapToModel).ToList();
-        }
+        public Task<List<FileTransferPacketEntity>> GetLastAsync(int count)
+            => _repository.GetLastAsync(count);
+        public async Task<FileTransferPacketEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
+        public Task UpdateAsync(FileTransferPacketEntity entity)
+            => _repository.UpdateAsync(entity);
+
+        public Task DeleteAsync(int id)
+            => _repository.DeleteAsync(id);
+
+        public Task<bool> ExistsAsync(int id)
+            => _repository.ExistsAsync(id);
 
 
-        public async Task<List<FileTransferPacket>> GetLastAsync(int count)
-        {
-            List<FileTransferPacketEntity> entities = await _repository.GetLastAsync(count);
-            return entities.Select(MapToModel).ToList();
-        }
-
-        private static FileTransferPacketEntity MapToEntity(FileTransferPacket packet)
-        {
-            return new FileTransferPacketEntity
-            {
-                //Type = packet.Type,
-                FileId = packet.id,
-                Number = packet.number,
-                Size = packet.size,
-                Data = packet.data ?? System.Array.Empty<byte>()
-            };
-        }
-
-        public static FileTransferPacket MapToModel(FileTransferPacketEntity entity)
-        {
-            return new FileTransferPacket
-            {
-                //Type = entity.Type,
-                id = entity.FileId,
-                number = entity.Number,
-                size = entity.Size,
-                data = entity.Data ?? System.Array.Empty<byte>()
-            };
-        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -75,6 +77,48 @@ namespace SatteliteManagment
 
                 return fullPackage.ToArray();
             }
-            
-        }
+
+            public static FileTransferPacketEntity MapToSendEntity(FileTransferPacket packet)
+            {
+                return new FileTransferPacketEntity
+                {
+                    FileId = packet.id,
+                    Number = packet.number,
+                    Size = packet.size,
+                    Data = packet.data ?? System.Array.Empty<byte>()
+                };
+            }
+
+            public static FileTransferPacket MapToModel(FileTransferPacketEntity entity)
+            {
+                return new FileTransferPacket
+                {
+                    id = entity.FileId,
+                    number = entity.Number,
+                    size = entity.Size,
+                    data = entity.Data ?? System.Array.Empty<byte>()
+                };
+            }
+            public static FileRequestEntity MapToRequestEntity(FileTransferPacket packet)
+            {
+                return new FileRequestEntity
+                {
+                    FileId = packet.id,
+                    Number = packet.number,
+                    Size = packet.size,
+                    Data = packet.data ?? System.Array.Empty<byte>()
+                };
+            }
+
+            public static FileTransferPacket MapToModel(FileRequestEntity entity)
+            {
+                return new FileTransferPacket
+                {
+                    id = entity.FileId,
+                    number = entity.Number,
+                    size = entity.Size,
+                    data = entity.Data ?? System.Array.Empty<byte>()
+                };
+            }
+    }
 }

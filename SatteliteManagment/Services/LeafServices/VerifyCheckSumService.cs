@@ -28,7 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<VerifyCheckSumEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
-
+        public async Task<VerifyCheckSumEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
         public Task UpdateAsync(VerifyCheckSumEntity entity)
             => _repository.UpdateAsync(entity);
 

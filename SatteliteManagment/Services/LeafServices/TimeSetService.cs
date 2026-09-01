@@ -28,7 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<TimeSetEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
-
+        public async Task<TimeSetEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
         public Task UpdateAsync(TimeSetEntity entity)
             => _repository.UpdateAsync(entity);
 

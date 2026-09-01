@@ -1,4 +1,6 @@
-﻿using ScottPlot.Palettes;
+﻿using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
+using ScottPlot.Palettes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -38,6 +40,10 @@ namespace SatteliteManagment
         public bool IsSendRequestIfGetPacket { get; set; }
         public bool IsTxSet {  get; set; }
 
+        public bool IsDbWritingEnable { get; set; }
+
+        private DbServices dbServices { get; set; }
+
         public event Action SenderLastFileReceived;
         public event Action SenderLastACKReceived;
 
@@ -46,7 +52,8 @@ namespace SatteliteManagment
 
         public FileSender(DuplexTcpClient client,
                           GridViewLogManager logManager,
-                          GridViewLogManager logRequestingManager)
+                          GridViewLogManager logRequestingManager,
+                          DbServices _services)
         {
             this.client = client;
             this.logSendingManager = logManager;
@@ -287,6 +294,16 @@ namespace SatteliteManagment
 
         public async void CheckSumVerify()    //FIXME 
         {
+            if (IsDbWritingEnable)
+            {
+                VerifyCheckSumEntity vcse = new VerifyCheckSumEntity();
+                vcse.FileId = DestinationId; vcse.Crc = 0; vcse.Result = CommandResult.NoResult;
+                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.VerifyCheckSum);
+                vcse.DescriptionEntity = pde;
+                await dbServices.PacketDescriptionService.SaveAsync(pde);
+                await dbServices.VerifyCheckSumService.SaveAsync(vcse);
+            }
+
             byte[] packet = BuildProtocolPackage(PacketType.VerifyCheckSum, 0, Array.Empty<byte>());
             await client.SendTextAsync(packet);
         }

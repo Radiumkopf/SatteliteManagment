@@ -28,6 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<FileRequestEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
+        public async Task<FileRequestEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
 
         public Task UpdateAsync(FileRequestEntity entity)
             => _repository.UpdateAsync(entity);

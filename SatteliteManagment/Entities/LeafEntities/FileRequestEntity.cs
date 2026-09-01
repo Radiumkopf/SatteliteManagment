@@ -15,7 +15,7 @@ namespace SatteliteManagment.Entities.LeafEntities
         public PacketDescriptionEntity DescriptionEntity { get; set; }
         public CommandResult Result { get; set; } = CommandResult.NoResult;
 
-        public int FileId { get; set; }
+        public byte FileId { get; set; }
         public ushort Number { get; set; }
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();

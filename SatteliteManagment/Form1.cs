@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
 using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
 using ScottPlot.MultiplotLayouts;
@@ -40,6 +41,7 @@ namespace SatteliteManagment
         private DbServices dbServices;
         private string currentFilePath;
         private uint crc;
+        private bool IsDbWritingEnable;
 
         private readonly Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
         public Form1()
@@ -62,7 +64,7 @@ namespace SatteliteManagment
 
             triggerManager = new TriggerManager(triggerGridManager);
 
-            fileSender = new FileSender(_client, logSendingManager, logRequestingManager);
+            fileSender = new FileSender(_client, logSendingManager, logRequestingManager, dbServices);
 
             fileSender.SenderLastFileReceived += OnFullFileReceived;
             fileSender.SenderLastACKReceived += EnableCrcButton;
@@ -211,9 +213,9 @@ namespace SatteliteManagment
             
         }
 
-        private void OnCRCReceived(uint satCrc)
+        private async void OnCRCReceived(uint satCrc)
         {
-            if (satCrc == crc)      //FIXME нормальную обработку и/или отправку уведа на сат
+            if (satCrc == crc)      
             {
                 DialogResult result = MessageBox.Show(
                     "Контрольная сумма верная! Начать перепрошивку?",
@@ -223,13 +225,28 @@ namespace SatteliteManagment
 
                 if (result == DialogResult.Yes)
                 {
-                    fileSender.StartReprogramming();
+                    await fileSender.StartReprogramming();
                 }
                 else return;
             }
             else
             {
                 MessageBox.Show("CRC не сходится :(\n" + satCrc.ToString());
+            }
+            if (IsDbWritingEnable)
+            {
+                var vcse = await dbServices.VerifyCheckSumService.GetLastAsync();
+                if (satCrc == crc)
+                { 
+                    vcse.Result = CommandResult.ACK;
+                }
+                else
+                {
+                    vcse.Result = CommandResult.NACK;
+                }
+                vcse.Crc = satCrc;
+                await dbServices.VerifyCheckSumService.UpdateAsync(vcse);
+
             }
         }
         private void LogTextBoxWriteNewAddr(string who, byte[] addr) {
@@ -447,6 +464,11 @@ namespace SatteliteManagment
         {
             logSendingManager.IsAutoScrollEnable = checkBoxAutoScroll.Checked;
             logRequestingManager.IsAutoScrollEnable = checkBoxAutoScroll.Checked;
+        }
+        private void checkBoxSaveToDb_CheckedChanged(object sender, EventArgs e)
+        {
+            fileSender.IsDbWritingEnable = checkBoxSaveToDb.Checked;
+            this.IsDbWritingEnable = checkBoxSaveToDb.Checked;
         }
 
         private void comboBoxInOut_SelectedIndexChanged_1(object sender, EventArgs e)

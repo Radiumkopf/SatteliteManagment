@@ -8,5 +8,7 @@ namespace SatteliteManagment.Entities
 {
     internal interface IDbEntity
     {
+        int Id { get; set; }
+
     }
 }

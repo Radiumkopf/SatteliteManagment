@@ -178,6 +178,7 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxSaveToDb = new System.Windows.Forms.CheckBox();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -411,6 +412,7 @@ namespace SatteliteManagment
             // 
             // groupBoxLogTables
             // 
+            this.groupBoxLogTables.Controls.Add(this.checkBoxSaveToDb);
             this.groupBoxLogTables.Controls.Add(this.logRequestingGridView);
             this.groupBoxLogTables.Controls.Add(this.checkBoxAutoScroll);
             this.groupBoxLogTables.Controls.Add(this.comboBoxInOut);
@@ -1629,7 +1631,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 239);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 244);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1638,7 +1640,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 205);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 210);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1647,7 +1649,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 175);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 180);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1656,7 +1658,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 145);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 150);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1665,7 +1667,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 115);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 120);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1772,6 +1774,17 @@ namespace SatteliteManagment
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Лог";
+            // 
+            // checkBoxSaveToDb
+            // 
+            this.checkBoxSaveToDb.AutoSize = true;
+            this.checkBoxSaveToDb.Location = new System.Drawing.Point(322, 26);
+            this.checkBoxSaveToDb.Name = "checkBoxSaveToDb";
+            this.checkBoxSaveToDb.Size = new System.Drawing.Size(127, 20);
+            this.checkBoxSaveToDb.TabIndex = 19;
+            this.checkBoxSaveToDb.Text = "Сохранять в бд";
+            this.checkBoxSaveToDb.UseVisualStyleBackColor = true;
+            this.checkBoxSaveToDb.CheckedChanged += new System.EventHandler(this.checkBoxSaveToDb_CheckedChanged);
             // 
             // Form1
             // 
@@ -1978,6 +1991,7 @@ namespace SatteliteManagment
         private MaskedTextBox maskedTextBoxIP;
         private Label label38;
         private Label label37;
+        private CheckBox checkBoxSaveToDb;
     }
 }
 

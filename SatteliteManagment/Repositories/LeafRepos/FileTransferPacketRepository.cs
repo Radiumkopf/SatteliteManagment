@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SatteliteManagment.Entities;
+using SatteliteManagment.Entities.LeafEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace SatteliteManagment.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<FileTransferPacketEntity> GetByDbIdAsync(int id)
+        public async Task<FileTransferPacketEntity> GetByIdAsync(int id)
         {
             return await _db.FileTransferPackets.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -57,6 +58,23 @@ namespace SatteliteManagment.Repositories
                 .OrderByDescending(x => x.Id)
                 .Take(count)
                 .ToListAsync();
+        }
+        public async Task DeleteAsync(int id)
+        {
+            FileTransferPacketEntity entity =
+                await _db.FileTransferPackets.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+                return;
+
+            _db.FileTransferPackets.Remove(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _db.FileTransferPackets
+                .AnyAsync(x => x.Id == id);
         }
 
 

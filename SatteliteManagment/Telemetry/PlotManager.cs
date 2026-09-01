@@ -87,8 +87,13 @@ namespace SatteliteManagment.Telemetry
         {
             if (EnableWriteToDB)
             {
-                //FIXME
-                //await services.PacketStoreService.SaveTelemetryAsync(packetInfo, packet);
+                //DB сохранение (пока только 2 сущности)
+
+                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.Telemetry);
+                TlmPacketEntity tlmPacketEntity = TlmPacket.MapToEntity(packet);
+                tlmPacketEntity.DescriptionEntity = pde;
+                await services.PacketDescriptionService.SaveAsync(pde);
+                await services.TlmPacketService.SaveAsync(tlmPacketEntity);
             }
 
             int index = 0;

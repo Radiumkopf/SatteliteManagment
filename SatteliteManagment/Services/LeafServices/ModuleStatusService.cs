@@ -28,6 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<ModuleStatusEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
+        public async Task<ModuleStatusEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
 
         public Task UpdateAsync(ModuleStatusEntity entity)
             => _repository.UpdateAsync(entity);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SatteliteManagment.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -136,6 +137,42 @@ namespace SatteliteManagment.Telemetry
 
             offset += 4;
             return value;
+        }
+
+        public static TlmPacketEntity MapToEntity(TlmPacket packet)
+        {
+            return new TlmPacketEntity
+            {
+                Temperature1 = packet.Temperature1,
+                Temperature2 = packet.Temperature2,
+                BatteryV = packet.BatteryV,
+                PvPower1 = packet.PvPower[0],
+                PvPower2 = packet.PvPower[1],
+                PvPower3 = packet.PvPower[2],
+                AngularRate = packet.AngularRate,
+                MagFieldAbs = packet.MagFieldAbs,
+                BatChargePower = packet.BatChargePower,
+                BatDischargePower = packet.BatDischargePower,
+                ResetCounter = packet.ResetCounter,
+                StatusFlags = packet.StatusFlags
+            };
+        }
+
+        public static TlmPacket MapToModel(TlmPacketEntity entity)
+        {
+            return new TlmPacket
+            {
+                Temperature1 = entity.Temperature1,
+                Temperature2 = entity.Temperature2,
+                BatteryV = entity.BatteryV,
+                PvPower = new float[] { entity.PvPower1, entity.PvPower2, entity.PvPower3 },
+                AngularRate = entity.AngularRate,
+                MagFieldAbs = entity.MagFieldAbs,
+                BatChargePower = entity.BatChargePower,
+                BatDischargePower = entity.BatDischargePower,
+                ResetCounter = entity.ResetCounter,
+                StatusFlags = entity.StatusFlags
+            };
         }
     }
 

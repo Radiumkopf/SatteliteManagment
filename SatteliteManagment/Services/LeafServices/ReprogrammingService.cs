@@ -28,7 +28,7 @@ namespace SatteliteManagment.Services.LeafServices
 
         public Task<List<ReprogrammingEntity>> GetLastAsync(int count)
             => _repository.GetLastAsync(count);
-
+        public async Task<ReprogrammingEntity> GetLastAsync() { var list = await _repository.GetLastAsync(1); return list?.FirstOrDefault(); }
         public Task UpdateAsync(ReprogrammingEntity entity)
             => _repository.UpdateAsync(entity);
 

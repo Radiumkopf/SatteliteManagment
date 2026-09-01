@@ -22,10 +22,6 @@ namespace SatteliteManagment.Entities
         public byte Size { get; set; }
         public byte[] Data { get; set; } = Array.Empty<byte>();
 
-        public byte[] ToBytes()
-        {
-            FileTransferPacket ftp = FileTransferPacketService.MapToModel(this);
-            return ftp.ToByteArray();
-        }
+
     }
 }
