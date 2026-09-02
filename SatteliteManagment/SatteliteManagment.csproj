@@ -318,6 +318,7 @@
   <ItemGroup>
     <None Include="assets\cyclearrow.png" />
     <None Include="assets\243_downarrow.jpg" />
+    <None Include="assets\save-data.png" />
     <Content Include="Properties\dbconnect.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

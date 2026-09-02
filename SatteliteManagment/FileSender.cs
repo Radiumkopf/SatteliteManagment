@@ -30,6 +30,7 @@ namespace SatteliteManagment
         private FileReceiver fileReceiver { get; set; }
 
         public ushort CurrentPacketIndex { get;  set; }
+        private int lastPacketIndex { get; set; }
 
         public ushort CurrentReceiveIndex { get;  set; }
 
@@ -74,8 +75,7 @@ namespace SatteliteManagment
         public FileSender()
         {
         }
-
-        private async void OnAckReceived(FileTransferPacket packet)     //async annotation add
+        private async void OnAckReceived(FileTransferPacket packet)     
         {
 
             if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
@@ -138,7 +138,6 @@ namespace SatteliteManagment
             {
                 fileReceiver.AddPacket(packet);
                 fileReceiver.Finish();
-                //еще какой то увед что файл готов
 
                 SenderLastFileReceived?.Invoke();
             }
@@ -170,6 +169,7 @@ namespace SatteliteManagment
 
                 FileData.Add(i, new RawPacket(i, packet));
             }
+            lastPacketIndex = -1;
         }
         public async Task SendNextPacketAsync()
         {
@@ -177,8 +177,6 @@ namespace SatteliteManagment
                 return;
 
             await SendPacketAsyncByNumber(CurrentPacketIndex);
-
-            //ackTimer.Start();
 
             //CurrentPacketIndex++;
 
@@ -196,7 +194,7 @@ namespace SatteliteManagment
             rawPacket.IsSent = true;
             await SendPackageAsync(packet, rawPacket.Number, TableType.SendingTable);
 
-            if (IsDbWritingEnable)
+            if (IsDbWritingEnable && lastPacketIndex < CurrentPacketIndex)
             {
                 FileTransferPacketEntity ftpe = new FileTransferPacketEntity(DestinationId,rawPacket.Number,(byte)rawPacket.Data.Length,rawPacket.Data);
                 PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.FileSending);
@@ -204,7 +202,10 @@ namespace SatteliteManagment
                 await dbServices.PacketDescriptionService.SaveAsync(pde);
                 await dbServices.FileTransferPacketService.SaveAsync(ftpe);
             }
-            
+            if( lastPacketIndex < CurrentPacketIndex)
+            {
+                lastPacketIndex++;
+            }
         }
 
         public async Task SendAllAsync()
@@ -212,7 +213,7 @@ namespace SatteliteManagment
             while (CurrentPacketIndex < FileData.Count)
             {
                 await SendNextPacketAsync();
-                await Task.Delay(700);
+                await Task.Delay(800);
             }
         }
 

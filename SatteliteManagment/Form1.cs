@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace SatteliteManagment
 {
@@ -48,6 +49,10 @@ namespace SatteliteManagment
         {
             InitializeComponent();
 
+            InizializeDB();
+            InizializeGraphs();
+            InitializeDeviceStatusManager();
+
             _client.PacketReceived += OnAddressReceived;
             _client.ServerAddrChanged += OnServerAddrChanged;
             _client.CRCReceived += OnCRCReceived;
@@ -69,14 +74,16 @@ namespace SatteliteManagment
             fileSender.SenderLastFileReceived += OnFullFileReceived;
             fileSender.SenderLastACKReceived += EnableCrcButton;
 
-            InizializeDB();
-            InizializeGraphs();
-            InitializeDeviceStatusManager();
-
-
             maskedTextBoxIP.ValidatingType = typeof(System.Net.IPAddress);
 
             LoadListEntityToDict();
+            Image originalImage = Properties.Resources.save_data; 
+
+            Bitmap zoomedImage = new Bitmap(originalImage, new Size(30, 30));
+
+            checkBoxSaveToDb.Image = zoomedImage;
+            checkBoxWriteTLMToDB.Image = zoomedImage;
+            //checkBox1.TextImageRelation = TextImageRelation.ImageBeforeText;
 
         }
         public void LoadListEntityToDict()
@@ -160,9 +167,6 @@ namespace SatteliteManagment
             db.Database.Migrate();
 
             dbServices = new DbServices(db);
-
-
-
 
             var dbCreator = new DatabaseCreator();
 
