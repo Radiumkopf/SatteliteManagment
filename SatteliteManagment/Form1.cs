@@ -50,15 +50,11 @@ namespace SatteliteManagment
             InitializeComponent();
 
             InizializeDB();
-            InizializeGraphs();
-            InitializeDeviceStatusManager();
 
             _client.PacketReceived += OnAddressReceived;
             _client.ServerAddrChanged += OnServerAddrChanged;
             _client.CRCReceived += OnCRCReceived;
             _client.ReprogrammingResult += OnReprogResult;
-
-
 
             logSendingManager = new GridViewLogManager(this.logSendingGridView);
             logRequestingManager = new GridViewLogManager(this.logRequestingGridView);
@@ -75,6 +71,9 @@ namespace SatteliteManagment
             fileSender.SenderLastACKReceived += EnableCrcButton;
 
             maskedTextBoxIP.ValidatingType = typeof(System.Net.IPAddress);
+
+            InizializeGraphs();
+            InitializeDeviceStatusManager();
 
             LoadListEntityToDict();
             Image originalImage = Properties.Resources.save_data; 
@@ -179,6 +178,7 @@ namespace SatteliteManagment
 
                 dbServices = null;
                 checkBoxWriteTLMToDB.Enabled = false;
+                checkBoxSaveToDb.Enabled = false;
                 TabPage dbPage =  tabControlMain.TabPages[4];
                 dbPage.Enabled = false;
             }
@@ -272,8 +272,16 @@ namespace SatteliteManagment
                 }
                 else
                 {
-                    MessageBox.Show("Сбой при перепрошивке.");      //FIXME дать возможность 
-                                                                    //отправить запрос повторно 
+                    DialogResult dialogResult = MessageBox.Show(
+                        "Ошибки при перепрошивке. Отправить запрос повторно?",
+                        "Подтверждение",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                         fileSender.StartReprogramming();
+                    }
                 }
             }));
         
@@ -396,6 +404,8 @@ namespace SatteliteManagment
         private void buttonClearLogs_Click(object sender, EventArgs e)
         {
             logTextBox.Text = string.Empty;
+            logSendingManager.ClearGrid();
+            logRequestingManager.ClearGrid();
         }
         
         private void connectToServer_Click(object sender, EventArgs e)

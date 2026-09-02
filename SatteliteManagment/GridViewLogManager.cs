@@ -85,6 +85,7 @@ namespace SatteliteManagment
         public void ClearGrid()
         {
             this.dataGridView.Rows.Clear();
+            this.rows.Clear();
         }
     }
 }

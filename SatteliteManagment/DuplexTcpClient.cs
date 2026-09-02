@@ -83,7 +83,7 @@ namespace SatteliteManagment
 
                     if(packetType == PacketType.AddressChanging)
                     {
-                        FileTransferPacket addrpacket = SatellitePacketParser.Parse(data, OFFSET);
+                        FileTransferPacket addrpacket = SatellitePacketParser.ParseFilePacket(data, OFFSET);
                         ServerAddrChanged?.Invoke(addrpacket);
                         continue;
                     }
@@ -112,7 +112,7 @@ namespace SatteliteManagment
                     {
 
                         case PacketType.FileSendingAck:
-                            packet = SatellitePacketParser.Parse(data, OFFSET);
+                            packet = SatellitePacketParser.ParseFilePacket(data, OFFSET);
                             AckReceived?.Invoke(packet);
                             break;
 
@@ -121,12 +121,12 @@ namespace SatteliteManagment
                             break;
 
                         case PacketType.FileRequestingAck:
-                            packet = SatellitePacketParser.Parse(data, OFFSET);
+                            packet = SatellitePacketParser.ParseFilePacket(data, OFFSET);
                             FileReceived?.Invoke(packet);
                             break;
 
                         case PacketType.FileRequestingLast:
-                            packet = SatellitePacketParser.Parse(data, OFFSET);
+                            packet = SatellitePacketParser.ParseFilePacket(data, OFFSET);
                             LastFileReceived?.Invoke(packet);
                             break;
 
