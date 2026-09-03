@@ -15,9 +15,11 @@ namespace SatteliteManagment
 
         public bool TryInitialize()
         {
+            AppDbContext context = null;
+
             try
             {
-                var context = new AppDbContext();
+                context = new AppDbContext();
 
                 context.Database.Migrate();
 
@@ -28,9 +30,17 @@ namespace SatteliteManagment
             {
                 // logging
 
+                context?.Dispose();
                 Context = null;
+
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            Context?.Dispose();
+            Context = null;
         }
     }
 }

@@ -39,6 +39,8 @@ namespace SatteliteManagment
         private FileSender fileSender;
         private PlotManager plotManager;
         private DeviceStatusManager deviceStatusManager;
+        private DatabaseCreator dbCreator;
+
         private DbServices dbServices;
         private string currentFilePath;
         private uint crc;
@@ -84,6 +86,12 @@ namespace SatteliteManagment
             checkBoxWriteTLMToDB.Image = zoomedImage;
             //checkBox1.TextImageRelation = TextImageRelation.ImageBeforeText;
 
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            dbCreator?.Dispose();
+
+            base.OnFormClosed(e);
         }
         public void LoadListEntityToDict()
         {
@@ -162,36 +170,37 @@ namespace SatteliteManagment
         }
         private void InizializeDB()
         {
-            var db = new AppDbContext();
-            db.Database.Migrate();
-
-            dbServices = new DbServices(db);
-
-            var dbCreator = new DatabaseCreator();
+            dbCreator = new DatabaseCreator();
 
             if (!dbCreator.TryInitialize())
             {
                 MessageBox.Show(
                     "Подключение к базе данных недоступно.\n" +
                     "Функции работы с базой данных отключены.",
-                    "Предупреждение");
+                    "Предупреждение",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 dbServices = null;
+
                 checkBoxWriteTLMToDB.Enabled = false;
                 checkBoxSaveToDb.Enabled = false;
-                TabPage dbPage =  tabControlMain.TabPages[4];
-                dbPage.Enabled = false;
-            }
-            else
-            {
-                dbServices = new DbServices(dbCreator.Context);
-                comboBoxEntityType.DataSource = Enum.GetValues(typeof(DbEntityType));
-                dataGridViewEntities.AutoGenerateColumns = true;
-                dataGridViewEntities.ReadOnly = true;
-                dataGridViewEntities.AllowUserToAddRows = false;
-                dataGridViewEntities.AllowUserToDeleteRows = false;
 
+                tabControlMain.TabPages[4].Enabled = false;
+
+                return;
             }
+
+            // База успешно доступна и миграции применены
+            dbServices = new DbServices(dbCreator.Context);
+
+            comboBoxEntityType.DataSource =
+                Enum.GetValues(typeof(DbEntityType));
+
+            dataGridViewEntities.AutoGenerateColumns = true;
+            dataGridViewEntities.ReadOnly = true;
+            dataGridViewEntities.AllowUserToAddRows = false;
+            dataGridViewEntities.AllowUserToDeleteRows = false;
         }
 
         private void InizializeGraphs()
@@ -575,13 +584,10 @@ namespace SatteliteManagment
         private void checkBoxSendNextIfGetAck_CheckedChanged(object sender, EventArgs e)
         {
             fileSender.IsSendNextIfAck = checkBoxSendNextIfGetAck.Checked;
+            fileSender.IsSendRequestIfGetPacket = checkBoxSendNextIfGetAck.Checked;
         }
 
-        private void checkBoxSendRequestIfGetPacket_CheckedChanged(object sender, EventArgs e)
-        {
-            fileSender.IsSendRequestIfGetPacket = checkBoxSendRequestIfGetPacket.Checked;
 
-        }
 
         private void testbutton_Click(object sender, EventArgs e)
         {
