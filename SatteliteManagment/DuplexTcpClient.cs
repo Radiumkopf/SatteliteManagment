@@ -27,8 +27,6 @@ namespace SatteliteManagment
 
         public event Action<bool> ReprogrammingResult;
 
-
-
         public event Action<FileTransferPacket> FileReceived;
 
         public event Action<FileTransferPacket> LastFileReceived;
@@ -38,9 +36,6 @@ namespace SatteliteManagment
         public event Action<TlmPacket, PacketInfo> TelemetryReceived;
 
         private const int OFFSET = 25;
-
-        
-
 
         public async Task ConnectAsync(string ip, int port)
         {
@@ -106,7 +101,6 @@ namespace SatteliteManagment
                         }
                     
 
-
                     FileTransferPacket packet;
                     switch (packetType)
                     {
@@ -149,6 +143,8 @@ namespace SatteliteManagment
                             TlmPacket telemetryPacket = TlmPacket.Parse(data, OFFSET+1);
                             TelemetryReceived?.Invoke(telemetryPacket, packetInfo);
                             break;
+
+                        
                     }
                 }
             }

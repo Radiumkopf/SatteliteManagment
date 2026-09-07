@@ -321,6 +321,10 @@ namespace SatteliteManagment
         {
             await client.SendTextAsync(BuildSmallPackage(PacketType.ReprogrammingStart, DestinationId));
         }
+        public async Task SetTime()
+        {
+            
+        }
         public void RequestCurrentServerTxAddress()
         {
 
