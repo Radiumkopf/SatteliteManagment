@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HelixToolkit.Wpf;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using SatteliteManagment.Entities;
 using SatteliteManagment.Entities.LeafEntities;
+using SatteliteManagment.Orientation;
 using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
 using ScottPlot.MultiplotLayouts;
@@ -19,6 +21,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace SatteliteManagment
@@ -45,8 +48,10 @@ namespace SatteliteManagment
         private string currentFilePath;
         private uint crc;
         private bool IsDbWritingEnable;
+        private OrientationRegulator orientationRegulator;
 
-        private  Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
+
+        private Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
         public Form1()
         {
             InitializeComponent();
@@ -85,6 +90,7 @@ namespace SatteliteManagment
             checkBoxSaveToDb.Image = zoomedImage;
             checkBoxWriteTLMToDB.Image = zoomedImage;
             //checkBox1.TextImageRelation = TextImageRelation.ImageBeforeText;
+            Initialize3D();
 
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -240,6 +246,15 @@ namespace SatteliteManagment
             formsPlotTelemetry.MouseMove += formsPlotTelemetry_MouseMove;
             formsPlotTelemetry.MouseLeave += formsPlotTelemetry_MouseLeave;
         }
+
+        private void Initialize3D()
+        {
+            elementHost1.Dock = DockStyle.Fill;
+
+            orientationRegulator = new OrientationRegulator(elementHost1, numericUpDownRoll, numericUpDownPitch, numericUpDownYaw, labelRoll, labelPitch, labelYaw);
+            elementHost1.Child = orientationRegulator.Viewport;
+        }
+
 
         private void OnAddressReceived(PacketInfo packet)
         {
@@ -809,6 +824,22 @@ namespace SatteliteManagment
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
         }
 
+        private void buttonOpenStl_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "STL files (*.stl)|*.stl"
+            };
 
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                orientationRegulator.LoadModel(dialog.FileName);
+            }
+        }
+
+        private void buttonSetRPY_Click(object sender, EventArgs e)
+        {
+            orientationRegulator.UpdateOrientation();
+        }
     }
 }
