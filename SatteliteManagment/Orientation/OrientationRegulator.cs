@@ -20,8 +20,11 @@ namespace SatteliteManagment.Orientation
 
         private Model3D model;
 
+        private Point3D _rotationCenter;
 
         private ElementHost elementHost;
+
+        private OrientationSender sender;
 
         //Current orientation values
         System.Windows.Forms.Label labelRoll;
@@ -35,7 +38,8 @@ namespace SatteliteManagment.Orientation
         public OrientationRegulator( ElementHost elementHost, NumericUpDown NumericUpDownRoll, NumericUpDown NumericUpDownPitch, NumericUpDown NumericUpDownYaw,
                     System.Windows.Forms.Label labelRoll,
                     System.Windows.Forms.Label labelPitch,
-                    System.Windows.Forms.Label labelYaw)
+                    System.Windows.Forms.Label labelYaw,
+                    OrientationSender sender)
         {
             viewport = new HelixViewport3D();
             modelRoot = new ModelVisual3D();
@@ -48,6 +52,8 @@ namespace SatteliteManagment.Orientation
             this.labelRoll = labelRoll;
             this.labelPitch = labelPitch;
             this.labelYaw = labelYaw;
+
+            this.sender = sender;
             InitializeScene();
         }
 
@@ -60,6 +66,7 @@ namespace SatteliteManagment.Orientation
             viewport.ShowCoordinateSystem = true;
         }
 
+
         public void LoadModel(string path)
         {
             var reader = new StLReader();
@@ -71,6 +78,7 @@ namespace SatteliteManagment.Orientation
             SetModelOrientation(0, 0, 0);
 
             viewport.ZoomExtents();
+            FindModelCenter();
         }
 
         public void ClearModel()
@@ -80,7 +88,29 @@ namespace SatteliteManagment.Orientation
             model = null;
         }
 
-        public void UpdateOrientation(double roll, double pitch, double yaw)
+        //Устанавливаем центр вращения модели в ее геометрический центр
+        private void FindModelCenter()
+        {
+            Rect3D bounds = model.Bounds;
+
+            double centerX = bounds.X + bounds.SizeX / 2.0;
+            double centerY = bounds.Y + bounds.SizeY / 2.0;
+            double centerZ = bounds.Z + bounds.SizeZ / 2.0;
+
+            _rotationCenter = new Point3D(
+                centerX,
+                centerY,
+                centerZ);
+
+            var marker = new SphereVisual3D
+            {
+                Center = _rotationCenter,
+                Radius = 2,
+                Material = new DiffuseMaterial(System.Windows.Media.Brushes.Red)
+            };
+            viewport.Children.Add(marker);  
+        }
+        public void UpdateOrientation(float roll, float pitch, float yaw)
         {
             // Update the orientation values in the UI
             labelRoll.Text = roll.ToString();
@@ -92,13 +122,10 @@ namespace SatteliteManagment.Orientation
         }
         public void UpdateOrientation()
         {
-            UpdateOrientation((double)NumericUpDownRoll.Value, (double)NumericUpDownPitch.Value, (double)NumericUpDownYaw.Value);
+            UpdateOrientation((float)NumericUpDownRoll.Value, (float)NumericUpDownPitch.Value, (float)NumericUpDownYaw.Value);
         }
 
-        public void SetModelOrientation(
-            double roll,
-            double pitch,
-            double yaw)
+        public void SetModelOrientation(float roll, float pitch, float yaw)
         {
             var transform = new Transform3DGroup();
 
@@ -106,21 +133,68 @@ namespace SatteliteManagment.Orientation
                 new RotateTransform3D(
                     new AxisAngleRotation3D(
                         new Vector3D(1, 0, 0),
-                        roll)));
+                        roll),
+                    _rotationCenter.X,
+                    _rotationCenter.Y,
+                    _rotationCenter.Z));
 
             transform.Children.Add(
                 new RotateTransform3D(
                     new AxisAngleRotation3D(
                         new Vector3D(0, 1, 0),
-                        pitch)));
+                        pitch),
+                    _rotationCenter.X,
+                    _rotationCenter.Y,
+                    _rotationCenter.Z));
 
             transform.Children.Add(
                 new RotateTransform3D(
                     new AxisAngleRotation3D(
                         new Vector3D(0, 0, 1),
-                        yaw)));
+                        yaw),
+                    _rotationCenter.X,
+                    _rotationCenter.Y,
+                    _rotationCenter.Z));
 
             modelRoot.Transform = transform;
+        }
+
+        // Заменяет текущий источник света в viewport на переданный ModelVisual3D (не трогая остальные объекты сцены)
+        // Пока что не используется
+        public void ReplaceLight(ModelVisual3D newLightVisual)
+        {
+            if (viewport == null || newLightVisual == null)
+                return;
+
+            int foundIndex = -1;
+
+            for (int i = 0; i < viewport.Children.Count; i++)
+            {
+                if (viewport.Children[i] is ModelVisual3D mv && mv.Content is Light)
+                {
+                    foundIndex = i;
+                    break;
+                }
+            }
+
+            if (foundIndex >= 0)
+            {
+                // Заменяем существующий источник света на новый, сохраняя положение в коллекции
+                viewport.Children.RemoveAt(foundIndex);
+                viewport.Children.Insert(foundIndex, newLightVisual);
+            }
+            else
+            {
+                // Если источника света не было, вставляем новый в начало коллекции
+                viewport.Children.Insert(0, newLightVisual);
+            }
+        }
+
+        public void ReplaceLight(Light light)
+        {
+            if (light == null) return;
+            var mv = new ModelVisual3D { Content = light };
+            ReplaceLight(mv);
         }
 
     }

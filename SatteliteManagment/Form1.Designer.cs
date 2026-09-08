@@ -32,9 +32,9 @@ namespace SatteliteManagment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
@@ -178,16 +178,18 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.tabPageOrient = new System.Windows.Forms.TabPage();
             this.groupBoxOrient = new System.Windows.Forms.GroupBox();
+            this.comboBoxLightType = new System.Windows.Forms.ComboBox();
+            this.buttonSetRPY = new System.Windows.Forms.Button();
+            this.labelYaw = new System.Windows.Forms.Label();
+            this.labelPitch = new System.Windows.Forms.Label();
+            this.labelRoll = new System.Windows.Forms.Label();
+            this.numericUpDownYaw = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownPitch = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownRoll = new System.Windows.Forms.NumericUpDown();
             this.buttonOpenStl = new System.Windows.Forms.Button();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
-            this.numericUpDownRoll = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownPitch = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownYaw = new System.Windows.Forms.NumericUpDown();
-            this.labelRoll = new System.Windows.Forms.Label();
-            this.labelPitch = new System.Windows.Forms.Label();
-            this.labelYaw = new System.Windows.Forms.Label();
-            this.buttonSetRPY = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -223,9 +225,9 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
             this.tabPageOrient.SuspendLayout();
             this.groupBoxOrient.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYaw)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -453,33 +455,33 @@ namespace SatteliteManagment
             // 
             // logRequestingGridView
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle17;
             this.logRequestingGridView.Location = new System.Drawing.Point(6, 55);
             this.logRequestingGridView.Name = "logRequestingGridView";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.logRequestingGridView.RowHeadersWidth = 51;
             this.logRequestingGridView.RowTemplate.Height = 24;
             this.logRequestingGridView.Size = new System.Drawing.Size(740, 316);
@@ -1253,6 +1255,7 @@ namespace SatteliteManagment
             // 
             // formsPlotTelemetry
             // 
+            this.formsPlotTelemetry.Cursor = System.Windows.Forms.Cursors.Cross;
             this.formsPlotTelemetry.Location = new System.Drawing.Point(7, 75);
             this.formsPlotTelemetry.Name = "formsPlotTelemetry";
             this.formsPlotTelemetry.Size = new System.Drawing.Size(827, 368);
@@ -1656,7 +1659,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 274);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 284);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1665,7 +1668,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 240);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 250);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1674,7 +1677,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 210);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 220);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1683,7 +1686,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 180);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 190);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1692,7 +1695,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 150);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 160);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1802,6 +1805,7 @@ namespace SatteliteManagment
             // 
             // groupBoxOrient
             // 
+            this.groupBoxOrient.Controls.Add(this.comboBoxLightType);
             this.groupBoxOrient.Controls.Add(this.buttonSetRPY);
             this.groupBoxOrient.Controls.Add(this.labelYaw);
             this.groupBoxOrient.Controls.Add(this.labelPitch);
@@ -1818,11 +1822,115 @@ namespace SatteliteManagment
             this.groupBoxOrient.TabStop = false;
             this.groupBoxOrient.Text = "Orientation";
             // 
+            // comboBoxLightType
+            // 
+            this.comboBoxLightType.Enabled = false;
+            this.comboBoxLightType.FormattingEnabled = true;
+            this.comboBoxLightType.Items.AddRange(new object[] {
+            "Ambient",
+            "Directional",
+            "Point",
+            "Spot",
+            "Sun"});
+            this.comboBoxLightType.Location = new System.Drawing.Point(27, 60);
+            this.comboBoxLightType.Name = "comboBoxLightType";
+            this.comboBoxLightType.Size = new System.Drawing.Size(120, 28);
+            this.comboBoxLightType.TabIndex = 9;
+            this.comboBoxLightType.SelectedIndexChanged += new System.EventHandler(this.comboBoxLightType_SelectedIndexChanged);
+            // 
+            // buttonSetRPY
+            // 
+            this.buttonSetRPY.Location = new System.Drawing.Point(27, 335);
+            this.buttonSetRPY.Name = "buttonSetRPY";
+            this.buttonSetRPY.Size = new System.Drawing.Size(120, 35);
+            this.buttonSetRPY.TabIndex = 8;
+            this.buttonSetRPY.Text = "set ";
+            this.buttonSetRPY.UseVisualStyleBackColor = true;
+            this.buttonSetRPY.Click += new System.EventHandler(this.buttonSetRPY_Click);
+            // 
+            // labelYaw
+            // 
+            this.labelYaw.AutoSize = true;
+            this.labelYaw.Location = new System.Drawing.Point(23, 446);
+            this.labelYaw.Name = "labelYaw";
+            this.labelYaw.Size = new System.Drawing.Size(0, 20);
+            this.labelYaw.TabIndex = 7;
+            // 
+            // labelPitch
+            // 
+            this.labelPitch.AutoSize = true;
+            this.labelPitch.Location = new System.Drawing.Point(23, 414);
+            this.labelPitch.Name = "labelPitch";
+            this.labelPitch.Size = new System.Drawing.Size(0, 20);
+            this.labelPitch.TabIndex = 6;
+            // 
+            // labelRoll
+            // 
+            this.labelRoll.AutoSize = true;
+            this.labelRoll.Location = new System.Drawing.Point(23, 383);
+            this.labelRoll.Name = "labelRoll";
+            this.labelRoll.Size = new System.Drawing.Size(0, 20);
+            this.labelRoll.TabIndex = 5;
+            // 
+            // numericUpDownYaw
+            // 
+            this.numericUpDownYaw.DecimalPlaces = 5;
+            this.numericUpDownYaw.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownYaw.Location = new System.Drawing.Point(27, 302);
+            this.numericUpDownYaw.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.numericUpDownYaw.Name = "numericUpDownYaw";
+            this.numericUpDownYaw.Size = new System.Drawing.Size(120, 27);
+            this.numericUpDownYaw.TabIndex = 4;
+            // 
+            // numericUpDownPitch
+            // 
+            this.numericUpDownPitch.DecimalPlaces = 5;
+            this.numericUpDownPitch.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownPitch.Location = new System.Drawing.Point(27, 269);
+            this.numericUpDownPitch.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.numericUpDownPitch.Name = "numericUpDownPitch";
+            this.numericUpDownPitch.Size = new System.Drawing.Size(120, 27);
+            this.numericUpDownPitch.TabIndex = 3;
+            // 
+            // numericUpDownRoll
+            // 
+            this.numericUpDownRoll.DecimalPlaces = 5;
+            this.numericUpDownRoll.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownRoll.Location = new System.Drawing.Point(27, 236);
+            this.numericUpDownRoll.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.numericUpDownRoll.Name = "numericUpDownRoll";
+            this.numericUpDownRoll.Size = new System.Drawing.Size(120, 27);
+            this.numericUpDownRoll.TabIndex = 2;
+            // 
             // buttonOpenStl
             // 
             this.buttonOpenStl.Location = new System.Drawing.Point(27, 103);
             this.buttonOpenStl.Name = "buttonOpenStl";
-            this.buttonOpenStl.Size = new System.Drawing.Size(97, 54);
+            this.buttonOpenStl.Size = new System.Drawing.Size(120, 54);
             this.buttonOpenStl.TabIndex = 1;
             this.buttonOpenStl.Text = "Открыть модель...";
             this.buttonOpenStl.UseVisualStyleBackColor = true;
@@ -1837,64 +1945,6 @@ namespace SatteliteManagment
             this.elementHost1.TabIndex = 0;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
-            // 
-            // numericUpDownRoll
-            // 
-            this.numericUpDownRoll.Location = new System.Drawing.Point(27, 236);
-            this.numericUpDownRoll.Name = "numericUpDownRoll";
-            this.numericUpDownRoll.Size = new System.Drawing.Size(120, 27);
-            this.numericUpDownRoll.TabIndex = 2;
-            // 
-            // numericUpDownPitch
-            // 
-            this.numericUpDownPitch.Location = new System.Drawing.Point(27, 269);
-            this.numericUpDownPitch.Name = "numericUpDownPitch";
-            this.numericUpDownPitch.Size = new System.Drawing.Size(120, 27);
-            this.numericUpDownPitch.TabIndex = 3;
-            // 
-            // numericUpDownYaw
-            // 
-            this.numericUpDownYaw.Location = new System.Drawing.Point(27, 302);
-            this.numericUpDownYaw.Name = "numericUpDownYaw";
-            this.numericUpDownYaw.Size = new System.Drawing.Size(120, 27);
-            this.numericUpDownYaw.TabIndex = 4;
-            // 
-            // labelRoll
-            // 
-            this.labelRoll.AutoSize = true;
-            this.labelRoll.Location = new System.Drawing.Point(23, 383);
-            this.labelRoll.Name = "labelRoll";
-            this.labelRoll.Size = new System.Drawing.Size(62, 20);
-            this.labelRoll.TabIndex = 5;
-            this.labelRoll.Text = "label39";
-            // 
-            // labelPitch
-            // 
-            this.labelPitch.AutoSize = true;
-            this.labelPitch.Location = new System.Drawing.Point(23, 414);
-            this.labelPitch.Name = "labelPitch";
-            this.labelPitch.Size = new System.Drawing.Size(62, 20);
-            this.labelPitch.TabIndex = 6;
-            this.labelPitch.Text = "label40";
-            // 
-            // labelYaw
-            // 
-            this.labelYaw.AutoSize = true;
-            this.labelYaw.Location = new System.Drawing.Point(23, 446);
-            this.labelYaw.Name = "labelYaw";
-            this.labelYaw.Size = new System.Drawing.Size(62, 20);
-            this.labelYaw.TabIndex = 7;
-            this.labelYaw.Text = "label41";
-            // 
-            // buttonSetRPY
-            // 
-            this.buttonSetRPY.Location = new System.Drawing.Point(27, 335);
-            this.buttonSetRPY.Name = "buttonSetRPY";
-            this.buttonSetRPY.Size = new System.Drawing.Size(120, 35);
-            this.buttonSetRPY.TabIndex = 8;
-            this.buttonSetRPY.Text = "set ";
-            this.buttonSetRPY.UseVisualStyleBackColor = true;
-            this.buttonSetRPY.Click += new System.EventHandler(this.buttonSetRPY_Click);
             // 
             // Form1
             // 
@@ -1956,9 +2006,9 @@ namespace SatteliteManagment
             this.tabPageOrient.ResumeLayout(false);
             this.groupBoxOrient.ResumeLayout(false);
             this.groupBoxOrient.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYaw)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2117,6 +2167,8 @@ namespace SatteliteManagment
         private NumericUpDown numericUpDownPitch;
         private NumericUpDown numericUpDownRoll;
         private Button buttonSetRPY;
+        private ComboBox comboBoxLightType;
+        private ColorDialog colorDialog1;
     }
 }
 

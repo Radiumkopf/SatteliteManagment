@@ -31,7 +31,6 @@ namespace SatteliteManagment
 
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
 
-
         private byte[] currentServerTxAddress = new byte[] {0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
         private GridViewLogManager logSendingManager;
         private GridViewLogManager logRequestingManager;
@@ -251,7 +250,9 @@ namespace SatteliteManagment
         {
             elementHost1.Dock = DockStyle.Fill;
 
-            orientationRegulator = new OrientationRegulator(elementHost1, numericUpDownRoll, numericUpDownPitch, numericUpDownYaw, labelRoll, labelPitch, labelYaw);
+            OrientationSender orientationSender = new OrientationSender(_client);
+
+            orientationRegulator = new OrientationRegulator(elementHost1, numericUpDownRoll, numericUpDownPitch, numericUpDownYaw, labelRoll, labelPitch, labelYaw, orientationSender);
             elementHost1.Child = orientationRegulator.Viewport;
         }
 
@@ -824,6 +825,10 @@ namespace SatteliteManagment
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
         }
 
+        /// <summary>
+        /// 6. 3D Model Orientation
+        /// </summary>
+
         private void buttonOpenStl_Click(object sender, EventArgs e)
         {
             var dialog = new OpenFileDialog
@@ -840,6 +845,28 @@ namespace SatteliteManagment
         private void buttonSetRPY_Click(object sender, EventArgs e)
         {
             orientationRegulator.UpdateOrientation();
+        }
+
+        private void comboBoxLightType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBoxLightType.SelectedIndex) 
+            {
+                case 0:
+                    orientationRegulator.ReplaceLight(new AmbientLight(System.Windows.Media.Colors.White));
+                    break;
+                case 1:
+                    orientationRegulator.ReplaceLight(new DirectionalLight(System.Windows.Media.Colors.White, new Vector3D(-1, -1, -1)));
+                    break;
+                case 2:
+                    orientationRegulator.ReplaceLight(new PointLight(System.Windows.Media.Colors.White, new Point3D(0, 0, 5)));
+                    break;
+                case 3:
+                    orientationRegulator.ReplaceLight(new SpotLight(System.Windows.Media.Colors.White, new Point3D(0, 0, 5), new Vector3D(0, 0, -1), 100, 100));
+                    break;
+                case 4:
+                    orientationRegulator.ReplaceLight(new SunLight());
+                    break;
+            }
         }
     }
 }

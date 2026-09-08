@@ -228,7 +228,9 @@
       <DependentUpon>20260901112123_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
+    <Compile Include="Orientation\OrientationParser.cs" />
     <Compile Include="Orientation\OrientationRegulator.cs" />
+    <Compile Include="Orientation\OrientationSender.cs" />
     <Compile Include="RawPacket.cs" />
     <Compile Include="Repositories\LeafRepos\CoilMagnetMomentRepository.cs" />
     <Compile Include="Repositories\LeafRepos\FileRequestRepository.cs" />
