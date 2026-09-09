@@ -22,7 +22,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace SatteliteManagment
 {
@@ -48,6 +50,7 @@ namespace SatteliteManagment
         private uint crc;
         private bool IsDbWritingEnable;
         private OrientationRegulator orientationRegulator;
+        private OrientationHistory _history;    
 
 
         private Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
@@ -61,6 +64,7 @@ namespace SatteliteManagment
             _client.ServerAddrChanged += OnServerAddrChanged;
             _client.CRCReceived += OnCRCReceived;
             _client.ReprogrammingResult += OnReprogResult;
+            _client.OrientationReceived += OnOrientationReceived;
 
             logSendingManager = new GridViewLogManager(this.logSendingGridView);
             logRequestingManager = new GridViewLogManager(this.logRequestingGridView);
@@ -89,6 +93,7 @@ namespace SatteliteManagment
             checkBoxSaveToDb.Image = zoomedImage;
             checkBoxWriteTLMToDB.Image = zoomedImage;
             //checkBox1.TextImageRelation = TextImageRelation.ImageBeforeText;
+            _history  = new OrientationHistory();
             Initialize3D();
 
         }
@@ -792,12 +797,9 @@ namespace SatteliteManagment
             dialogForm.ShowDialog();
         }
 
-
-
         /// <summary>
         /// 5. DB View
-        /// </summary>
-              
+        /// </summary>              
 
         private async Task<IReadOnlyList<IDbEntity>> LoadLastEntitiesAsync(int count)
         {
@@ -845,6 +847,14 @@ namespace SatteliteManagment
         private void buttonSetRPY_Click(object sender, EventArgs e)
         {
             orientationRegulator.UpdateOrientation();
+            //FIXME fix when packet orientation is received, add it to history
+            ModelOrientation mo = new ModelOrientation
+            {
+                Roll = (float)numericUpDownRoll.Value,
+                Pitch = (float)numericUpDownPitch.Value,
+                Yaw = (float)numericUpDownYaw.Value
+            };
+            _history.Add(mo);
         }
 
         private void comboBoxLightType_SelectedIndexChanged(object sender, EventArgs e)
@@ -866,6 +876,44 @@ namespace SatteliteManagment
                 case 4:
                     orientationRegulator.ReplaceLight(new SunLight());
                     break;
+            }
+        }
+
+        private void trackBarTimeOrient_Scroll(object sender, EventArgs e)
+        {
+            orientationRegulator.historyMode = true;
+            var orientation = _history[trackBarTimeOrient.Value];
+
+            orientationRegulator.UpdateOrientation(
+                orientation.Roll,
+                orientation.Pitch,
+                orientation.Yaw);
+        }
+        private void OnOrientationReceived(float roll, float pitch, float yaw)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                orientationRegulator.UpdateOrientation(roll, pitch, yaw);
+                ModelOrientation mo = new ModelOrientation
+                {
+                    Roll = roll,
+                    Pitch = pitch,
+                    Yaw = yaw
+                };
+                _history.Add(mo);
+            }));
+        }
+
+        private void buttonHistoryOrient_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "TXT files (*.txt)|*.txt"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _history._items = OrientationHistory.ReadRotations(dialog.FileName);
             }
         }
     }

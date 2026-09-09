@@ -26,6 +26,8 @@ namespace SatteliteManagment.Orientation
 
         private OrientationSender sender;
 
+        public bool historyMode { get; set;} = false;
+
         //Current orientation values
         System.Windows.Forms.Label labelRoll;
         System.Windows.Forms.Label labelPitch;
@@ -55,6 +57,7 @@ namespace SatteliteManagment.Orientation
 
             this.sender = sender;
             InitializeScene();
+
         }
 
         private void InitializeScene()

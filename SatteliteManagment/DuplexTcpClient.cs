@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Services;
+﻿using SatteliteManagment.Orientation;
+using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
 using SBandSerialReader;
 using System;
@@ -34,6 +35,8 @@ namespace SatteliteManagment
         public event Action<FileTransferPacket> ServerAddrChanged;
 
         public event Action<TlmPacket, PacketInfo> TelemetryReceived;
+        public event Action<float , float , float > OrientationReceived;
+
 
         private const int OFFSET = 25;
 
@@ -144,7 +147,10 @@ namespace SatteliteManagment
                             TelemetryReceived?.Invoke(telemetryPacket, packetInfo);
                             break;
 
-                        
+                        case PacketType.OrientationPacket:
+                            (float roll, float pitch, float yaw) = OrientationParser.Parse(data, OFFSET + 1);
+                            OrientationReceived?.Invoke(roll, pitch, yaw);
+                            break;
                     }
                 }
             }
