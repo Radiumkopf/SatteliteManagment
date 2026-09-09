@@ -23,6 +23,21 @@ namespace SatteliteManagment.Orientation
 
             return ToEulerAngles(q0, q1, q2, q3);
         }
+        public static ModelOrientation ParseToObj(byte[] data, int offset)
+        {
+            if (data.Length < offset + 16)
+            {
+                throw new ArgumentException("Data array is too short to contain quaternion values.");
+            }
+
+            float q0 = BitConverter.ToSingle(data, offset);
+            float q1 = BitConverter.ToSingle(data, offset + stepSize);
+            float q2 = BitConverter.ToSingle(data, offset + 2 * stepSize);
+            float q3 = BitConverter.ToSingle(data, offset + 3 * stepSize);
+
+            (float r, float p, float y) = ToEulerAngles(q0, q1, q2, q3);
+            return new ModelOrientation { Roll = r, Pitch = p, Yaw = y };
+        }
 
         public static (float roll, float pitch, float yaw) ToEulerAngles(float q0, float q1, float q2, float q3)
         {

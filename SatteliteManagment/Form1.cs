@@ -881,26 +881,28 @@ namespace SatteliteManagment
 
         private void trackBarTimeOrient_Scroll(object sender, EventArgs e)
         {
+            // Если в истории нет записей или индекс вне диапазона, не применять обновление
+            if (_history == null || _history.Count == 0)
+                return;
+
+            int idx = trackBarTimeOrient.Value;
+            if (idx < 0 || idx >= _history.Count)
+                return;
+
             orientationRegulator.historyMode = true;
-            var orientation = _history[trackBarTimeOrient.Value];
+            var orientation = _history[idx];
 
             orientationRegulator.UpdateOrientation(
                 orientation.Roll,
                 orientation.Pitch,
                 orientation.Yaw);
         }
-        private void OnOrientationReceived(float roll, float pitch, float yaw)
+        private void OnOrientationReceived(ModelOrientation orientation)
         {
             BeginInvoke(new Action(() =>
             {
-                orientationRegulator.UpdateOrientation(roll, pitch, yaw);
-                ModelOrientation mo = new ModelOrientation
-                {
-                    Roll = roll,
-                    Pitch = pitch,
-                    Yaw = yaw
-                };
-                _history.Add(mo);
+                orientationRegulator.UpdateOrientation(orientation.Roll, orientation.Pitch, orientation.Yaw);
+                _history.Add(orientation);
             }));
         }
 
