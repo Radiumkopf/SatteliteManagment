@@ -918,5 +918,20 @@ namespace SatteliteManagment
                 _history._items = OrientationHistory.ReadRotations(dialog.FileName);
             }
         }
+
+        private void radioButtonCoordGlobal_CheckedChanged(object sender, EventArgs e)
+        {
+            orientationRegulator.SetGizmoMode(GizmoMode.Global);
+        }
+
+        private void radioButtonCoordLocal_CheckedChanged(object sender, EventArgs e)
+        {
+            orientationRegulator.SetGizmoMode(GizmoMode.Local);
+        }
+
+        private void radioButtonCoordDisable_CheckedChanged(object sender, EventArgs e)
+        {
+            orientationRegulator.SetGizmoVisible(false);
+        }
     }
 }
