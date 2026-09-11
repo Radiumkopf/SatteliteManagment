@@ -1,5 +1,6 @@
 ﻿using SatteliteManagment.Entities;
 using SatteliteManagment.Entities.LeafEntities;
+using SatteliteManagment.Services;
 using ScottPlot.Palettes;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,6 @@ namespace SatteliteManagment
 
         public event Action SenderLastFileReceived;
         public event Action SenderLastACKReceived;
-
         private System.Timers.Timer ackTimer;
 
 
@@ -67,15 +67,12 @@ namespace SatteliteManagment
             client.LastFileReceived += OnLastFileReceived;
             client.FileNackReceived += OnNackReceived;
 
-
-
-
         }
 
         public FileSender()
         {
         }
-        private async void OnAckReceived(FileTransferPacket packet)     
+        private async void OnAckReceived(FileTransferPacket packet, PacketInfo packetInfo)     
         {
 
             if (FileData.TryGetValue(packet.number, out RawPacket filePacket))
@@ -91,12 +88,22 @@ namespace SatteliteManagment
                 }
 
             }
-            if (IsDbWritingEnable) { 
-                FileTransferPacketEntity ftpe = await dbServices.FileTransferPacketService.GetByFileIdAndNumberAsync(DestinationId, packet.number);
-                ftpe.Result = CommandResult.ACK;
-                await dbServices.FileTransferPacketService.UpdateAsync(ftpe);
-            }
+            if (IsDbWritingEnable)
+            {
+                FileTransferPacketEntity ftpe = await dbServices.FileTransferPacketService
+                        .GetByFileIdAndNumberAsync(DestinationId, packet.number);
 
+                if (ftpe != null)
+                {
+                    PacketInfoEntity packetInfoEntity = PacketInfoService.MapToEntity(packetInfo);
+
+                    await dbServices.PacketStoreService.ProcessAckAsync(ftpe, packetInfoEntity);
+
+                    ftpe.Result = CommandResult.ACK;
+
+                    await dbServices.FileTransferPacketService.UpdateAsync(ftpe);
+                }
+            }
 
             if (IsSendNextIfAck)
                 await SendNextPacketAsync();
@@ -197,10 +204,7 @@ namespace SatteliteManagment
             if (IsDbWritingEnable && lastPacketIndex < CurrentPacketIndex)
             {
                 FileTransferPacketEntity ftpe = new FileTransferPacketEntity(DestinationId,rawPacket.Number,(byte)rawPacket.Data.Length,rawPacket.Data);
-                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.FileSending);
-                ftpe.DescriptionEntity = pde;
-                await dbServices.PacketDescriptionService.SaveAsync(pde);
-                await dbServices.FileTransferPacketService.SaveAsync(ftpe);
+                await dbServices.PacketStoreService.SavePacketAwaitingAckAsync( PacketType.FileSending, ftpe);
             }
             if( lastPacketIndex < CurrentPacketIndex)
             {

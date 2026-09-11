@@ -78,7 +78,7 @@ namespace SatteliteManagment.Orientation
             return double.Parse(value, CultureInfo.InvariantCulture);
         }
 
-        public static List<ModelOrientation> ParseFile(string filePath)
+        public static List<ModelOrientation> ReadQuaternions(string filePath)
         {
             var rotations = new List<ModelOrientation>();
 
