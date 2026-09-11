@@ -89,11 +89,13 @@ namespace SatteliteManagment.Telemetry
             {
                 //DB сохранение (пока только 2 сущности)
 
-                PacketDescriptionEntity pde = new PacketDescriptionEntity(PacketType.Telemetry);
-                TlmPacketEntity tlmPacketEntity = TlmPacket.MapToEntity(packet);
-                tlmPacketEntity.DescriptionEntity = pde;
-                await services.PacketDescriptionService.SaveAsync(pde);
-                await services.TlmPacketService.SaveAsync(tlmPacketEntity);
+                var packetInfoEntity = PacketInfoService.MapToEntity(packetInfo);
+                var tlm = TlmPacket.MapToEntity(packet);
+
+                await services.PacketStoreService.SaveIncomingPacketAsync(
+                    packetInfoEntity,
+                    PacketType.Telemetry,
+                    tlm);
             }
 
             int index = 0;

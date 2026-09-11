@@ -201,6 +201,7 @@
     <Compile Include="DuplexTcpClient.cs" />
     <Compile Include="Entities\LeafEntities\CoilMagnetMomentEntity.cs" />
     <Compile Include="Entities\LeafEntities\CommandResult.cs" />
+    <Compile Include="Entities\LeafEntities\IPacketDescriptionEntity.cs" />
     <Compile Include="Entities\LeafEntities\ModuleStatusEntity.cs" />
     <Compile Include="Entities\LeafEntities\MotorSpeedEntity.cs" />
     <Compile Include="Entities\LeafEntities\ReprogrammingEntity.cs" />

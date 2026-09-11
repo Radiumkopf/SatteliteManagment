@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities.LeafEntities
 {
-    internal class VerifyCheckSumEntity : IDbEntity
+    internal class VerifyCheckSumEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }

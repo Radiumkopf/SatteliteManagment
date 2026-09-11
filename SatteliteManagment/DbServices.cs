@@ -29,7 +29,7 @@ namespace SatteliteManagment
 
         public StoredFileService StoredFileService { get; }
 
-       // public PacketStoreService PacketStoreService { get; }
+        public PacketStoreService PacketStoreService { get; }
 
         public DbServices(AppDbContext db)
         {
@@ -74,7 +74,7 @@ namespace SatteliteManagment
 
             StoredFileService = new StoredFileService(storedFileRepository);
 
-           //PacketStoreService = new PacketStoreService(packetInfoRepository);
+           PacketStoreService = new PacketStoreService(db);
         }
     }
 }

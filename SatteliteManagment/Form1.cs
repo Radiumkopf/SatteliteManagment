@@ -915,7 +915,7 @@ namespace SatteliteManagment
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _history._items = OrientationHistory.ReadRotations(dialog.FileName);
+                _history._items = OrientationHistory.ParseFile(dialog.FileName);
             }
         }
 

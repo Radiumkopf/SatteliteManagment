@@ -57,14 +57,14 @@ namespace SatteliteManagment
                 ((uint)bytes[4 + offset] << 24)
             );
         }
-        public static (byte, short) ParseModuleStatus(byte[] bytes, int offset)
+        public static (byte, ushort) ParseModuleStatus(byte[] bytes, int offset)
         {
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));
             if (bytes.Length < 3)
                 throw new ArgumentException("Module status packet must contain at least 3 bytes.", nameof(bytes));
             byte moduleId = bytes[offset];
-            short status = BitConverter.ToInt16(bytes, 1 + offset);
+            ushort status = BitConverter.ToUInt16(bytes, 1 + offset);
             return (moduleId, status);
         }
 

@@ -36,6 +36,9 @@ namespace SatteliteManagment
 
         public event Action<TlmPacket, PacketInfo> TelemetryReceived;
         public event Action<ModelOrientation> OrientationReceived;
+        public event Action<bool> MotorSpeedReceived;
+        public event Action<bool> CoilMagnetMomentReceived;
+        public event Action<byte, ushort> ModuleStatusReceived;
 
 
         private const int OFFSET = 25;
@@ -91,10 +94,10 @@ namespace SatteliteManagment
                         {
                             packetInfo = PacketInfoParser.Parse(packetInfoHeaderBytes);
 
-                            if (packetType != PacketType.Telemetry)
-                            {
-                                PacketReceived?.Invoke(packetInfo);     //чтоб не вешало ресивер
-                            }
+                            //if (packetType != PacketType.Telemetry)
+                            //{
+                            //    PacketReceived?.Invoke(packetInfo);     //чтоб не вешало ресивер
+                            //}
 
                         }
                         catch (Exception ex)
@@ -135,13 +138,30 @@ namespace SatteliteManagment
                             uint satCRC = SatellitePacketParser.ParseCRC(data, OFFSET);
                             CRCReceived?.Invoke(satCRC);
                             break;
+                        //Small packets ack/nack
                         case PacketType.ReprogrammingStartACK:
                             ReprogrammingResult?.Invoke(true);
                             break;
-
                         case PacketType.ReprogrammingStartNACK:
                             ReprogrammingResult?.Invoke(false);
                             break;
+                        case PacketType.ModuleStatus:
+                            var (moduleId, status) = SatellitePacketParser.ParseModuleStatus(data, OFFSET);
+                            ModuleStatusReceived?.Invoke(moduleId, status);
+                            break;
+                        case PacketType.SetCoilMagnetMomentAck:
+                            CoilMagnetMomentReceived?.Invoke(true);
+                            break;
+                        case PacketType.SetCoilMagnetMomentNack:
+                            CoilMagnetMomentReceived?.Invoke(false);
+                            break;
+                        case PacketType.SetMotorSpeedAck:
+                            MotorSpeedReceived?.Invoke(true);
+                            break;
+                        case PacketType.SetMotorSpeedNack:
+                            MotorSpeedReceived?.Invoke(false);
+                            break;
+                        //No-request/response packets
                         case PacketType.Telemetry:
                             TlmPacket telemetryPacket = TlmPacket.Parse(data, OFFSET+1);
                             TelemetryReceived?.Invoke(telemetryPacket, packetInfo);

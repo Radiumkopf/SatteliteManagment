@@ -77,5 +77,44 @@ namespace SatteliteManagment.Orientation
 
             return double.Parse(value, CultureInfo.InvariantCulture);
         }
+
+        public static List<ModelOrientation> ParseFile(string filePath)
+        {
+            var rotations = new List<ModelOrientation>();
+
+            foreach (string line in File.ReadLines(filePath))
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                string[] parts = line.Split(';');
+
+                if (parts.Length != 4)
+                    continue;
+
+                if (!float.TryParse(parts[0], NumberStyles.Float,
+                        CultureInfo.InvariantCulture, out float q0))
+                    continue;
+
+                if (!float.TryParse(parts[1], NumberStyles.Float,
+                        CultureInfo.InvariantCulture, out float q1))
+                    continue;
+
+                if (!float.TryParse(parts[2], NumberStyles.Float,
+                        CultureInfo.InvariantCulture, out float q2))
+                    continue;
+
+                if (!float.TryParse(parts[3], NumberStyles.Float,
+                        CultureInfo.InvariantCulture, out float q3))
+                    continue;
+
+                // Quaternion -> Euler angles
+                var (roll, pitch, yaw) = OrientationParser.ToEulerAngles(q0, q1, q2, q3);
+
+                rotations.Add(new ModelOrientation(roll, pitch, yaw ));
+            }
+
+            return rotations;
+        }
     }
 }

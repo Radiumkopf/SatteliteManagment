@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities.LeafEntities
 {
-    internal class MotorSpeedEntity : IDbEntity
+    internal class MotorSpeedEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }

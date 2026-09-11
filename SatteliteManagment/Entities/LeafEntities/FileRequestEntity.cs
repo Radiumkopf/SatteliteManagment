@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities.LeafEntities
 {
-    internal class FileRequestEntity : IDbEntity
+    internal class FileRequestEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }

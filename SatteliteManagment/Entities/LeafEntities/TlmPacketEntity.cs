@@ -1,4 +1,5 @@
-﻿using SatteliteManagment.Services;
+﻿using SatteliteManagment.Entities.LeafEntities;
+using SatteliteManagment.Services;
 using SatteliteManagment.Telemetry;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities
 {
-    internal class TlmPacketEntity : IDbEntity
+    internal class TlmPacketEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }

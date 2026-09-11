@@ -325,6 +325,21 @@ namespace SatteliteManagment
         {
             
         }
+        public async Task SetCoilMagnetMoment(ushort moment)
+        {
+            byte[] packet = BuildSmallPackage(PacketType.SetCoilMagnetMoment, moment);
+            await client.SendTextAsync(packet);
+        }
+        public async Task SetMotorSpeed(ushort speed)
+        {
+            byte[] packet = BuildSmallPackage(PacketType.SetMotorSpeed, speed);
+            await client.SendTextAsync(packet);
+        }
+        public async Task GetModuleStatus(byte moduleId)
+        {
+            byte[] packet = BuildSmallPackage(PacketType.GetModuleStatus, moduleId);
+            await client.SendTextAsync(packet);
+        }
         public void RequestCurrentServerTxAddress()
         {
 

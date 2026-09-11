@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities.LeafEntities
 {
-    internal class CoilMagnetMomentEntity : IDbEntity
+    internal class CoilMagnetMomentEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }

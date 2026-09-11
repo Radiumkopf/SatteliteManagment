@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SatteliteManagment.Entities.LeafEntities
 {
-    internal class TimeSetEntity : IDbEntity
+    internal class TimeSetEntity : IDbEntity, IPacketDescriptionEntity
     {
         [Key]
         public int Id { get; set; }
