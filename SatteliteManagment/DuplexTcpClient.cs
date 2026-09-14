@@ -35,7 +35,7 @@ namespace SatteliteManagment
         public event Action<FileTransferPacket> ServerAddrChanged;
 
         public event Action<TlmPacket, PacketInfo> TelemetryReceived;
-        public event Action<ModelOrientation> OrientationReceived;
+        public event Action<ModelOrientation, PacketInfo> OrientationReceived;
         public event Action<bool> MotorSpeedReceived;
         public event Action<bool> CoilMagnetMomentReceived;
         public event Action<byte, ushort> ModuleStatusReceived;
@@ -169,7 +169,7 @@ namespace SatteliteManagment
 
                         case PacketType.OrientationPacket:
                             ModelOrientation orientation = OrientationParser.ParseToObj(data, OFFSET + 1);
-                            OrientationReceived?.Invoke(orientation);
+                            OrientationReceived?.Invoke(orientation, packetInfo);
                             break;
                     }
                 }

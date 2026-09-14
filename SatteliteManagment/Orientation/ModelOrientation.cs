@@ -12,6 +12,7 @@ namespace SatteliteManagment.Orientation
         public float Roll { get; set; }
         public float Pitch { get; set; }
         public float Yaw { get; set; }
+        public DateTime Time { get; set; } = DateTime.Now;
 
         public ModelOrientation()
         {

@@ -32,9 +32,9 @@ namespace SatteliteManagment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
@@ -178,6 +178,10 @@ namespace SatteliteManagment
             this.textBoxHexView = new System.Windows.Forms.TextBox();
             this.tabPageOrient = new System.Windows.Forms.TabPage();
             this.groupBoxOrient = new System.Windows.Forms.GroupBox();
+            this.groupBoxGizmo = new System.Windows.Forms.GroupBox();
+            this.radioButtonCoordGlobal = new System.Windows.Forms.RadioButton();
+            this.radioButtonCoordDisable = new System.Windows.Forms.RadioButton();
+            this.radioButtonCoordLocal = new System.Windows.Forms.RadioButton();
             this.buttonHistoryOrient = new System.Windows.Forms.Button();
             this.comboBoxLightType = new System.Windows.Forms.ComboBox();
             this.buttonSetRPY = new System.Windows.Forms.Button();
@@ -192,10 +196,7 @@ namespace SatteliteManagment
             this.trackBarTimeOrient = new System.Windows.Forms.TrackBar();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.radioButtonCoordGlobal = new System.Windows.Forms.RadioButton();
-            this.radioButtonCoordLocal = new System.Windows.Forms.RadioButton();
-            this.radioButtonCoordDisable = new System.Windows.Forms.RadioButton();
-            this.groupBoxGizmo = new System.Windows.Forms.GroupBox();
+            this.comboBoxAddresses = new System.Windows.Forms.ComboBox();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -231,11 +232,11 @@ namespace SatteliteManagment
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
             this.tabPageOrient.SuspendLayout();
             this.groupBoxOrient.SuspendLayout();
+            this.groupBoxGizmo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTimeOrient)).BeginInit();
-            this.groupBoxGizmo.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonClearLogs
@@ -463,33 +464,33 @@ namespace SatteliteManagment
             // 
             // logRequestingGridView
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle8;
             this.logRequestingGridView.Location = new System.Drawing.Point(6, 55);
             this.logRequestingGridView.Name = "logRequestingGridView";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.logRequestingGridView.RowHeadersWidth = 51;
             this.logRequestingGridView.RowTemplate.Height = 24;
             this.logRequestingGridView.Size = new System.Drawing.Size(740, 316);
@@ -1667,7 +1668,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 304);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 309);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1676,7 +1677,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 270);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 275);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1685,7 +1686,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 240);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 245);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1694,7 +1695,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 210);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 215);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1703,7 +1704,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 180);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 185);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1815,6 +1816,7 @@ namespace SatteliteManagment
             // groupBoxOrient
             // 
             this.groupBoxOrient.BackColor = System.Drawing.Color.Gray;
+            this.groupBoxOrient.Controls.Add(this.comboBoxAddresses);
             this.groupBoxOrient.Controls.Add(this.groupBoxGizmo);
             this.groupBoxOrient.Controls.Add(this.buttonHistoryOrient);
             this.groupBoxOrient.Controls.Add(this.comboBoxLightType);
@@ -1833,6 +1835,54 @@ namespace SatteliteManagment
             this.groupBoxOrient.TabIndex = 0;
             this.groupBoxOrient.TabStop = false;
             this.groupBoxOrient.Text = "Orientation";
+            // 
+            // groupBoxGizmo
+            // 
+            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordGlobal);
+            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordDisable);
+            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordLocal);
+            this.groupBoxGizmo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.groupBoxGizmo.Location = new System.Drawing.Point(954, 60);
+            this.groupBoxGizmo.Name = "groupBoxGizmo";
+            this.groupBoxGizmo.Size = new System.Drawing.Size(164, 138);
+            this.groupBoxGizmo.TabIndex = 15;
+            this.groupBoxGizmo.TabStop = false;
+            this.groupBoxGizmo.Text = "Gizmo";
+            // 
+            // radioButtonCoordGlobal
+            // 
+            this.radioButtonCoordGlobal.AutoSize = true;
+            this.radioButtonCoordGlobal.Location = new System.Drawing.Point(6, 36);
+            this.radioButtonCoordGlobal.Name = "radioButtonCoordGlobal";
+            this.radioButtonCoordGlobal.Size = new System.Drawing.Size(130, 24);
+            this.radioButtonCoordGlobal.TabIndex = 12;
+            this.radioButtonCoordGlobal.Text = "Глобальное";
+            this.radioButtonCoordGlobal.UseVisualStyleBackColor = true;
+            this.radioButtonCoordGlobal.CheckedChanged += new System.EventHandler(this.radioButtonCoordGlobal_CheckedChanged);
+            // 
+            // radioButtonCoordDisable
+            // 
+            this.radioButtonCoordDisable.AutoSize = true;
+            this.radioButtonCoordDisable.Location = new System.Drawing.Point(6, 98);
+            this.radioButtonCoordDisable.Name = "radioButtonCoordDisable";
+            this.radioButtonCoordDisable.Size = new System.Drawing.Size(77, 24);
+            this.radioButtonCoordDisable.TabIndex = 14;
+            this.radioButtonCoordDisable.Text = "Выкл.";
+            this.radioButtonCoordDisable.UseVisualStyleBackColor = true;
+            this.radioButtonCoordDisable.CheckedChanged += new System.EventHandler(this.radioButtonCoordDisable_CheckedChanged);
+            // 
+            // radioButtonCoordLocal
+            // 
+            this.radioButtonCoordLocal.AutoSize = true;
+            this.radioButtonCoordLocal.Checked = true;
+            this.radioButtonCoordLocal.Location = new System.Drawing.Point(6, 67);
+            this.radioButtonCoordLocal.Name = "radioButtonCoordLocal";
+            this.radioButtonCoordLocal.Size = new System.Drawing.Size(121, 24);
+            this.radioButtonCoordLocal.TabIndex = 13;
+            this.radioButtonCoordLocal.TabStop = true;
+            this.radioButtonCoordLocal.Text = "Локальное";
+            this.radioButtonCoordLocal.UseVisualStyleBackColor = true;
+            this.radioButtonCoordLocal.CheckedChanged += new System.EventHandler(this.radioButtonCoordLocal_CheckedChanged);
             // 
             // buttonHistoryOrient
             // 
@@ -1978,55 +2028,18 @@ namespace SatteliteManagment
             this.trackBarTimeOrient.TabIndex = 10;
             this.trackBarTimeOrient.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBarTimeOrient.Scroll += new System.EventHandler(this.trackBarTimeOrient_Scroll);
-            this.trackBarTimeOrient.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trackBarTimeOrient_MouseMove);            
+            this.trackBarTimeOrient.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trackBarTimeOrient_MouseMove);
             // 
-            // radioButtonCoordGlobal
+            // comboBoxAddresses
             // 
-            this.radioButtonCoordGlobal.AutoSize = true;
-            this.radioButtonCoordGlobal.Location = new System.Drawing.Point(6, 36);
-            this.radioButtonCoordGlobal.Name = "radioButtonCoordGlobal";
-            this.radioButtonCoordGlobal.Size = new System.Drawing.Size(130, 24);
-            this.radioButtonCoordGlobal.TabIndex = 12;
-            this.radioButtonCoordGlobal.Text = "Глобальное";
-            this.radioButtonCoordGlobal.UseVisualStyleBackColor = true;
-            this.radioButtonCoordGlobal.CheckedChanged += new System.EventHandler(this.radioButtonCoordGlobal_CheckedChanged);
-            // 
-            // radioButtonCoordLocal
-            // 
-            this.radioButtonCoordLocal.AutoSize = true;
-            this.radioButtonCoordLocal.Checked = true;
-            this.radioButtonCoordLocal.Location = new System.Drawing.Point(6, 67);
-            this.radioButtonCoordLocal.Name = "radioButtonCoordLocal";
-            this.radioButtonCoordLocal.Size = new System.Drawing.Size(121, 24);
-            this.radioButtonCoordLocal.TabIndex = 13;
-            this.radioButtonCoordLocal.TabStop = true;
-            this.radioButtonCoordLocal.Text = "Локальное";
-            this.radioButtonCoordLocal.UseVisualStyleBackColor = true;
-            this.radioButtonCoordLocal.CheckedChanged += new System.EventHandler(this.radioButtonCoordLocal_CheckedChanged);
-            // 
-            // radioButtonCoordDisable
-            // 
-            this.radioButtonCoordDisable.AutoSize = true;
-            this.radioButtonCoordDisable.Location = new System.Drawing.Point(6, 98);
-            this.radioButtonCoordDisable.Name = "radioButtonCoordDisable";
-            this.radioButtonCoordDisable.Size = new System.Drawing.Size(77, 24);
-            this.radioButtonCoordDisable.TabIndex = 14;
-            this.radioButtonCoordDisable.Text = "Выкл.";
-            this.radioButtonCoordDisable.UseVisualStyleBackColor = true;
-            this.radioButtonCoordDisable.CheckedChanged += new System.EventHandler(this.radioButtonCoordDisable_CheckedChanged);
-            // 
-            // groupBoxGizmo
-            // 
-            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordGlobal);
-            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordDisable);
-            this.groupBoxGizmo.Controls.Add(this.radioButtonCoordLocal);
-            this.groupBoxGizmo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.groupBoxGizmo.Location = new System.Drawing.Point(954, 60);
-            this.groupBoxGizmo.Name = "groupBoxGizmo";
-            this.groupBoxGizmo.Size = new System.Drawing.Size(164, 138);
-            this.groupBoxGizmo.TabIndex = 15;
-            this.groupBoxGizmo.TabStop = false;
-            this.groupBoxGizmo.Text = "Gizmo";
+            this.comboBoxAddresses.FormattingEnabled = true;
+            this.comboBoxAddresses.Items.AddRange(new object[] {
+            "00000000000000"});
+            this.comboBoxAddresses.Location = new System.Drawing.Point(178, 60);
+            this.comboBoxAddresses.Name = "comboBoxAddresses";
+            this.comboBoxAddresses.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxAddresses.TabIndex = 16;
+            this.comboBoxAddresses.SelectedIndexChanged += new System.EventHandler(this.comboBoxAddresses_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -2089,12 +2102,12 @@ namespace SatteliteManagment
             this.tabPageOrient.PerformLayout();
             this.groupBoxOrient.ResumeLayout(false);
             this.groupBoxOrient.PerformLayout();
+            this.groupBoxGizmo.ResumeLayout(false);
+            this.groupBoxGizmo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYaw)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTimeOrient)).EndInit();
-            this.groupBoxGizmo.ResumeLayout(false);
-            this.groupBoxGizmo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2261,6 +2274,7 @@ namespace SatteliteManagment
         private RadioButton radioButtonCoordLocal;
         private RadioButton radioButtonCoordGlobal;
         private GroupBox groupBoxGizmo;
+        private ComboBox comboBoxAddresses;
     }
 }
 

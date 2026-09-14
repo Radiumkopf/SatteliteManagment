@@ -861,7 +861,7 @@ namespace SatteliteManagment
                 Pitch = (float)numericUpDownPitch.Value,
                 Yaw = (float)numericUpDownYaw.Value
             };
-            _history.Add(mo);
+            _history.AddOrientationToTable(_history.CurrentAddress, mo);
         }
 
         private void comboBoxLightType_SelectedIndexChanged(object sender, EventArgs e)
@@ -938,12 +938,16 @@ namespace SatteliteManagment
 
             return (int)Math.Round(ratio * trackBarTimeOrient.Maximum);
         }
-        private void OnOrientationReceived(ModelOrientation orientation)
+        private void OnOrientationReceived(ModelOrientation orientation, PacketInfo packetInfo)
         {
+            ulong addr = packetInfo.SourceAddr; 
             BeginInvoke(new Action(() =>
             {
-                orientationRegulator.UpdateOrientation(orientation.Roll, orientation.Pitch, orientation.Yaw);
-                _history.Add(orientation);
+                _history.AddOrientationToTable(addr, orientation);
+                if(_history.CurrentAddress == addr)
+                {
+                    orientationRegulator.UpdateOrientation(orientation.Roll, orientation.Pitch, orientation.Yaw);
+                }
             }));
         }
 
@@ -956,9 +960,9 @@ namespace SatteliteManagment
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var (rotations, times) = OrientationHistory.ReadQuaternions(dialog.FileName);
+                var rotations = OrientationHistory.ReadQuaternions(dialog.FileName);
                 _history.Items = rotations;
-                _history.Times = times;
+                _history.AddressOrientationTable.Add(0, rotations); // Assuming address 0 for the loaded history
             }
         }
 
@@ -975,6 +979,47 @@ namespace SatteliteManagment
         private void radioButtonCoordDisable_CheckedChanged(object sender, EventArgs e)
         {
             orientationRegulator.SetGizmoVisible(false);
+        }
+
+        private void comboBoxAddresses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxAddresses == null)
+                return;
+
+            object sel = comboBoxAddresses.SelectedItem ?? comboBoxAddresses.SelectedValue;
+            if (sel == null)
+                return;
+
+            ulong address = 0;
+
+            try
+            {
+                if (sel is ulong u)
+                {
+                    address = u;
+                }
+                else
+                {
+                    string s = sel.ToString().Trim();
+
+                    if (s.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // hex string
+                        address = Convert.ToUInt64(s.Substring(2), 16);
+                    }
+                    else
+                    {
+                        // decimal
+                        address = Convert.ToUInt64(s);
+                    }
+                }
+            }
+            catch
+            {
+                return;
+            }
+
+            _history?.RestoreHistory(address);
         }
     }
 }
