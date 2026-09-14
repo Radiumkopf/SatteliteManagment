@@ -12,19 +12,30 @@ namespace SatteliteManagment.Orientation
 {
     internal class OrientationHistory
     {
+        public  List<ModelOrientation> Items { get; set; } = new List<ModelOrientation>();
+        public List<DateTime> Times { get; set; } = new List<DateTime>();
+        public int Count => Items.Count;
 
-        public  List<ModelOrientation> _items { get; set; } = new List<ModelOrientation>();
+        public ModelOrientation this[int index] => Items[index];
 
-        public int Count => _items.Count;
-
-        public ModelOrientation this[int index] => _items[index];
-
+        public DateTime GetTime(int index)
+        {
+            if (index> Times.Count)
+            {
+                return DateTime.MinValue;
+            }
+            return Times[index];
+        }
         public void Add(ModelOrientation orientation)
         {
-            _items.Add(orientation);
+            Items.Add(orientation);
+            Times.Add(DateTime.Now);        //FIXME возможно сделать получение времени из пакета
 
-            if (_items.Count > 1000)
-                _items.RemoveAt(0);
+            if (Items.Count > 1000)
+            {
+                Items.RemoveAt(0);
+                Times.RemoveAt(0);
+            }
         }
 
 
@@ -78,9 +89,10 @@ namespace SatteliteManagment.Orientation
             return double.Parse(value, CultureInfo.InvariantCulture);
         }
 
-        public static List<ModelOrientation> ReadQuaternions(string filePath)
+        public static (List<ModelOrientation>, List<DateTime>) ReadQuaternions(string filePath)
         {
             var rotations = new List<ModelOrientation>();
+            var times = new List<DateTime>();
 
             foreach (string line in File.ReadLines(filePath))
             {
@@ -112,9 +124,10 @@ namespace SatteliteManagment.Orientation
                 var (roll, pitch, yaw) = OrientationParser.ToEulerAngles(q0, q1, q2, q3);
 
                 rotations.Add(new ModelOrientation(roll, pitch, yaw ));
+                times.Add(DateTime.Now); 
             }
 
-            return rotations;
+            return (rotations, times);
         }
     }
 }

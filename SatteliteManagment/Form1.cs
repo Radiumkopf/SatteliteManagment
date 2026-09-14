@@ -50,7 +50,8 @@ namespace SatteliteManagment
         private uint crc;
         private bool IsDbWritingEnable;
         private OrientationRegulator orientationRegulator;
-        private OrientationHistory _history;    
+        private OrientationHistory _history;
+        private readonly ToolTip _orientationToolTip = new ToolTip();
 
 
         private Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>> _entityLoaders;
@@ -259,6 +260,11 @@ namespace SatteliteManagment
 
             orientationRegulator = new OrientationRegulator(elementHost1, numericUpDownRoll, numericUpDownPitch, numericUpDownYaw, labelRoll, labelPitch, labelYaw, orientationSender);
             elementHost1.Child = orientationRegulator.Viewport;
+            _orientationToolTip.AutoPopDelay = 5000;
+            _orientationToolTip.InitialDelay = 0;
+            _orientationToolTip.ReshowDelay = 0;
+            _orientationToolTip.ShowAlways = true;
+
         }
 
 
@@ -830,6 +836,7 @@ namespace SatteliteManagment
         /// <summary>
         /// 6. 3D Model Orientation
         /// </summary>
+        /// 
 
         private void buttonOpenStl_Click(object sender, EventArgs e)
         {
@@ -897,6 +904,40 @@ namespace SatteliteManagment
                 orientation.Pitch,
                 orientation.Yaw);
         }
+
+        private void trackBarTimeOrient_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_history == null || _history.Count == 0)
+                return;
+
+            int index = GetTrackBarIndex(e.X);
+
+            if (index < 0 || index >= _history.Count)
+                return;
+
+            DateTime time = _history.GetTime(index);
+
+            _orientationToolTip.Show(
+                time.ToString("dd.MM HH:mm:ss.fff"),
+                trackBarTimeOrient,
+                e.X,
+                -30,
+                500);
+        }
+        private int GetTrackBarIndex(int mouseX)
+        {
+            int width = trackBarTimeOrient.ClientSize.Width;
+
+            if (width <= 0 || trackBarTimeOrient.Maximum <= 0)
+                return 0;
+
+            double ratio =
+                (double)mouseX / width;
+
+            ratio = OrientationParser.Clamp(ratio, 0.0, 1.0);
+
+            return (int)Math.Round(ratio * trackBarTimeOrient.Maximum);
+        }
         private void OnOrientationReceived(ModelOrientation orientation)
         {
             BeginInvoke(new Action(() =>
@@ -915,7 +956,9 @@ namespace SatteliteManagment
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _history._items = OrientationHistory.ReadQuaternions(dialog.FileName);
+                var (rotations, times) = OrientationHistory.ReadQuaternions(dialog.FileName);
+                _history.Items = rotations;
+                _history.Times = times;
             }
         }
 

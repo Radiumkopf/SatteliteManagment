@@ -1978,6 +1978,7 @@ namespace SatteliteManagment
             this.trackBarTimeOrient.TabIndex = 10;
             this.trackBarTimeOrient.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBarTimeOrient.Scroll += new System.EventHandler(this.trackBarTimeOrient_Scroll);
+            this.trackBarTimeOrient.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trackBarTimeOrient_MouseMove);            
             // 
             // radioButtonCoordGlobal
             // 

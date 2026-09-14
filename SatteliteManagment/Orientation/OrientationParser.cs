@@ -51,5 +51,9 @@ namespace SatteliteManagment.Orientation
         {
             return (v < lo) ? lo : ((v > hi) ? hi : v);
         }
+        public static double Clamp(double v, double lo, double hi)
+        {
+            return (v < lo) ? lo : ((v > hi) ? hi : v);
+        }
     }
 }
