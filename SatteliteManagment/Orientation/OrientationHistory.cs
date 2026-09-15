@@ -21,6 +21,13 @@ namespace SatteliteManagment.Orientation
 
         public ModelOrientation this[int index] => Items[index];
 
+        public OrientationHistory()
+        {
+            AddressOrientationTable = new Dictionary<ulong, List<ModelOrientation>>();
+            AddressOrientationTable.Add(0, new List<ModelOrientation>());
+            AddressOrientationTable.Add(1, new List<ModelOrientation>());
+
+        }
         public DateTime GetTime(int index)
         {
             if (index> Items.Count)

@@ -265,6 +265,8 @@ namespace SatteliteManagment
             _orientationToolTip.ReshowDelay = 0;
             _orientationToolTip.ShowAlways = true;
 
+            comboBoxAddresses.DataSource = _history.AddressOrientationTable.Keys.ToList();
+
         }
 
 
@@ -962,7 +964,15 @@ namespace SatteliteManagment
             {
                 var rotations = OrientationHistory.ReadQuaternions(dialog.FileName);
                 _history.Items = rotations;
-                _history.AddressOrientationTable.Add(0, rotations); // Assuming address 0 for the loaded history
+                // Обновляем запись, если ключ уже есть, иначе добавляем
+                if (_history.AddressOrientationTable.ContainsKey(_history.CurrentAddress))
+                {
+                    _history.AddressOrientationTable[_history.CurrentAddress] = rotations;
+                }
+                else
+                {
+                    _history.AddressOrientationTable.Add(_history.CurrentAddress, rotations);
+                }
             }
         }
 
@@ -1020,6 +1030,8 @@ namespace SatteliteManagment
             }
 
             _history?.RestoreHistory(address);
+            trackBarTimeOrient.Value = 0;
+            orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
         }
     }
 }
