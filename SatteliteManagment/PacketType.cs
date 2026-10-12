@@ -16,6 +16,8 @@ namespace SatteliteManagment
         GetModuleStatus = 0x07,
         SetCoilMagnetMoment = 0x08,
         SetMotorSpeed = 0x09,
+        PhotoGet = 0x06,
+        PhotoGetSize = 0x05,
 
 
         TimeSetAck = 0x1A,
@@ -34,7 +36,11 @@ namespace SatteliteManagment
         SetMotorSpeedAck = 0x19,
         SetMotorSpeedNack = 0x29,
         Telemetry = 0x1D,
-        OrientationPacket = 0x15,
+        OrientationPacket = 0x10,
+        PhotoGetAck = 0x16,
+        PhotoGetNack = 0x26,
+        PhotoGetSizeAck = 0x15,
+        PhotoGetSizeNack = 0x25,
 
         AddressChanging = 0xAC
 

@@ -60,6 +60,7 @@ namespace SatteliteManagment
             this.comboBoxInOut = new System.Windows.Forms.ComboBox();
             this.logSendingGridView = new System.Windows.Forms.DataGridView();
             this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
+            this.buttonMakePhoto = new System.Windows.Forms.Button();
             this.labelCrcHex = new System.Windows.Forms.Label();
             this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.buttonSelectPathFile = new System.Windows.Forms.Button();
@@ -197,6 +198,7 @@ namespace SatteliteManagment
             this.trackBarTimeOrient = new System.Windows.Forms.TrackBar();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.helpProviderSatInfo = new System.Windows.Forms.HelpProvider();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -448,7 +450,7 @@ namespace SatteliteManagment
             this.groupBoxLogTables.Size = new System.Drawing.Size(861, 377);
             this.groupBoxLogTables.TabIndex = 28;
             this.groupBoxLogTables.TabStop = false;
-            this.groupBoxLogTables.Text = "Пришло/Ушло";
+            this.groupBoxLogTables.Text = "Получение/Отправка";
             // 
             // checkBoxSaveToDb
             // 
@@ -515,8 +517,8 @@ namespace SatteliteManagment
             // 
             this.comboBoxInOut.FormattingEnabled = true;
             this.comboBoxInOut.Items.AddRange(new object[] {
-            "Пришло",
-            "Ушло"});
+            "Получение",
+            "Отправка"});
             this.comboBoxInOut.Location = new System.Drawing.Point(6, 25);
             this.comboBoxInOut.Name = "comboBoxInOut";
             this.comboBoxInOut.Size = new System.Drawing.Size(121, 24);
@@ -536,6 +538,7 @@ namespace SatteliteManagment
             // 
             // groupBoxFileSending
             // 
+            this.groupBoxFileSending.Controls.Add(this.buttonMakePhoto);
             this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
             this.groupBoxFileSending.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxFileSending.Controls.Add(this.buttonSelectPathFile);
@@ -559,6 +562,22 @@ namespace SatteliteManagment
             this.groupBoxFileSending.TabIndex = 27;
             this.groupBoxFileSending.TabStop = false;
             this.groupBoxFileSending.Text = "Чтение/запись";
+            // 
+            // buttonMakePhoto
+            // 
+            this.buttonMakePhoto.BackColor = System.Drawing.Color.Transparent;
+            this.buttonMakePhoto.BackgroundImage = global::SatteliteManagment.Properties.Resources.camerapng;
+            this.buttonMakePhoto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonMakePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonMakePhoto.Enabled = false;
+            this.buttonMakePhoto.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonMakePhoto.Location = new System.Drawing.Point(3, 303);
+            this.buttonMakePhoto.Name = "buttonMakePhoto";
+            this.buttonMakePhoto.Size = new System.Drawing.Size(76, 55);
+            this.buttonMakePhoto.TabIndex = 29;
+            this.buttonMakePhoto.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.buttonMakePhoto.UseVisualStyleBackColor = false;
+            this.buttonMakePhoto.Click += new System.EventHandler(this.buttonMakePhoto_Click);
             // 
             // labelCrcHex
             // 
@@ -1240,15 +1259,16 @@ namespace SatteliteManagment
             // buttonClearPlot
             // 
             this.buttonClearPlot.BackColor = System.Drawing.Color.LightCoral;
+            this.buttonClearPlot.BackgroundImage = global::SatteliteManagment.Properties.Resources._542724;
+            this.buttonClearPlot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonClearPlot.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonClearPlot.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
             this.buttonClearPlot.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Maroon;
             this.buttonClearPlot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClearPlot.Location = new System.Drawing.Point(7, 464);
+            this.buttonClearPlot.Location = new System.Drawing.Point(7, 449);
             this.buttonClearPlot.Name = "buttonClearPlot";
-            this.buttonClearPlot.Size = new System.Drawing.Size(172, 33);
+            this.buttonClearPlot.Size = new System.Drawing.Size(40, 48);
             this.buttonClearPlot.TabIndex = 3;
-            this.buttonClearPlot.Text = "Очистить график";
             this.buttonClearPlot.UseVisualStyleBackColor = false;
             this.buttonClearPlot.Click += new System.EventHandler(this.buttonClearPlot_Click);
             // 
@@ -1668,7 +1688,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 314);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 339);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1677,7 +1697,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 280);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 305);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1686,7 +1706,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 250);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 275);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1695,7 +1715,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 220);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 245);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1704,7 +1724,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 190);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 215);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1905,14 +1925,12 @@ namespace SatteliteManagment
             // 
             // comboBoxLightType
             // 
-            this.comboBoxLightType.Enabled = false;
             this.comboBoxLightType.FormattingEnabled = true;
             this.comboBoxLightType.Items.AddRange(new object[] {
             "Ambient",
             "Directional",
             "Point",
-            "Spot",
-            "Sun"});
+            "Spot"});
             this.comboBoxLightType.Location = new System.Drawing.Point(27, 60);
             this.comboBoxLightType.Name = "comboBoxLightType";
             this.comboBoxLightType.Size = new System.Drawing.Size(120, 28);
@@ -2273,6 +2291,8 @@ namespace SatteliteManagment
         private RadioButton radioButtonCoordGlobal;
         private GroupBox groupBoxGizmo;
         private ComboBox comboBoxAddresses;
+        private Button buttonMakePhoto;
+        private HelpProvider helpProviderSatInfo;
     }
 }
 

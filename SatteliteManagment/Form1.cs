@@ -482,6 +482,7 @@ namespace SatteliteManagment
             button1.Enabled = false;
             buttonDeleteCurrentFile.Enabled = true;
             buttonShowRawPackets.Enabled = true;
+            buttonMakePhoto.Enabled = true;
             //buttonVerifyCheckSum.Enabled = false;
 
         }
@@ -543,6 +544,7 @@ namespace SatteliteManagment
                     string path = saveDialog.FileName;  
                     IsFilePathSet = true;
                     fileSender.CurrentReceiveIndex = 0;
+                    fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
                     fileSender.SetPathToSave(path);
                     buttonSendFileRequest.Enabled = true;
                     this.currentFilePath = path;
@@ -616,8 +618,41 @@ namespace SatteliteManagment
             fileSender.IsSendRequestIfGetPacket = checkBoxSendNextIfGetAck.Checked;
         }
 
+        private async void buttonMakePhoto_Click(object sender, EventArgs e)
+        {
+            fileSender.DestinationId = (byte)numericUpDownId.Value;
+            await fileSender.GetPhoto();
+            MessageBox.Show("Запрос на фото отправлен. Ожидайте ответа от спутника.");
+        }
 
+        private async Task ShowPhotoResult(bool isSuccess, byte[] photoData)
+        {
+            DialogResult result = MessageBox.Show(
+                "Фотография готова!\nОтправить запрос на размер файла?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+            {
+                await fileSender.GetPhotoSize();
+            }
+            
+        }
+        private void buttonShowRawPackets_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInOut.SelectedIndex == 0)
+            {
+                FormSelectPacket dialogForm = new FormSelectPacket(fileSender, false);
+                dialogForm.ShowDialog();
+            }
+            else
+            {
+                FormSelectPacket dialogForm = new FormSelectPacket(fileSender, true);
+                dialogForm.ShowDialog();
+            }
+
+        }
         private void testbutton_Click(object sender, EventArgs e)
         {
         }
@@ -728,10 +763,18 @@ namespace SatteliteManagment
         {
             formsPlotTelemetry.Plot.Clear();
 
+            int totalPoints = graph.Series.Count > 0
+                ? graph.Series[0].Values.Count
+                : 0;
+
+            int startIndex = Math.Max(0, totalPoints - VisiblePoints);
+            int endIndex = Math.Max(VisiblePoints, totalPoints);
+
             foreach (var series in graph.Series)
             {
                 float[] values = series.Values
-                    .Skip(Math.Max(0, series.Values.Count - VisiblePoints))
+                    .Skip(startIndex)
+                    .Take(VisiblePoints)
                     .ToArray();
 
                 formsPlotTelemetry.Plot.Add.Signal(values);
@@ -742,6 +785,8 @@ namespace SatteliteManagment
 
             if (autoscale)
                 formsPlotTelemetry.Plot.Axes.AutoScale();
+
+            formsPlotTelemetry.Plot.Axes.SetLimitsX(startIndex, endIndex);
 
             formsPlotTelemetry.Refresh();
         }
@@ -799,11 +844,7 @@ namespace SatteliteManagment
             }
         }
 
-        private void buttonShowRawPackets_Click(object sender, EventArgs e)
-        {
-            FormSelectPacket dialogForm = new FormSelectPacket(fileSender);
-            dialogForm.ShowDialog();
-        }
+
 
         /// <summary>
         /// 5. DB View
@@ -882,9 +923,7 @@ namespace SatteliteManagment
                 case 3:
                     orientationRegulator.ReplaceLight(new SpotLight(System.Windows.Media.Colors.White, new Point3D(0, 0, 5), new Vector3D(0, 0, -1), 100, 100));
                     break;
-                case 4:
-                    orientationRegulator.ReplaceLight(new SunLight());
-                    break;
+
             }
         }
 
@@ -1031,7 +1070,17 @@ namespace SatteliteManagment
 
             _history?.RestoreHistory(address);
             trackBarTimeOrient.Value = 0;
-            orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
+            try
+            {
+                orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
+
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Если история пуста, сбрасываем ориентацию на нулевую
+                orientationRegulator.UpdateOrientation(0, 0, 0);
+            }
         }
+
     }
 }
