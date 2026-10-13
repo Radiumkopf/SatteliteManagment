@@ -33,11 +33,11 @@ namespace SatteliteManagment
 
         private readonly DuplexTcpClient _client = new DuplexTcpClient();
 
-        private byte[] currentServerTxAddress = new byte[] {0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
+        private byte[] currentServerTxAddress = new byte[] { 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
         private GridViewLogManager logSendingManager;
         private GridViewLogManager logRequestingManager;
 
-        private CommandSender commandSender;        
+        private CommandSender commandSender;
         private TriggerGridViewManager triggerGridManager;
         private TriggerManager triggerManager;
         private FileSender fileSender;
@@ -87,14 +87,14 @@ namespace SatteliteManagment
             InitializeDeviceStatusManager();
 
             LoadListEntityToDict();
-            Image originalImage = Properties.Resources.save_data; 
+            Image originalImage = Properties.Resources.save_data;
 
             Bitmap zoomedImage = new Bitmap(originalImage, new Size(30, 30));
 
             checkBoxSaveToDb.Image = zoomedImage;
             checkBoxWriteTLMToDB.Image = zoomedImage;
             //checkBox1.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _history  = new OrientationHistory();
+            _history = new OrientationHistory();
             Initialize3D();
 
         }
@@ -234,7 +234,7 @@ namespace SatteliteManagment
             if (dbServices != null)
             {
                 plotManager = new PlotManager(_client, logTextBoxes, dbServices);
-               
+
             }
             else
             {
@@ -265,7 +265,7 @@ namespace SatteliteManagment
             _orientationToolTip.ReshowDelay = 0;
             _orientationToolTip.ShowAlways = true;
 
-            comboBoxAddresses.DataSource = _history.AddressOrientationTable.Keys.ToList();
+            comboBoxAddresses.DataSource = _history.AddressListUI;
 
         }
 
@@ -276,13 +276,13 @@ namespace SatteliteManagment
             {
                 byte[] satelliteAddress = BitConverter.GetBytes(packet.SourceAddr);
 
-                if(!(satelliteAddress).SequenceEqual(currentServerTxAddress))
+                if (!(satelliteAddress).SequenceEqual(currentServerTxAddress))
                 {
                     fileSender.SetTxRegister(satelliteAddress);
                     LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
                 }
 
-                Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
+                Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes(packet.SourceAddr));
                 if (trigger != null)
                 {
                     if (trigger.status == TriggerStatus.Active)
@@ -305,7 +305,8 @@ namespace SatteliteManagment
         {
             BeginInvoke(new Action(() =>
             {
-                if (result) {
+                if (result)
+                {
                     MessageBox.Show("Перепрошивка прошла успешно! Ура!");
                 }
                 else
@@ -318,28 +319,29 @@ namespace SatteliteManagment
 
                     if (dialogResult == DialogResult.Yes)
                     {
-                         fileSender.StartReprogramming();
+                        fileSender.StartReprogramming();
                     }
                 }
             }));
-        
+
         }
 
         private void OnServerAddrChanged(FileTransferPacket packet)
         {
-            BeginInvoke(new Action(() => {
+            BeginInvoke(new Action(() =>
+            {
                 byte[] newAddr = new byte[packet.data.Length];
                 Array.Copy(packet.data, newAddr, packet.data.Length);
                 currentServerTxAddress = newAddr;
 
-                LogTextBoxWriteNewAddr( "Сервер", newAddr);
+                LogTextBoxWriteNewAddr("Сервер", newAddr);
             }));
-            
+
         }
 
         private async void OnCRCReceived(uint satCrc)
         {
-            if (satCrc == crc)      
+            if (satCrc == crc)
             {
                 DialogResult result = MessageBox.Show(
                     "Контрольная сумма верная! Начать перепрошивку?",
@@ -361,7 +363,7 @@ namespace SatteliteManagment
             {
                 var vcse = await dbServices.VerifyCheckSumService.GetLastAsync();
                 if (satCrc == crc)
-                { 
+                {
                     vcse.Result = CommandResult.ACK;
                 }
                 else
@@ -373,12 +375,13 @@ namespace SatteliteManagment
 
             }
         }
-        private void LogTextBoxWriteNewAddr(string who, byte[] addr) {
+        private void LogTextBoxWriteNewAddr(string who, byte[] addr)
+        {
 
             logTextBox.AppendText(who);
-            logTextBox.AppendText( " изменил TX-адрес: ");
+            logTextBox.AppendText(" изменил TX-адрес: ");
             logTextBox.AppendText(DataConverter.ByteArrayToStringHEX(addr));
-            logTextBox.AppendText(  Environment.NewLine );
+            logTextBox.AppendText(Environment.NewLine);
         }
 
         //Обработчик успешно принятого файла
@@ -445,10 +448,10 @@ namespace SatteliteManagment
             logSendingManager.ClearGrid();
             logRequestingManager.ClearGrid();
         }
-        
+
         private void connectToServer_Click(object sender, EventArgs e)
         {
-            if (buttonOpenCloseServer.Text=="Включить сервер") 
+            if (buttonOpenCloseServer.Text == "Включить сервер")
                 changeServerState(true);
             else
                 changeServerState(false);
@@ -472,7 +475,7 @@ namespace SatteliteManagment
             fileSender.SetAndSplitFile(dataArray, (byte)numericUpDownPacketSize.Value);
 
             if (buttonOpenCloseServer.Text == "Включить сервер" || labelComPortConnectionInfo.Text == "Выключено")
-                connectToServer_Click(sender,e);
+                connectToServer_Click(sender, e);
 
 
             sendOnePackageButton.Enabled = true;
@@ -503,7 +506,7 @@ namespace SatteliteManagment
             fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendAllAsync();
-        } 
+        }
         private async void buttonSendFileRequest_Click(object sender, EventArgs e)
         {
 
@@ -516,7 +519,8 @@ namespace SatteliteManagment
         private bool IsFilePathSet = false;
         private void buttonSelectPathFile_Click(object sender, EventArgs e)
         {
-            if (IsFilePathSet) {
+            if (IsFilePathSet)
+            {
 
                 DialogResult result = MessageBox.Show(
                     "Запись уже началась.\nПри продолжении возможна потеря\nнекоторых полученных данных!",
@@ -540,7 +544,7 @@ namespace SatteliteManagment
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = saveDialog.FileName;  
+                    string path = saveDialog.FileName;
                     IsFilePathSet = true;
                     fileSender.CurrentReceiveIndex = 0;
                     fileSender.SetPathToSave(path);
@@ -630,7 +634,7 @@ namespace SatteliteManagment
         {
             if (textBoxCommand.Text.Length > 0 && textBoxSatAddress.Text.Length > 0)
             {
-                
+
                 string commandToSendRaw = textBoxCommand.Text;
 
                 string commandToSend;
@@ -643,7 +647,7 @@ namespace SatteliteManagment
                     commandToSend = commandToSendRaw;
                 }
                 Trigger trigger = new Trigger(
-                    DataConverter.HexStringToBytes(textBoxSatAddress.Text), 
+                    DataConverter.HexStringToBytes(textBoxSatAddress.Text),
                     DataConverter.HexStringToBytes(commandToSend));
                 triggerManager.AddTrigger(trigger);
             }
@@ -653,17 +657,17 @@ namespace SatteliteManagment
 
         private void buttonDeleteTrigger_Click(object sender, EventArgs e)
         {
-            if(textBoxDeleteTrigger.Text != "")
+            if (textBoxDeleteTrigger.Text != "")
             {
                 byte[] address = DataConverter.HexStringToBytes(textBoxDeleteTrigger.Text);
                 triggerManager.DeleteTrigger(address);
-                
+
             }
         }
 
         private void buttonWriteNewCountAndDelay_Click(object sender, EventArgs e)
         {
-            if(textBoxCountSend.Text != "" && textBoxDelaySend.Text != "")
+            if (textBoxCountSend.Text != "" && textBoxDelaySend.Text != "")
             {
                 int.TryParse(textBoxCountSend.Text, out int countSend);
                 commandSender.repeatCount = countSend;
@@ -822,7 +826,7 @@ namespace SatteliteManagment
         {
             dataGridViewEntities.Columns.Clear();
             textBoxHexView.Clear();
-            var entity =  await LoadLastEntitiesAsync(1);
+            var entity = await LoadLastEntitiesAsync(1);
             dataGridViewEntities.DataSource = EntityTableConverter.ToDataTable(entity);
             //textBoxHexView.AppendText(DataConverter.ByteArrayToStringHEX(entity.First().ToByteArray()));
         }
@@ -868,7 +872,7 @@ namespace SatteliteManagment
 
         private void comboBoxLightType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBoxLightType.SelectedIndex) 
+            switch (comboBoxLightType.SelectedIndex)
             {
                 case 0:
                     orientationRegulator.ReplaceLight(new AmbientLight(System.Windows.Media.Colors.White));
@@ -890,15 +894,19 @@ namespace SatteliteManagment
 
         private void trackBarTimeOrient_Scroll(object sender, EventArgs e)
         {
-            // Если в истории нет записей или индекс вне диапазона, не применять обновление
             if (_history == null || _history.Count == 0)
                 return;
 
             int idx = trackBarTimeOrient.Value;
+
             if (idx < 0 || idx >= _history.Count)
                 return;
 
-            orientationRegulator.historyMode = true;
+            // Последняя запись означает переход в режим реального времени.
+            bool isLatest = idx == _history.Count - 1;
+
+            orientationRegulator.historyMode = !isLatest;
+
             var orientation = _history[idx];
 
             orientationRegulator.UpdateOrientation(
@@ -942,15 +950,35 @@ namespace SatteliteManagment
         }
         private void OnOrientationReceived(ModelOrientation orientation, PacketInfo packetInfo)
         {
-            ulong addr = packetInfo.SourceAddr; 
-            BeginInvoke(new Action(() =>
-            {
+            ulong addr = packetInfo.SourceAddr;
+
+                // Сохраняем каждую полученную ориентацию.
                 _history.AddOrientationToTable(addr, orientation);
-                if(_history.CurrentAddress == addr)
+
+                // Отображаем только данные выбранного устройства.
+                if (_history.CurrentAddress != addr)
+                    return;
+
+                // Не перезаписываем положение, выбранное пользователем
+                // при просмотре истории.
+                if (orientationRegulator.historyMode)
+                    return;
+
+                // Отображаем новые данные в реальном времени.
+                orientationRegulator.UpdateOrientation(
+                    orientation.Roll,
+                    orientation.Pitch,
+                    orientation.Yaw);
+
+                // Перемещаем TrackBar к последней записи.
+                int lastIndex = _history.Count - 1;
+
+                if (lastIndex >= 0)
                 {
-                    orientationRegulator.UpdateOrientation(orientation.Roll, orientation.Pitch, orientation.Yaw);
+                    trackBarTimeOrient.Maximum = lastIndex;
+                    trackBarTimeOrient.Value = lastIndex;
                 }
-            }));
+
         }
 
         private void buttonHistoryOrient_Click(object sender, EventArgs e)
@@ -1031,7 +1059,16 @@ namespace SatteliteManagment
 
             _history?.RestoreHistory(address);
             trackBarTimeOrient.Value = 0;
-            orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
+            try
+            {
+                orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
+
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Если история пуста, сбрасываем ориентацию на нулевую
+                orientationRegulator.UpdateOrientation(0, 0, 0);
+            }
         }
     }
 }

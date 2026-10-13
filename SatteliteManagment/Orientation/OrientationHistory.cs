@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.IO;
 
 
 namespace SatteliteManagment.Orientation
@@ -16,7 +17,7 @@ namespace SatteliteManagment.Orientation
         //public List<DateTime> Times { get; set; } = new List<DateTime>();
         public ulong CurrentAddress { get; set; } = 0;
         public Dictionary<ulong, List<ModelOrientation>> AddressOrientationTable { get; set; } = new Dictionary<ulong, List<ModelOrientation>>();
-        
+        public BindingList<ulong> AddressListUI { get; set; } = new BindingList<ulong>();
         public int Count => Items.Count;
 
         public ModelOrientation this[int index] => Items[index];
@@ -48,21 +49,36 @@ namespace SatteliteManagment.Orientation
         public void RestoreHistory(ulong newAddress)
         {
             CurrentAddress = newAddress;
-            if (AddressOrientationTable.TryGetValue(newAddress, out var _items))
+
+            if (!AddressOrientationTable.TryGetValue(
+                    newAddress, out var list))
             {
-                Items = _items;
+                list = new List<ModelOrientation>();
+                AddressOrientationTable[newAddress] = list;
+                AddressListUI.Add(newAddress);
             }
+
+            // Items ссылается на историю именно выбранного устройства.
+            Items = list;
         }
-        public void AddOrientationToTable(ulong address, ModelOrientation orientation) { 
-            if (!AddressOrientationTable.TryGetValue(address, out var list)) { 
-                list = new List<ModelOrientation>(); 
-                AddressOrientationTable[address] = list; 
-            } 
-            list.Add(orientation);
-            if (list.Count > 1000)
+        public void AddOrientationToTable(ulong address,  ModelOrientation orientation)
+        {
+            if (!AddressOrientationTable.TryGetValue(address, out var list))
             {
-                list.RemoveAt(0);
+                list = new List<ModelOrientation>();
+                AddressOrientationTable[address] = list;
+                AddressListUI.Add(address);
             }
+
+            list.Add(orientation);
+
+            if (list.Count > 1000)
+                list.RemoveAt(0);
+
+            // Если поступили данные выбранного устройства,
+            // убеждаемся, что Items указывает на его список.
+            if (address == CurrentAddress)
+                Items = list;
         }
 
         public static List<ModelOrientation> ReadRotations(string filePath)

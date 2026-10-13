@@ -34,11 +34,14 @@ namespace SatteliteManagment.Orientation
             float q1 = BitConverter.ToSingle(data, offset + stepSize);
             float q2 = BitConverter.ToSingle(data, offset + 2 * stepSize);
             float q3 = BitConverter.ToSingle(data, offset + 3 * stepSize);
-
+            ConsoleQuaternionOutput(q0, q1, q2, q3);
             (float r, float p, float y) = ToEulerAngles(q0, q1, q2, q3);
             return new ModelOrientation { Roll = r, Pitch = p, Yaw = y };
         }
-
+        private static void ConsoleQuaternionOutput(float q0, float q1, float q2, float q3)
+        {
+            Console.WriteLine($"Quaternion: q0={q0}, q1={q1}, q2={q2}, q3={q3}");
+        }
         public static (float roll, float pitch, float yaw) ToEulerAngles(float q0, float q1, float q2, float q3)
         {
             float roll = (float)Math.Atan2(2.0f * (q0 * q1 + q2 * q3), 1.0f - 2.0f * (q1 * q1 + q2 * q2))*180.0f/(float)Math.PI;

@@ -34,7 +34,7 @@ namespace SatteliteManagment
         SetMotorSpeedAck = 0x19,
         SetMotorSpeedNack = 0x29,
         Telemetry = 0x1D,
-        OrientationPacket = 0x15,
+        OrientationPacket = 0x10,
 
         AddressChanging = 0xAC
 
