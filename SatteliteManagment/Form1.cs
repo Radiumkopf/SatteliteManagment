@@ -278,8 +278,9 @@ namespace SatteliteManagment
 
                 if(!(satelliteAddress).SequenceEqual(currentServerTxAddress))
                 {
-                    fileSender.SetTxRegister(satelliteAddress);
-                    LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
+                    //FIXME fix address change logic
+                    //fileSender.SetTxRegister(satelliteAddress);
+                    //LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
                 }
 
                 Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes( packet.SourceAddr));
@@ -492,7 +493,6 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendNextPacketAsync();
         }
@@ -501,7 +501,6 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendAllAsync();
         } 
@@ -509,7 +508,7 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
+            //fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendFileRequestAsync();
         }
@@ -529,8 +528,7 @@ namespace SatteliteManagment
                 {
                     return;
                 }
-                //fileSender.RestartReceive();
-
+                fileSender.ClearReceiveData();
             }
 
             using (var saveDialog = new SaveFileDialog())
@@ -543,8 +541,8 @@ namespace SatteliteManagment
                 {
                     string path = saveDialog.FileName;  
                     IsFilePathSet = true;
-                    fileSender.CurrentReceiveIndex = 0;
-                    fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
+                    //fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
+                    fileSender.SetReceivePacketSize((byte)numericUpDownPacketSize.Value);
                     fileSender.SetPathToSave(path);
                     buttonSendFileRequest.Enabled = true;
                     this.currentFilePath = path;
@@ -566,7 +564,7 @@ namespace SatteliteManagment
             }
             else
             {
-                fileSender.ClearFileData();
+                fileSender.ClearSendData();
 
                 numericUpDownPacketSize.Enabled = true;
                 button1.Enabled = true;

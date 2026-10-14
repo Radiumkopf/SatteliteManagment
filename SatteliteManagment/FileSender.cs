@@ -152,6 +152,13 @@ namespace SatteliteManagment
             rawPacket.IsSent = true;
             await SaveFilePacketToDbAsync(rawPacket);
         }
+        public async Task SendAllAsync()
+        {
+            for (ushort i = 0; i < _fileData.Count; i++)
+            {
+                await SendPacketAsyncByNumber(i);
+            }
+        }
 
         private void AdvanceSendIndex()
         {
@@ -159,9 +166,7 @@ namespace SatteliteManagment
             {
                 ushort number = (ushort)_nextSendIndex;
 
-                if (!_fileData.TryGetValue(
-                        number,
-                        out RawPacket packet))
+                if (!_fileData.TryGetValue(number, out RawPacket packet))
                 {
                     break;
                 }
@@ -175,22 +180,16 @@ namespace SatteliteManagment
 
         private bool AllSendPacketsAckReceived()
         {
-            return _fileData.Count > 0 &&
-                   _fileData.Values.All(
-                       p => p.IsAckReceived);
+            return _fileData.Count > 0 && _fileData.Values.All(p => p.IsAckReceived);
         }
 
         #endregion
 
         #region Sending ACK
 
-        private async Task HandleSendingAckAsync(
-            FileTransferPacket packet,
-            PacketInfo packetInfo)
+        private async Task HandleSendingAckAsync(FileTransferPacket packet, PacketInfo packetInfo)
         {
-            if (!_fileData.TryGetValue(
-                    packet.number,
-                    out RawPacket rawPacket))
+            if (!_fileData.TryGetValue( packet.number, out RawPacket rawPacket))
             {
                 return;
             }
@@ -202,17 +201,13 @@ namespace SatteliteManagment
                 return;
 
             /*
-             * Важно запомнить, был ли ACK именно
-             * текущего автоматического пакета.
+             * Важно запомнить, был ли ACK именно текущего автоматического пакета.
              */
-            bool wasCurrentPacket =
-                _nextSendIndex == packet.number;
+            bool wasCurrentPacket = _nextSendIndex == packet.number;
 
             rawPacket.IsAckReceived = true;
 
-            _logSendingManager.MarkPacketAsReceived(
-                packet.id,
-                packet.number);
+            _logSendingManager.MarkPacketAsReceived( packet.id, packet.number);
 
             /*
              * Result меняем ДО ProcessAckAsync().
@@ -267,9 +262,7 @@ namespace SatteliteManagment
 
         #region File requesting
 
-        public void SetReceiveFileInfo(
-            int fileSize,
-            byte packetSize)
+        public void SetReceiveFileInfo(int fileSize, byte packetSize)
         {
             if (fileSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(fileSize));
@@ -295,19 +288,11 @@ namespace SatteliteManagment
             {
                 int offset = i * packetSize;
 
-                int remaining =
-                    fileSize - offset;
+                int remaining = fileSize - offset;
 
-                byte size =
-                    (byte)Math.Min(
-                        packetSize,
-                        remaining);
+                byte size =(byte)Math.Min(packetSize, remaining);
 
-                _requestData.Add(
-                    (ushort)i,
-                    new FileRequestState(
-                        (ushort)i,
-                        size));
+                _requestData.Add((ushort)i, new FileRequestState((ushort)i, size));
             }
         }
 
@@ -720,17 +705,13 @@ namespace SatteliteManagment
 
         #region Database
 
-        private async Task SaveFilePacketToDbAsync(
-            RawPacket packet)
+        private async Task SaveFilePacketToDbAsync( RawPacket packet)
         {
             if (!IsDbWritingEnable)
                 return;
 
             FileTransferPacketEntity existing =
-                await _dbServices.FileTransferPacketService
-                    .GetByFileIdAndNumberAsync(
-                        DestinationId,
-                        packet.Number);
+                await _dbServices.FileTransferPacketService.GetByFileIdAndNumberAsync( DestinationId,  packet.Number);
 
             /*
              * Повторная отправка того же пакета
@@ -746,10 +727,7 @@ namespace SatteliteManagment
                     (byte)packet.Data.Length,
                     packet.Data);
 
-            await _dbServices.PacketStoreService
-                .SavePacketAwaitingAckAsync(
-                    PacketType.FileSending,
-                    entity);
+            await _dbServices.PacketStoreService.SavePacketAwaitingAckAsync( PacketType.FileSending, entity);
         }
 
         private async Task SaveFileRequestToDbAsync(
@@ -759,10 +737,7 @@ namespace SatteliteManagment
                 return;
 
             FileRequestEntity existing =
-                await _dbServices.FileRequestService
-                    .GetByFileIdAndNumberAsync(
-                        DestinationId,
-                        request.Number);
+                await _dbServices.FileRequestService.GetByFileIdAndNumberAsync(DestinationId,  request.Number);
 
             /*
              * Повторный request не создает
@@ -778,29 +753,21 @@ namespace SatteliteManagment
                     request.Size,
                     Array.Empty<byte>());
 
-            await _dbServices.PacketStoreService
-                .SavePacketAwaitingAckAsync(
-                    PacketType.FileRequesting,
-                    entity);
+            await _dbServices.PacketStoreService.SavePacketAwaitingAckAsync(PacketType.FileRequesting, entity);
         }
 
         #endregion
 
         #region Receive setup
 
-        public void SetPathToSave(
-            string path)
+        public void SetPathToSave(string path)
         {
             if (PacketSize == 0)
             {
-                throw new InvalidOperationException(
-                    "Размер пакета не задан.");
+                throw new InvalidOperationException( "Размер пакета не задан.");
             }
 
-            _fileReceiver.Start(
-                path,
-                PacketSize,
-                ReceiveFileSize);
+            _fileReceiver.Start(path, PacketSize, ReceiveFileSize);
         }
 
         public void ClearSendData()
@@ -835,14 +802,10 @@ namespace SatteliteManagment
                         Result = CommandResult.NoResult
                     };
 
-                await _dbServices.PacketStoreService
-                    .SavePacketAwaitingAckAsync(
-                        PacketType.VerifyCheckSum,
-                        entity);
+                await _dbServices.PacketStoreService.SavePacketAwaitingAckAsync(PacketType.VerifyCheckSum, entity);
             }
 
-            byte[] packet =
-                BuildProtocolPackage(
+            byte[] packet = BuildProtocolPackage(
                     PacketType.VerifyCheckSum,
                     0,
                     Array.Empty<byte>());
@@ -853,9 +816,7 @@ namespace SatteliteManagment
         public async Task StartReprogramming()
         {
             await _client.SendTextAsync(
-                BuildSmallPackage(
-                    PacketType.ReprogrammingStart,
-                    DestinationId));
+                BuildSmallPackage(PacketType.ReprogrammingStart, DestinationId));
         }
 
         public async Task SetTime()
@@ -914,23 +875,19 @@ namespace SatteliteManagment
                     packet.data != null &&
                     packet.data.Length > 0)
                 {
-                    await HandleRequestAckAsync(
-                        packet,
-                        packetInfo);
+                    await HandleRequestAckAsync( packet, packetInfo);
 
                     return;
                 }
 
                 if (_fileData.ContainsKey(packet.number))
                 {
-                    await HandleSendingAckAsync(
-                        packet,
-                        packetInfo);
+                    await HandleSendingAckAsync(packet, packetInfo);
                 }
             }
             catch (Exception)
             {
-                // Передать ошибку наружу через event
+                //FIXME Передать ошибку наружу через event
             }
         }
 
