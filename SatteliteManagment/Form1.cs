@@ -265,7 +265,7 @@ namespace SatteliteManagment
             _orientationToolTip.ReshowDelay = 0;
             _orientationToolTip.ShowAlways = true;
 
-            comboBoxAddresses.DataSource = _history.AddressOrientationTable.Keys.ToList();
+            comboBoxAddresses.DataSource = new BindingList<ulong>(_history.AddressOrientationTable.Keys.ToList());
 
         }
 
@@ -983,6 +983,11 @@ namespace SatteliteManagment
             BeginInvoke(new Action(() =>
             {
                 _history.AddOrientationToTable(addr, orientation);
+                var adresses = (BindingList<ulong>)comboBoxAddresses.DataSource;
+                if (!adresses.Contains(addr))
+                {
+                    adresses.Add(addr);
+                }
                 if(_history.CurrentAddress == addr)
                 {
                     orientationRegulator.UpdateOrientation(orientation.Roll, orientation.Pitch, orientation.Yaw);

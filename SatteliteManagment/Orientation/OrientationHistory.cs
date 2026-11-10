@@ -63,6 +63,7 @@ namespace SatteliteManagment.Orientation
             {
                 list.RemoveAt(0);
             }
+
         }
 
         public static List<ModelOrientation> ReadRotations(string filePath)

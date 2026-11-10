@@ -2,11 +2,6 @@
 using SatteliteManagment.Repositories.LeafRepos;
 using SatteliteManagment.Services;
 using SatteliteManagment.Services.LeafServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SatteliteManagment
 {
@@ -51,7 +46,7 @@ namespace SatteliteManagment
 
             var storedFileRepository = new StoredFileRepository(db);
 
-            
+
 
             // Services
             PacketInfoService = new PacketInfoService(packetInfoRepository);
@@ -74,7 +69,7 @@ namespace SatteliteManagment
 
             StoredFileService = new StoredFileService(storedFileRepository);
 
-           PacketStoreService = new PacketStoreService(db);
+            PacketStoreService = new PacketStoreService(db);
         }
     }
 }
