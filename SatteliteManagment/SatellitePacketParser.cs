@@ -42,7 +42,7 @@ namespace SatteliteManagment
             }
         }
 
-        public static uint ParseCRC(byte[] bytes, int offset)
+        public static uint Parse4Bytes(byte[] bytes, int offset)
         {
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));

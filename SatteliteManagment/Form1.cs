@@ -265,7 +265,8 @@ namespace SatteliteManagment
             _orientationToolTip.ReshowDelay = 0;
             _orientationToolTip.ShowAlways = true;
 
-            comboBoxAddresses.DataSource = _history.AddressListUI;
+
+            comboBoxAddresses.DataSource = new BindingList<ulong>(_history.AddressOrientationTable.Keys.ToList());
 
         }
 
@@ -278,8 +279,9 @@ namespace SatteliteManagment
 
                 if (!(satelliteAddress).SequenceEqual(currentServerTxAddress))
                 {
-                    fileSender.SetTxRegister(satelliteAddress);
-                    LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
+                    //FIXME fix address change logic
+                    //fileSender.SetTxRegister(satelliteAddress);
+                    //LogTextBoxWriteNewAddr("Спутник", satelliteAddress);
                 }
 
                 Trigger trigger = triggerManager.GetTriggerByAddress(BitConverter.GetBytes(packet.SourceAddr));
@@ -485,6 +487,7 @@ namespace SatteliteManagment
             button1.Enabled = false;
             buttonDeleteCurrentFile.Enabled = true;
             buttonShowRawPackets.Enabled = true;
+            buttonMakePhoto.Enabled = true;
             //buttonVerifyCheckSum.Enabled = false;
 
         }
@@ -494,7 +497,6 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendNextPacketAsync();
         }
@@ -503,7 +505,6 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendAllAsync();
         }
@@ -511,7 +512,7 @@ namespace SatteliteManagment
         {
 
             fileSender.DestinationId = (byte)numericUpDownId.Value;
-            fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
+            //fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
 
             await fileSender.SendFileRequestAsync();
         }
@@ -532,8 +533,7 @@ namespace SatteliteManagment
                 {
                     return;
                 }
-                //fileSender.RestartReceive();
-
+                fileSender.ClearReceiveData();
             }
 
             using (var saveDialog = new SaveFileDialog())
@@ -546,7 +546,8 @@ namespace SatteliteManagment
                 {
                     string path = saveDialog.FileName;
                     IsFilePathSet = true;
-                    fileSender.CurrentReceiveIndex = 0;
+                    //fileSender.PacketSize = (byte)numericUpDownPacketSize.Value;
+                    fileSender.SetReceivePacketSize((byte)numericUpDownPacketSize.Value);
                     fileSender.SetPathToSave(path);
                     buttonSendFileRequest.Enabled = true;
                     this.currentFilePath = path;
@@ -568,7 +569,7 @@ namespace SatteliteManagment
             }
             else
             {
-                fileSender.ClearFileData();
+                fileSender.ClearSendData();
 
                 numericUpDownPacketSize.Enabled = true;
                 button1.Enabled = true;
@@ -620,8 +621,41 @@ namespace SatteliteManagment
             fileSender.IsSendRequestIfGetPacket = checkBoxSendNextIfGetAck.Checked;
         }
 
+        private async void buttonMakePhoto_Click(object sender, EventArgs e)
+        {
+            fileSender.DestinationId = (byte)numericUpDownId.Value;
+            await fileSender.GetPhoto();
+            MessageBox.Show("Запрос на фото отправлен. Ожидайте ответа от спутника.");
+        }
 
+        private async Task ShowPhotoResult(bool isSuccess, byte[] photoData)
+        {
+            DialogResult result = MessageBox.Show(
+                "Фотография готова!\nОтправить запрос на размер файла?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+            {
+                await fileSender.GetPhotoSize();
+            }
+            
+        }
+        private void buttonShowRawPackets_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInOut.SelectedIndex == 0)
+            {
+                FormSelectPacket dialogForm = new FormSelectPacket(fileSender, false);
+                dialogForm.ShowDialog();
+            }
+            else
+            {
+                FormSelectPacket dialogForm = new FormSelectPacket(fileSender, true);
+                dialogForm.ShowDialog();
+            }
+
+        }
         private void testbutton_Click(object sender, EventArgs e)
         {
         }
@@ -732,10 +766,18 @@ namespace SatteliteManagment
         {
             formsPlotTelemetry.Plot.Clear();
 
+            int totalPoints = graph.Series.Count > 0
+                ? graph.Series[0].Values.Count
+                : 0;
+
+            int startIndex = Math.Max(0, totalPoints - VisiblePoints);
+            int endIndex = Math.Max(VisiblePoints, totalPoints);
+
             foreach (var series in graph.Series)
             {
                 float[] values = series.Values
-                    .Skip(Math.Max(0, series.Values.Count - VisiblePoints))
+                    .Skip(startIndex)
+                    .Take(VisiblePoints)
                     .ToArray();
 
                 formsPlotTelemetry.Plot.Add.Signal(values);
@@ -746,6 +788,8 @@ namespace SatteliteManagment
 
             if (autoscale)
                 formsPlotTelemetry.Plot.Axes.AutoScale();
+
+            formsPlotTelemetry.Plot.Axes.SetLimitsX(startIndex, endIndex);
 
             formsPlotTelemetry.Refresh();
         }
@@ -803,11 +847,7 @@ namespace SatteliteManagment
             }
         }
 
-        private void buttonShowRawPackets_Click(object sender, EventArgs e)
-        {
-            FormSelectPacket dialogForm = new FormSelectPacket(fileSender);
-            dialogForm.ShowDialog();
-        }
+
 
         /// <summary>
         /// 5. DB View
@@ -886,9 +926,7 @@ namespace SatteliteManagment
                 case 3:
                     orientationRegulator.ReplaceLight(new SpotLight(System.Windows.Media.Colors.White, new Point3D(0, 0, 5), new Vector3D(0, 0, -1), 100, 100));
                     break;
-                case 4:
-                    orientationRegulator.ReplaceLight(new SunLight());
-                    break;
+
             }
         }
 
@@ -951,7 +989,7 @@ namespace SatteliteManagment
         private void OnOrientationReceived(ModelOrientation orientation, PacketInfo packetInfo)
         {
             ulong addr = packetInfo.SourceAddr;
-
+				// Merge issue was here
                 // Сохраняем каждую полученную ориентацию.
                 _history.AddOrientationToTable(addr, orientation);
 
@@ -971,9 +1009,13 @@ namespace SatteliteManagment
                     orientation.Yaw);
 
                 // Перемещаем TrackBar к последней записи.
-                int lastIndex = _history.Count - 1;
 
-                if (lastIndex >= 0)
+                var adresses = (BindingList<ulong>)comboBoxAddresses.DataSource;
+                if (!adresses.Contains(addr))
+                {
+                    adresses.Add(addr);
+                }
+                if(_history.CurrentAddress == addr)
                 {
                     trackBarTimeOrient.Maximum = lastIndex;
                     trackBarTimeOrient.Value = lastIndex;
@@ -1070,5 +1112,6 @@ namespace SatteliteManagment
                 orientationRegulator.UpdateOrientation(0, 0, 0);
             }
         }
+
     }
 }

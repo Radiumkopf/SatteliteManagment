@@ -222,6 +222,7 @@
     <Compile Include="Entities\StoredFileEntity.cs" />
     <Compile Include="Entities\LeafEntities\TlmPacketEntity.cs" />
     <Compile Include="EntityTableConverter.cs" />
+    <Compile Include="FileReceiverAlt.cs" />
     <Compile Include="FileReseiver.cs" />
     <Compile Include="FileSender.cs" />
     <Compile Include="Form1.cs">
@@ -255,6 +256,7 @@
     <Compile Include="Repositories\RadioPacketRepository.cs" />
     <Compile Include="Repositories\StoredFileRepository.cs" />
     <Compile Include="Repositories\LeafRepos\TlmPacketRepository.cs" />
+    <Compile Include="Selector\FileRequestState.cs" />
     <Compile Include="Selector\FormSelectPacket.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -338,6 +340,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\542724.png" />
+    <None Include="assets\camerapng.png" />
     <Content Include="МИР_ЧБ %281%29.ico" />
     <None Include="assets\cyclearrow.png" />
     <None Include="assets\243_downarrow.jpg" />

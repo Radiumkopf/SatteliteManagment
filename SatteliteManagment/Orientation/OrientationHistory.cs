@@ -79,6 +79,7 @@ namespace SatteliteManagment.Orientation
             // убеждаемся, что Items указывает на его список.
             if (address == CurrentAddress)
                 Items = list;
+
         }
 
         public static List<ModelOrientation> ReadRotations(string filePath)

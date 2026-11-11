@@ -14,11 +14,15 @@ namespace SatteliteManagment.Selector
         DataGridView dataGridView;
         ushort lastSentNumber;
         public event Action<ushort> PacketSendRequested;
+        public event Action<ushort> PacketRequestRequested;
+        private bool Mode; // true = send, false = receive
 
-        public RawPacketGridViewManager(DataGridView gridView, ushort last)
+
+        public RawPacketGridViewManager(DataGridView gridView, ushort last, bool mode)
         {
             this.dataGridView = gridView;
             lastSentNumber = last;
+            Mode = mode;
             HeaderInfo();
         }
 
@@ -64,13 +68,15 @@ namespace SatteliteManagment.Selector
             DataGridViewButtonCell button =
                 (DataGridViewButtonCell)dataGridView.Rows[e.RowIndex].Cells["Action"];
 
-            if ((string)button.Value != "Уже отправлен")
-            {
+            if (button.Value?.ToString() == "ACK получен")
+                return;
 
-                ushort number = Convert.ToUInt16(dataGridView.Rows[e.RowIndex].Cells["number"].Value);
+            ushort number = Convert.ToUInt16(dataGridView.Rows[e.RowIndex].Cells["Number"].Value);
+
+            if (!Mode)
+                PacketRequestRequested?.Invoke(number);
+            else
                 PacketSendRequested?.Invoke(number);
-
-            }
         }
 
         public void AddRow(ushort number, byte[] data)
@@ -104,10 +110,16 @@ namespace SatteliteManagment.Selector
             DataGridViewButtonCell button =
                 (DataGridViewButtonCell)row.Cells["Action"];
 
-            if (packet.IsSent)
+            if (packet.IsAckReceived)
+            {
+                row.DefaultCellStyle.BackColor = Color.Green;
+                button.Value = "ACK получен";
+                return;
+            }
+            else if (packet.IsSent)
             {
                 row.DefaultCellStyle.BackColor = Color.LightGreen;
-                button.Value = "Уже отправлен";
+                button.Value = "Пакет отправлен";
             }
             else
             {
@@ -122,6 +134,46 @@ namespace SatteliteManagment.Selector
             foreach (RawPacket packet in data.Values.OrderBy(p => p.Number))
             {
                 AddRow(packet);
+            }
+        }
+        public void AddRequests(IEnumerable<FileRequestState> requests, bool onlySent)
+        {
+            dataGridView.Rows.Clear();
+
+            foreach (FileRequestState request in
+                     requests.OrderBy(x => x.Number))
+            {
+                if (onlySent && !request.IsSent)
+                    continue;
+
+                AddRequestRow(request);
+            }
+        }
+        private void AddRequestRow(FileRequestState request)
+        {
+            int index = dataGridView.Rows.Add();
+
+            DataGridViewRow row = dataGridView.Rows[index];
+
+            row.Cells["Number"].Value = request.Number;
+            row.Cells["RawData"].Value = "---";
+            row.Cells["Size"].Value = request.Size;
+
+            DataGridViewButtonCell button = (DataGridViewButtonCell)row.Cells["Action"];
+
+            if (request.IsAckReceived)
+            {
+                row.DefaultCellStyle.BackColor = Color.Green;
+                button.Value = "ACK получен";
+            }
+            else if (request.IsSent)
+            {
+                row.DefaultCellStyle.BackColor = Color.LightGreen;
+                button.Value = "Переотправить";
+            }
+            else
+            {
+                button.Value = "Запросить";
             }
         }
     }

@@ -39,6 +39,10 @@ namespace SatteliteManagment
         public event Action<bool> MotorSpeedReceived;
         public event Action<bool> CoilMagnetMomentReceived;
         public event Action<byte, ushort> ModuleStatusReceived;
+        public event Action<bool> PhotoResultReceived;
+        public event Action<bool, long> PhotoSizeReceived;
+
+
 
 
         private const int OFFSET = 25;
@@ -135,7 +139,7 @@ namespace SatteliteManagment
                         //    ServerAddrChanged?.Invoke(packet);
                         //    break;
                         case PacketType.VerifyCheckSumAck:
-                            uint satCRC = SatellitePacketParser.ParseCRC(data, OFFSET);
+                            uint satCRC = SatellitePacketParser.Parse4Bytes(data, OFFSET);
                             CRCReceived?.Invoke(satCRC);
                             break;
                         //Small packets ack/nack
@@ -170,6 +174,19 @@ namespace SatteliteManagment
                         case PacketType.OrientationPacket:
                             ModelOrientation orientation = OrientationParser.ParseToObj(data, OFFSET + 1);
                             OrientationReceived?.Invoke(orientation, packetInfo);
+                            break;
+                        case PacketType.PhotoGetAck:
+                            PhotoResultReceived?.Invoke(true);
+                            break;
+                        case PacketType.PhotoGetNack:
+                            PhotoResultReceived?.Invoke(false);
+                            break;
+                        case PacketType.PhotoGetSizeAck:
+                            uint photoSize = SatellitePacketParser.Parse4Bytes(data, OFFSET);
+                            PhotoSizeReceived?.Invoke(true, photoSize);
+                            break;
+                        case PacketType.PhotoGetSizeNack:
+                            PhotoSizeReceived?.Invoke(false, 0);
                             break;
                     }
                 }

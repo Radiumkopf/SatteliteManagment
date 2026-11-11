@@ -32,9 +32,9 @@ namespace SatteliteManagment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearLogs = new System.Windows.Forms.Button();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
@@ -60,6 +60,7 @@ namespace SatteliteManagment
             this.comboBoxInOut = new System.Windows.Forms.ComboBox();
             this.logSendingGridView = new System.Windows.Forms.DataGridView();
             this.groupBoxFileSending = new System.Windows.Forms.GroupBox();
+            this.buttonMakePhoto = new System.Windows.Forms.Button();
             this.labelCrcHex = new System.Windows.Forms.Label();
             this.checkBoxSendNextIfGetAck = new System.Windows.Forms.CheckBox();
             this.buttonSelectPathFile = new System.Windows.Forms.Button();
@@ -197,6 +198,7 @@ namespace SatteliteManagment
             this.trackBarTimeOrient = new System.Windows.Forms.TrackBar();
             this.toolTipAutoSendNextInfo = new System.Windows.Forms.ToolTip(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.helpProviderSatInfo = new System.Windows.Forms.HelpProvider();
             this.groupBoxConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -448,7 +450,7 @@ namespace SatteliteManagment
             this.groupBoxLogTables.Size = new System.Drawing.Size(861, 377);
             this.groupBoxLogTables.TabIndex = 28;
             this.groupBoxLogTables.TabStop = false;
-            this.groupBoxLogTables.Text = "Пришло/Ушло";
+            this.groupBoxLogTables.Text = "Получение/Отправка";
             // 
             // checkBoxSaveToDb
             // 
@@ -464,33 +466,33 @@ namespace SatteliteManagment
             // 
             // logRequestingGridView
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.logRequestingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.logRequestingGridView.DefaultCellStyle = dataGridViewCellStyle11;
             this.logRequestingGridView.Location = new System.Drawing.Point(6, 55);
             this.logRequestingGridView.Name = "logRequestingGridView";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.logRequestingGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.logRequestingGridView.RowHeadersWidth = 51;
             this.logRequestingGridView.RowTemplate.Height = 24;
             this.logRequestingGridView.Size = new System.Drawing.Size(740, 316);
@@ -515,8 +517,8 @@ namespace SatteliteManagment
             // 
             this.comboBoxInOut.FormattingEnabled = true;
             this.comboBoxInOut.Items.AddRange(new object[] {
-            "Пришло",
-            "Ушло"});
+            "Получение",
+            "Отправка"});
             this.comboBoxInOut.Location = new System.Drawing.Point(6, 25);
             this.comboBoxInOut.Name = "comboBoxInOut";
             this.comboBoxInOut.Size = new System.Drawing.Size(121, 24);
@@ -536,6 +538,7 @@ namespace SatteliteManagment
             // 
             // groupBoxFileSending
             // 
+            this.groupBoxFileSending.Controls.Add(this.buttonMakePhoto);
             this.groupBoxFileSending.Controls.Add(this.labelCrcHex);
             this.groupBoxFileSending.Controls.Add(this.checkBoxSendNextIfGetAck);
             this.groupBoxFileSending.Controls.Add(this.buttonSelectPathFile);
@@ -559,6 +562,25 @@ namespace SatteliteManagment
             this.groupBoxFileSending.TabIndex = 27;
             this.groupBoxFileSending.TabStop = false;
             this.groupBoxFileSending.Text = "Чтение/запись";
+            // 
+            // buttonMakePhoto
+            // 
+            this.buttonMakePhoto.BackColor = System.Drawing.Color.Transparent;
+            this.buttonMakePhoto.BackgroundImage = global::SatteliteManagment.Properties.Resources.camerapng;
+            this.buttonMakePhoto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonMakePhoto.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.buttonMakePhoto.Enabled = false;
+            this.buttonMakePhoto.FlatAppearance.BorderSize = 0;
+            this.buttonMakePhoto.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightBlue;
+            this.buttonMakePhoto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMakePhoto.Location = new System.Drawing.Point(3, 303);
+            this.buttonMakePhoto.Name = "buttonMakePhoto";
+            this.buttonMakePhoto.Size = new System.Drawing.Size(76, 55);
+            this.buttonMakePhoto.TabIndex = 29;
+            this.buttonMakePhoto.Text = " ";
+            this.buttonMakePhoto.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.buttonMakePhoto.UseVisualStyleBackColor = true;
+            this.buttonMakePhoto.Click += new System.EventHandler(this.buttonMakePhoto_Click);
             // 
             // labelCrcHex
             // 
@@ -1240,15 +1262,16 @@ namespace SatteliteManagment
             // buttonClearPlot
             // 
             this.buttonClearPlot.BackColor = System.Drawing.Color.LightCoral;
+            this.buttonClearPlot.BackgroundImage = global::SatteliteManagment.Properties.Resources._542724;
+            this.buttonClearPlot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonClearPlot.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonClearPlot.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
             this.buttonClearPlot.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Maroon;
             this.buttonClearPlot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClearPlot.Location = new System.Drawing.Point(7, 464);
+            this.buttonClearPlot.Location = new System.Drawing.Point(7, 449);
             this.buttonClearPlot.Name = "buttonClearPlot";
-            this.buttonClearPlot.Size = new System.Drawing.Size(172, 33);
+            this.buttonClearPlot.Size = new System.Drawing.Size(40, 48);
             this.buttonClearPlot.TabIndex = 3;
-            this.buttonClearPlot.Text = "Очистить график";
             this.buttonClearPlot.UseVisualStyleBackColor = false;
             this.buttonClearPlot.Click += new System.EventHandler(this.buttonClearPlot_Click);
             // 
@@ -1668,7 +1691,7 @@ namespace SatteliteManagment
             // labelDeviceMetadataTitle
             // 
             this.labelDeviceMetadataTitle.AutoSize = true;
-            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 314);
+            this.labelDeviceMetadataTitle.Location = new System.Drawing.Point(12, 344);
             this.labelDeviceMetadataTitle.Name = "labelDeviceMetadataTitle";
             this.labelDeviceMetadataTitle.Size = new System.Drawing.Size(78, 20);
             this.labelDeviceMetadataTitle.TabIndex = 4;
@@ -1677,7 +1700,7 @@ namespace SatteliteManagment
             // labelDeviceStatus
             // 
             this.labelDeviceStatus.AutoSize = true;
-            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 280);
+            this.labelDeviceStatus.Location = new System.Drawing.Point(12, 310);
             this.labelDeviceStatus.Name = "labelDeviceStatus";
             this.labelDeviceStatus.Size = new System.Drawing.Size(73, 20);
             this.labelDeviceStatus.TabIndex = 3;
@@ -1686,7 +1709,7 @@ namespace SatteliteManagment
             // labelDeviceId
             // 
             this.labelDeviceId.AutoSize = true;
-            this.labelDeviceId.Location = new System.Drawing.Point(12, 250);
+            this.labelDeviceId.Location = new System.Drawing.Point(12, 280);
             this.labelDeviceId.Name = "labelDeviceId";
             this.labelDeviceId.Size = new System.Drawing.Size(38, 20);
             this.labelDeviceId.TabIndex = 2;
@@ -1695,7 +1718,7 @@ namespace SatteliteManagment
             // labelDeviceType
             // 
             this.labelDeviceType.AutoSize = true;
-            this.labelDeviceType.Location = new System.Drawing.Point(12, 220);
+            this.labelDeviceType.Location = new System.Drawing.Point(12, 250);
             this.labelDeviceType.Name = "labelDeviceType";
             this.labelDeviceType.Size = new System.Drawing.Size(61, 20);
             this.labelDeviceType.TabIndex = 1;
@@ -1704,7 +1727,7 @@ namespace SatteliteManagment
             // labelDeviceName
             // 
             this.labelDeviceName.AutoSize = true;
-            this.labelDeviceName.Location = new System.Drawing.Point(12, 190);
+            this.labelDeviceName.Location = new System.Drawing.Point(12, 220);
             this.labelDeviceName.Name = "labelDeviceName";
             this.labelDeviceName.Size = new System.Drawing.Size(69, 20);
             this.labelDeviceName.TabIndex = 0;
@@ -1905,14 +1928,12 @@ namespace SatteliteManagment
             // 
             // comboBoxLightType
             // 
-            this.comboBoxLightType.Enabled = false;
             this.comboBoxLightType.FormattingEnabled = true;
             this.comboBoxLightType.Items.AddRange(new object[] {
             "Ambient",
             "Directional",
             "Point",
-            "Spot",
-            "Sun"});
+            "Spot"});
             this.comboBoxLightType.Location = new System.Drawing.Point(27, 60);
             this.comboBoxLightType.Name = "comboBoxLightType";
             this.comboBoxLightType.Size = new System.Drawing.Size(120, 28);
@@ -2273,6 +2294,8 @@ namespace SatteliteManagment
         private RadioButton radioButtonCoordGlobal;
         private GroupBox groupBoxGizmo;
         private ComboBox comboBoxAddresses;
+        private Button buttonMakePhoto;
+        private HelpProvider helpProviderSatInfo;
     }
 }
 
