@@ -1015,6 +1015,7 @@ namespace SatteliteManagment
                 {
                     adresses.Add(addr);
                 }
+                int lastIndex = adresses.Count - 1;
                 if(_history.CurrentAddress == addr)
                 {
                     trackBarTimeOrient.Maximum = lastIndex;
