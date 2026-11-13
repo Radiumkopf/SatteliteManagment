@@ -13,125 +13,96 @@ namespace SatteliteManagment.Orientation
 {
     internal class OrientationHistory
     {
-        public  List<ModelOrientation> Items { get; set; } = new List<ModelOrientation>();
-        //public List<DateTime> Times { get; set; } = new List<DateTime>();
-        public ulong CurrentAddress { get; set; } = 0;
-        public Dictionary<ulong, List<ModelOrientation>> AddressOrientationTable { get; set; } = new Dictionary<ulong, List<ModelOrientation>>();
-        public BindingList<ulong> AddressListUI { get; set; } = new BindingList<ulong>();
+        private const int MaxHistorySize = 1000;
+
+        public Dictionary<ulong, List<ModelOrientation>> AddressOrientationTable { get; } = new Dictionary<ulong, List<ModelOrientation>>();
+
+        // Единственный список адресов для интерфейса.
+        public BindingList<ulong> AddressListUI { get; } = new BindingList<ulong>();
+
+        // История выбранного устройства.
+        public List<ModelOrientation> Items { get;  set; } = new List<ModelOrientation>();
+
+        public ulong CurrentAddress { get; private set; } = 0;
+
         public int Count => Items.Count;
 
         public ModelOrientation this[int index] => Items[index];
 
         public OrientationHistory()
         {
-            AddressOrientationTable = new Dictionary<ulong, List<ModelOrientation>>();
-            AddressOrientationTable.Add(0, new List<ModelOrientation>());
-            AddressOrientationTable.Add(1, new List<ModelOrientation>());
+            // Начальные адреса, которые у тебя уже использовались.
+            RegisterAddress(0);
 
+            RestoreHistory(0);
         }
-        public DateTime GetTime(int index)
-        {
-            if (index> Items.Count)
-            {
-                return DateTime.MinValue;
-            }
-            return Items[index].Time;
-        }
-        public void Add(ModelOrientation orientation)
-        {
-            Items.Add(orientation);
 
-            if (Items.Count > 1000)
-            {
-                Items.RemoveAt(0);
-            }
-        }
-        public void RestoreHistory(ulong newAddress)
+        /// <summary>
+        /// Регистрирует адрес, если он ещё неизвестен.
+        /// Возвращает историю соответствующего устройства.
+        /// </summary>
+        private List<ModelOrientation> GetOrCreateHistory(ulong address)
         {
-            CurrentAddress = newAddress;
-
-            if (!AddressOrientationTable.TryGetValue(
-                    newAddress, out var list))
+            if (AddressOrientationTable.TryGetValue(
+                    address, out var list))
             {
-                list = new List<ModelOrientation>();
-                AddressOrientationTable[newAddress] = list;
-                AddressListUI.Add(newAddress);
+                return list;
             }
 
-            // Items ссылается на историю именно выбранного устройства.
-            Items = list;
+            list = new List<ModelOrientation>();
+
+            AddressOrientationTable.Add(address, list);
+
+            // Обновляем привязанный к ComboBox список.
+            AddressListUI.Add(address);
+
+            return list;
         }
-        public void AddOrientationToTable(ulong address,  ModelOrientation orientation)
+
+        private void RegisterAddress(ulong address)
         {
-            if (!AddressOrientationTable.TryGetValue(address, out var list))
-            {
-                list = new List<ModelOrientation>();
-                AddressOrientationTable[address] = list;
-                AddressListUI.Add(address);
-            }
+            GetOrCreateHistory(address);
+        }
+
+        /// <summary>
+        /// Добавляет новую ориентацию устройства.
+        /// </summary>
+        public void AddOrientationToTable(ulong address, ModelOrientation orientation)
+        {
+            var list = GetOrCreateHistory(address);
 
             list.Add(orientation);
 
-            if (list.Count > 1000)
-                list.RemoveAt(0);
-
-            // Если поступили данные выбранного устройства,
-            // убеждаемся, что Items указывает на его список.
-            if (address == CurrentAddress)
-                Items = list;
-
-        }
-
-        public static List<ModelOrientation> ReadRotations(string filePath)
-        {
-            var rotations = new List<ModelOrientation>();
-
-            string[] lines = File.ReadAllLines(filePath);
-
-            ModelOrientation current = null;
-
-            foreach (string line in lines)
+            if (list.Count > MaxHistorySize)
             {
-                string text = line.Trim();
-
-                if (string.IsNullOrWhiteSpace(text))
-                    continue;
-
-                if (current == null)
-                    current = new ModelOrientation();
-
-                if (text.StartsWith("roll"))
-                {
-                    current.Roll = (float)ParseValue(text);
-                }
-                else if (text.StartsWith("pitch"))
-                {
-                    current.Pitch = (float)ParseValue(text);
-                }
-                else if (text.StartsWith("yaw"))
-                {
-                    current.Yaw = (float)ParseValue(text);
-
-                    // yaw является последним полем записи
-                    rotations.Add(current);
-                    current = null;
-                }
+                list.RemoveAt(0);
             }
 
-            return rotations;
+            // Обновляем текущую историю, если это выбранное устройство.
+            if (address == CurrentAddress)
+            {
+                Items = list;
+            }
         }
 
-        private static double ParseValue(string line)
+        /// <summary>
+        /// Переключает текущую историю на другое устройство.
+        /// </summary>
+        public void RestoreHistory(ulong newAddress)
         {
-            // "roll = 123.45;" -> "123.45"
-            string value = line
-                .Split('=')[1]
-                .Trim()
-                .TrimEnd(';');
+            var list = GetOrCreateHistory(newAddress);
 
-            return double.Parse(value, CultureInfo.InvariantCulture);
+            CurrentAddress = newAddress;
+            Items = list;
         }
 
+        public DateTime GetTime(int index)
+        {
+            if (index < 0 || index >= Items.Count)
+                return DateTime.MinValue;
+
+            return Items[index].Time;
+        }
         public static List<ModelOrientation> ReadQuaternions(string filePath)
         {
             var rotations = new List<ModelOrientation>();
@@ -165,10 +136,11 @@ namespace SatteliteManagment.Orientation
                 // Quaternion -> Euler angles
                 var (roll, pitch, yaw) = OrientationParser.ToEulerAngles(q0, q1, q2, q3);
 
-                rotations.Add(new ModelOrientation(roll, pitch, yaw ));
-            }
+                rotations.Add(new ModelOrientation(roll, pitch, yaw));
 
+            }
             return rotations;
+
         }
     }
 }

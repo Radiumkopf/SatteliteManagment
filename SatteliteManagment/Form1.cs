@@ -279,8 +279,9 @@ namespace SatteliteManagment
             _orientationToolTip.ShowAlways = true;
 
 
-            comboBoxAddresses.DataSource = new BindingList<ulong>(_history.AddressOrientationTable.Keys.ToList());
-
+            //comboBoxAddresses.DataSource = new BindingList<ulong>(_history.AddressOrientationTable.Keys.ToList());
+            comboBoxAddresses.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxAddresses.DataSource = _history.AddressListUI;
         }
 
 
@@ -1014,7 +1015,7 @@ namespace SatteliteManagment
             }
         }
 
-        private void trackBarTimeOrient_Scroll(object sender, EventArgs e)
+        private void trackBarTimeOrient_Scroll(object sender,  EventArgs e)
         {
             if (_history == null || _history.Count == 0)
                 return;
@@ -1024,7 +1025,7 @@ namespace SatteliteManagment
             if (idx < 0 || idx >= _history.Count)
                 return;
 
-            // Последняя запись означает переход в режим реального времени.
+            // Последняя запись = режим реального времени.
             bool isLatest = idx == _history.Count - 1;
 
             orientationRegulator.historyMode = !isLatest;
@@ -1063,8 +1064,7 @@ namespace SatteliteManagment
             if (width <= 0 || trackBarTimeOrient.Maximum <= 0)
                 return 0;
 
-            double ratio =
-                (double)mouseX / width;
+            double ratio = (double)mouseX / width;
 
             ratio = OrientationParser.Clamp(ratio, 0.0, 1.0);
 
@@ -1073,37 +1073,46 @@ namespace SatteliteManagment
         private void OnOrientationReceived(ModelOrientation orientation, PacketInfo packetInfo)
         {
             ulong addr = packetInfo.SourceAddr;
-				// Merge issue was here
-                // Сохраняем каждую полученную ориентацию.
-                _history.AddOrientationToTable(addr, orientation);
 
+            if (IsDisposed)
+                return;
 
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => OnOrientationReceived(orientation, packetInfo)));
 
-                // Не перезаписываем положение, выбранное пользователем
-                // при просмотре истории.
-                if (orientationRegulator.historyMode)
-                    return;
+                return;
+            }
 
-                // Отображаем новые данные в реальном времени.
-                orientationRegulator.UpdateOrientation(
-                    orientation.Roll,
-                    orientation.Pitch,
-                    orientation.Yaw);
+            // 1. Сначала сохраняем пакет.
+            // Если адрес новый, он автоматически появится в ComboBox.
+            _history.AddOrientationToTable(addr, orientation);
 
-                // Перемещаем TrackBar к последней записи.
+            // 2. Обновляем интерфейс только для выбранного устройства.
+            if (_history.CurrentAddress != addr)
+                return;
 
-                var adresses = (BindingList<ulong>)comboBoxAddresses.DataSource;
-                if (!adresses.Contains(addr))
-                {
-                    adresses.Add(addr);
-                }
-                int lastIndex = adresses.Count - 1;
-                if(_history.CurrentAddress == addr)
-                {
-                    trackBarTimeOrient.Maximum = lastIndex;
-                    trackBarTimeOrient.Value = lastIndex;
-                }
+            // 3. Обновляем предел TrackBar даже в режиме просмотра истории.
+            int lastIndex = _history.Count - 1;
 
+            if (lastIndex < 0)
+                return;
+
+            trackBarTimeOrient.Maximum = lastIndex;
+
+            // 4. Если пользователь просматривает старую запись,
+            // не перезаписываем отображаемую ориентацию.
+            if (orientationRegulator.historyMode)
+                return;
+
+            // 5. Обновляем модель в реальном времени.
+            orientationRegulator.UpdateOrientation(
+                orientation.Roll,
+                orientation.Pitch,
+                orientation.Yaw);
+
+            // 6. Перемещаем TrackBar к последней записи.
+            trackBarTimeOrient.Value = lastIndex;
         }
 
         private void buttonHistoryOrient_Click(object sender, EventArgs e)
@@ -1146,53 +1155,42 @@ namespace SatteliteManagment
 
         private void comboBoxAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxAddresses == null)
-                return;
-
-            object sel = comboBoxAddresses.SelectedItem ?? comboBoxAddresses.SelectedValue;
-            if (sel == null)
-                return;
-
-            ulong address = 0;
-
-            try
+            if (comboBoxAddresses.SelectedItem is ulong address)
             {
-                if (sel is ulong u)
+                _history.RestoreHistory(address);
+
+                int count = _history.Count;
+
+                // Настройка TrackBar.
+                trackBarTimeOrient.Minimum = 0;
+                trackBarTimeOrient.Maximum = Math.Max(0, count - 1);
+                trackBarTimeOrient.Enabled = count > 1;
+
+                if (count == 0)
                 {
-                    address = u;
+                    trackBarTimeOrient.Value = 0;
+
+                    orientationRegulator.historyMode = false;
+
+                    orientationRegulator.UpdateOrientation(0, 0, 0);
+
+                    return;
                 }
-                else
-                {
-                    string s = sel.ToString().Trim();
 
-                    if (s.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    {
-                        // hex string
-                        address = Convert.ToUInt64(s.Substring(2), 16);
-                    }
-                    else
-                    {
-                        // decimal
-                        address = Convert.ToUInt64(s);
-                    }
-                }
-            }
-            catch
-            {
-                return;
-            }
+                // Выбираем последнюю ориентацию.
+                int lastIndex = count - 1;
 
-            _history?.RestoreHistory(address);
-            trackBarTimeOrient.Value = 0;
-            try
-            {
-                orientationRegulator.UpdateOrientation(_history.Items[0].Roll, _history.Items[0].Pitch, _history.Items[0].Yaw);
+                trackBarTimeOrient.Value = lastIndex;
 
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Если история пуста, сбрасываем ориентацию на нулевую
-                orientationRegulator.UpdateOrientation(0, 0, 0);
+                // Возвращаемся в режим реального времени.
+                orientationRegulator.historyMode = false;
+
+                var orientation = _history[lastIndex];
+
+                orientationRegulator.UpdateOrientation(
+                    orientation.Roll,
+                    orientation.Pitch,
+                    orientation.Yaw);
             }
         }
 
