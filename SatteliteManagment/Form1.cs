@@ -67,6 +67,12 @@ namespace SatteliteManagment
             _client.ReprogrammingResult += OnReprogResult;
             _client.OrientationReceived += OnOrientationReceived;
 
+            _client.ConnectionStateChanged += Client_ConnectionStateChanged;
+            _client.ConnectionError += Client_ConnectionError;
+            _client.PacketProcessingError += Client_PacketProcessingError;
+
+            changeInterfaceState(_client.IsConnected);
+
             logSendingManager = new GridViewLogManager(this.logSendingGridView);
             logRequestingManager = new GridViewLogManager(this.logRequestingGridView);
 
@@ -98,12 +104,19 @@ namespace SatteliteManagment
             Initialize3D();
 
         }
+
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             dbCreator?.Dispose();
+            _client.DisconnectAsync();
+
+            _client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+            _client.ConnectionError -= Client_ConnectionError;
+            _client.PacketProcessingError -= Client_PacketProcessingError;
 
             base.OnFormClosed(e);
         }
+
         public void LoadListEntityToDict()
         {
             _entityLoaders = new Dictionary<DbEntityType, Func<int, Task<IReadOnlyList<IDbEntity>>>>
@@ -385,6 +398,43 @@ namespace SatteliteManagment
             logTextBox.AppendText(DataConverter.ByteArrayToStringHEX(addr));
             logTextBox.AppendText(Environment.NewLine);
         }
+        // Обработчики события изменения состояния соединения с сервером.
+        private void Client_ConnectionStateChanged(bool connected)
+        {
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() =>
+                    changeInterfaceState(connected)));
+
+                return;
+            }
+
+            changeInterfaceState(connected);
+        }
+
+        private void Client_ConnectionError(Exception ex)
+        {
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
+            BeginInvoke(new Action(() =>
+            {
+                MessageBox.Show(
+                    $"TCP-соединение было закрыто из-за ошибки:\n\n{ex.Message}",
+                    "Ошибка соединения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }));
+        }
+
+        private void Client_PacketProcessingError(Exception ex, byte[] data)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"Ошибка обработки TCP-пакета ({data?.Length ?? 0} байт): {ex}");
+        }
 
         //Обработчик успешно принятого файла
         private void OnFullFileReceived()
@@ -392,73 +442,100 @@ namespace SatteliteManagment
             buttonSendFileRequest.Enabled = false;
             logTextBox.AppendText("Файл сохранен: " + currentFilePath);
             IsFilePathSet = false;
-            dbServices.StoredFileService.SaveFileAsync(currentFilePath, currentServerTxAddress);
+            if (IsDbWritingEnable)
+            {
+                dbServices.StoredFileService.SaveFileAsync(currentFilePath, currentServerTxAddress);
+            }
         }
 
         /// <summary>
         /// Server connection part
         /// </summary>
         /// <param name="stateServer"></param>
-        void changeInterfaceState(bool stateServer)
+        private void changeInterfaceState(bool stateServer)
         {
-            if (stateServer)
-            {
-                pictureBox1.BackColor = Color.Green;
-                buttonOpenCloseServer.Text = "Выключить сервер";
-                labelComPortConnectionInfo.Text = "Подключено";
-            }
-            else
-            {
-                pictureBox1.BackColor = Color.Red;
-                buttonOpenCloseServer.Text = "Включить сервер";
-                labelComPortConnectionInfo.Text = "Выключено";
-            }
+            pictureBox1.BackColor = stateServer
+                ? Color.Green
+                : Color.Red;
+
+            buttonOpenCloseServer.Text = stateServer
+                ? "Выключить сервер"
+                : "Включить сервер";
+
+            labelComPortConnectionInfo.Text = stateServer
+                ? "Подключено"
+                : "Выключено";
         }
 
         private async Task changeServerState(bool stateServer)
         {
+            buttonOpenCloseServer.Enabled = false;
 
-            //true - включить сервер, false - выключить сервер
-            if (stateServer)
-                try
+            try
+            {
+                if (stateServer)
                 {
-                    buttonOpenCloseServer.Enabled = false;
+                    //true - подключиться
+                    if (_client.IsConnected)
+                        return;
+
                     int port = (int)numericUpDownPort.Value;
-                    string rawText = maskedTextBoxIP.Text.Replace(" ", "");
-                    rawText = rawText.Replace(",", ".");
 
-                    if (IPAddress.TryParse(rawText, out IPAddress ip))
+                    string rawText = maskedTextBoxIP.Text
+                        .Replace(" ", "")
+                        .Replace(',', '.');
+
+                    if (!IPAddress.TryParse(rawText, out IPAddress ip))
                     {
-                        await _client.ConnectAsync(ip.ToString(), port);
-                        changeInterfaceState(true);
-                        buttonOpenCloseServer.Enabled = true;
+                        MessageBox.Show(
+                            "Некорректный IP-адрес.",
+                            "Ошибка подключения",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
+                        return;
                     }
+
+                    await _client.ConnectAsync(ip.ToString(), port);
                 }
-                catch (Exception)
+                else
                 {
-                    MessageBox.Show("Подключение к серверу не было выполнено. Проверьте, что сервер включен");
-                    buttonOpenCloseServer.Enabled = true;
-                    changeInterfaceState(false);
+                    //false - отключиться
+                    await _client.DisconnectAsync();
                 }
-            else
-                changeInterfaceState(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Не удалось {(stateServer ? "подключиться к" : "отключиться от")} серверу.\n\n" +
+                    $"{ex.Message}",
+                    "Ошибка соединения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                buttonOpenCloseServer.Enabled = true;
+
+                // Отображаем фактическое состояние клиента,
+                // а не предполагаемое состояние после операции.
+                changeInterfaceState(_client.IsConnected);
+            }
         }
 
+
+
+        private async void connectToServer_Click(object sender, EventArgs e)
+        {
+            await changeServerState(!_client.IsConnected);
+
+        }
         private void buttonClearLogs_Click(object sender, EventArgs e)
         {
             logTextBox.Text = string.Empty;
             logSendingManager.ClearGrid();
             logRequestingManager.ClearGrid();
         }
-
-        private void connectToServer_Click(object sender, EventArgs e)
-        {
-            if (buttonOpenCloseServer.Text == "Включить сервер")
-                changeServerState(true);
-            else
-                changeServerState(false);
-        }
-
         private async void button1_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
@@ -766,9 +843,10 @@ namespace SatteliteManagment
         {
             formsPlotTelemetry.Plot.Clear();
 
-            int totalPoints = graph.Series.Count > 0
-                ? graph.Series[0].Values.Count
-                : 0;
+            if (graph.Series.Count == 0)
+                return;
+
+            int totalPoints = graph.Series[0].Values.Count;
 
             int startIndex = Math.Max(0, totalPoints - VisiblePoints);
             int endIndex = Math.Max(VisiblePoints, totalPoints);
@@ -780,7 +858,10 @@ namespace SatteliteManagment
                     .Take(VisiblePoints)
                     .ToArray();
 
-                formsPlotTelemetry.Plot.Add.Signal(values);
+                var signal = formsPlotTelemetry.Plot.Add.Signal(values);
+
+                // Смещаем X на исходный номер первой точки.
+                signal.Data.XOffset = startIndex;
             }
 
             formsPlotTelemetry.Plot.ShowLegend();
@@ -789,7 +870,10 @@ namespace SatteliteManagment
             if (autoscale)
                 formsPlotTelemetry.Plot.Axes.AutoScale();
 
-            formsPlotTelemetry.Plot.Axes.SetLimitsX(startIndex, endIndex);
+            // Устанавливаем видимый диапазон после AutoScale.
+            formsPlotTelemetry.Plot.Axes.SetLimitsX(
+                startIndex,
+                endIndex);
 
             formsPlotTelemetry.Refresh();
         }
@@ -993,9 +1077,7 @@ namespace SatteliteManagment
                 // Сохраняем каждую полученную ориентацию.
                 _history.AddOrientationToTable(addr, orientation);
 
-                // Отображаем только данные выбранного устройства.
-                if (_history.CurrentAddress != addr)
-                    return;
+
 
                 // Не перезаписываем положение, выбранное пользователем
                 // при просмотре истории.

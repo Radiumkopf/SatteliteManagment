@@ -619,8 +619,7 @@ namespace SatteliteManagment
          * если МК может присылать FileReceived
          * вне механизма request/ACK.
          */
-        private async void OnFileReceived(
-            FileTransferPacket packet)
+        private async void OnFileReceived(FileTransferPacket packet)
         {
             try
             {
